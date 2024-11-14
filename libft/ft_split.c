@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:25:19 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 17:17:43 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:40:00 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	ft_count_word(char const *s, char sep)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] != sep && s[i + 1] == sep || s[i] != sep && s[i + 1] == '\0')
+		if ((s[i] != sep && s[i + 1] == sep)
+			|| (s[i] != sep && s[i + 1] == '\0'))
 			count++;
 		i++;
 	}
@@ -56,16 +57,13 @@ char	*allocate_copy(char const *str, char sep)
 	return (copy_word);
 }
 
-
 char	**ft_split(char const *s, char c)
 {
 	int		nb_words;
 	char	**split;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	nb_words = ft_count_word(s, c);
 	split = malloc((nb_words + 1) * sizeof(char *));
 	if (!split)

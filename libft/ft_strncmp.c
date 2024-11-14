@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:23:29 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 15:19:22 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:24:02 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
-
-	i = 0;
-
 	if (n == 0)
 		return (0);
 	n = n - 1;

@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:52:29 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 11:40:24 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:36:57 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,25 @@
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*result;
-	t_list	*move;
+	t_list	*new_node;
+	void	*new_content;
 
-	move = lst;
-	while (move->next != NULL)
+	if (!lst || !f)
+		return (NULL);
+	result = NULL;
+	while (lst)
 	{
-		move = move->next;
-		f((void *)move->content);
-		result = move->next;
+		new_content = f(lst->content);
+		new_node = ft_lstnew(new_content);
+		if (!new_node)
+		{
+			ft_lstclear(&result, del);
+			if (del)
+				del(new_content);
+			return (NULL);
+		}
+		ft_lstadd_back(&result, new_node);
+		lst = lst->next;
 	}
+	return (result);
 }

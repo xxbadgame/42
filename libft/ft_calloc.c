@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:41:44 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 16:45:35 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:27:24 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 void	*ft_calloc( size_t nmemb, size_t size)
 {
 	unsigned char	*tab;
-	int				i;
 
-	i = 0;
 	tab = malloc(size * nmemb);
 	if (!tab)
 		return (NULL);
-	ft_bzero(tab, ft_strlen(tab));
+	ft_bzero(tab, (size * nmemb));
 	return ((void *)tab);
 }
 

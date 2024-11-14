@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:48:42 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 17:03:56 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:44:36 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,12 @@ char	*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	start = start_index(s1, set);
 	end = end_index(s1, set);
-
 	if (start > end)
 	{
 		copy_s1 = malloc(1);
 		copy_s1[i] = '\0';
 		if (!copy_s1)
 			return (NULL);
-
 	}
 	else
 	{
@@ -73,11 +71,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		if (!copy_s1)
 			return (NULL);
 		while (start <= end)
-		{
-			copy_s1[i] = s1[start];
-			i++;
-			start++;
-		}
+			copy_s1[i++] = s1[start++];
 		copy_s1[i] = '\0';
 	}
 	return (copy_s1);

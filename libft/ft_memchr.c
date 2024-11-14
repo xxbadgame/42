@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:38:21 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 16:17:10 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:37:54 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	const unsigned char	*str;
 
 	str = s;
-	
 	while (n--)
 	{
 		if (*str == (unsigned char)c)
-			return (void *)str;
+			return ((void *)str);
 		str++;
 	}
 	return (NULL);

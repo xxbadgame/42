@@ -6,14 +6,14 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:56:47 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 11:32:14 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:24:39 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalpha(int character)
 {
-	if (character >= 'A' && character <= 'Z'
-		|| character >= 'a' && character <= 'z')
+	if ((character >= 'A' && character <= 'Z')
+		|| (character >= 'a' && character <= 'z'))
 	{
 		return (1);
 	}

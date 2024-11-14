@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:42:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 11:40:18 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:38:22 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_list	*move;
-
-	move = lst;
-
-	while (move->next != NULL)
+	if (!lst)
+		return ;
+	while (lst != NULL)
 	{
-		f((void *)move->content);
-		move = move->next;
+		f((void *)lst->content);
+		lst = lst->next;
 	}
 }

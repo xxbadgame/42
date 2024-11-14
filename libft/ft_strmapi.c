@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:11:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 12:07:23 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:46:55 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 
 	i = 0;
 	str = malloc(ft_strlen(s) + 1);
+	if (!str)
+		return (NULL);
 	while (s[i])
 	{
 		str[i] = f(i, s[i]);
 		i++;
 	}
 	str[i] = '\0';
-
 	return (str);
 }
 
