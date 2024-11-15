@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:00:18 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 16:58:38 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:24:52 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (start >= ft_strlen(s))
 	{
 		str = malloc(1);
+		if (!str)
+			return (NULL);
 		str[0] = 0;
 		return (str);
 	}

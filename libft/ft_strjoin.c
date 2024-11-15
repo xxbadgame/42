@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:42:29 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 17:45:42 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:13:43 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	strjoin = malloc(len_s1 + len_s2 + 1);
-	if(!strjoin)
+	if (!strjoin)
 		return (NULL);
 	while (s1[i])
 	{
@@ -33,11 +33,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	while (s2[j])
-	{
-		strjoin[i] = s2[j];
-		j++;
-		i++;
-	}
+		strjoin[i++] = s2[j++];
 	strjoin[i] = '\0';
 	return (strjoin);
 }

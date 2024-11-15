@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 12:09:26 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 12:01:01 by ynzue-es         ###   ########.fr       */
+/*   Created: 2024/11/15 14:24:17 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/11/15 16:23:59 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+# ifndef LIBFTPRINTF_H
+#define LIBFTPRINTF_H
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	t_list	*move;
-	t_list	*next;
+#include <unistd.h>
+#include <stdarg.h>
 
-	if (!lst || !del)
-		return ;
-	if (*lst == NULL)
-		return ;
-	move = *lst;
-	while (move != NULL)
-	{
-		next = move->next;
-		ft_lstdelone(move, *del);
-		move = next;
-	}
-	*lst = NULL;
-}
+#endif

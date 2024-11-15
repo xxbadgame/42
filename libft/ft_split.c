@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:25:19 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 15:40:00 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/15 12:22:10 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_len_words(char const *s, char sep)
 	int	i;
 
 	i = 0;
-	while (s[i] != sep)
+	while (s[i] != sep && s[i] != '\0')
 		i++;
 	return (i);
 }
@@ -48,13 +48,23 @@ char	*allocate_copy(char const *str, char sep)
 	copy_word = malloc(ft_len_words(str, sep) + 1);
 	if (!copy_word)
 		return (NULL);
-	while (str[i] != sep)
+	while (str[i] != sep && str[i] != '\0')
 	{
 		copy_word[i] = str[i];
 		i++;
 	}
 	copy_word[i] = '\0';
 	return (copy_word);
+}
+
+void	ft_free_all(char **spl, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j <= i)
+		free(spl[j++]);
+	free(spl);
 }
 
 char	**ft_split(char const *s, char c)
@@ -73,11 +83,16 @@ char	**ft_split(char const *s, char c)
 		while (*s == c)
 			s++;
 		split[i] = allocate_copy(s, c);
-		while (*s != c)
+		if (!split[i])
+		{
+			ft_free_all(split, i);
+			return (NULL);
+		}
+		while (*s != c && *s != '\0')
 			s++;
 		i++;
 	}
-	split[i] = '\0';
+	split[i] = NULL;
 	return (split);
 }
 
