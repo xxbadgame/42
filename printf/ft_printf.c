@@ -6,13 +6,49 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:14:16 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 17:40:24 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:56:50 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 #include "../libft/libft.h"
 #include <stdio.h>
+
+int ft_putchar(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
+
+int ft_putstr(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		ft_putchar(str[i]);
+	return (i);
+}
+
+int ft_putnbr(int n)
+{
+	int i;
+	int size;
+	unsigned int nb;
+
+	i = 0;
+	nb = n;
+	
+	if (n < 0)
+	{
+		nb = -n;
+	}
+	while (i )
+	{
+		
+	}
+	
+}
 
 int	ft_printf(const char *str, ...)
 {
@@ -27,9 +63,9 @@ int	ft_printf(const char *str, ...)
 		{
 			str++;
 			if (*str == 'c')
-				ft_putchar_fd((unsigned char)va_arg(args, int), 1);
+				count += ft_putchar((unsigned char)va_arg(args, int));
 			else if (*str == 's')
-				ft_putstr_fd(va_arg(args, char*),1);
+				count += ft_putstr(va_arg(args, char*));
 			else if (*str == 'd')
 				ft_putnbr_fd(va_arg(args, int), 1);
 			
@@ -37,6 +73,7 @@ int	ft_printf(const char *str, ...)
 		else
 			ft_putchar_fd(*str, 1);
 		str++;
+		count++;
 	}
 	va_end(args);
 	return (0);
