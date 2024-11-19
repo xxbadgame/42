@@ -6,48 +6,66 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:14:16 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 17:56:50 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:24:21 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include "../libft/libft.h"
+#include "ft_printf.h"
 #include <stdio.h>
 
-int ft_putchar(char c)
-{
-	write(1, &c, 1);
-	return (1);
-}
 
-int ft_putstr(char *str)
+int convert_base_16(unsigned long long int nb, int maj)
 {
+	char *base16;
 	int i;
 
+	if (maj)
+		base16 = "0123456789ABCDEF";
+	else
+		base16 = "0123456789abcdef";
 	i = 0;
-	while (str[i])
-		ft_putchar(str[i]);
+	
+	if (nb >= 16)
+		i += convert_base_16(nb / 16, maj);
+	ft_putchar(base16[nb % 16]);
+	i++;
+	
 	return (i);
 }
 
-int ft_putnbr(int n)
+int ft_putptr(void *ptr)
 {
-	int i;
 	int size;
-	unsigned int nb;
 
-	i = 0;
-	nb = n;
-	
-	if (n < 0)
+	if (ptr == NULL)
 	{
-		nb = -n;
+		ft_putstr("(nil)");
+		return (5);
 	}
-	while (i )
-	{
-		
-	}
+	unsigned long long int ptr_number;
+	ptr_number = (unsigned long long int)ptr;
+	size = 2;
+	write(1, "0x", 2);
+	size += convert_base_16(ptr_number,0);
+	return (size);
+}
+
+int ft_put_little_hex(int ptr)
+{
+	int size;
 	
+	size = 0;
+	size += convert_base_16((unsigned int)ptr, 0);
+	return (size);
+}
+
+int ft_put_big_hex(int ptr)
+{
+	int size;
+	
+	size = 0;
+	size += convert_base_16((unsigned int)ptr, 1);
+	return (size);
 }
 
 int	ft_printf(const char *str, ...)
@@ -65,24 +83,40 @@ int	ft_printf(const char *str, ...)
 			if (*str == 'c')
 				count += ft_putchar((unsigned char)va_arg(args, int));
 			else if (*str == 's')
-				count += ft_putstr(va_arg(args, char*));
+				count += ft_putstr(va_arg(args, char *));
+			else if (*str == 'p')
+				count += ft_putptr(va_arg(args, void *));
 			else if (*str == 'd')
-				ft_putnbr_fd(va_arg(args, int), 1);
-			
-		} 
+				count += ft_putnbr(va_arg(args, int));
+			else if (*str == 'i')
+				count += ft_putnbr(va_arg(args, int));
+			else if (*str == 'u')
+				count += ft_putnbr_usigned(va_arg(args, unsigned long long int));
+			else if(*str == 'x')
+				count += ft_put_little_hex(va_arg(args, int));
+			else if(*str == 'X')
+				count += ft_put_big_hex(va_arg(args, int));
+			else if(*str == '%')
+				count += ft_putchar('%');
+		}
 		else
-			ft_putchar_fd(*str, 1);
+			count += ft_putchar(*str);
 		str++;
-		count++;
+		
 	}
 	va_end(args);
-	return (0);
+	//printf("count : %d", count);
+	return (count);
 }
+
+/*
+#include <stdlib.h>
 
 int main ()
 {
-	int nb = 12;
+	int nb = -1;
 
-	ft_printf("test : %d\n", nb);
-	printf("test : %d", nb);
+	ft_printf("%x\n", nb);
+	printf("%x", nb);
 }
+*/
