@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:14:16 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/21 18:31:23 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:14:28 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,11 @@ int	ft_printf(const char *str, ...)
 	return (count);
 }
 
+
 #include <stdlib.h>
 
 int main ()
 {
-	int nb = 12;
-
-	int result = ft_printf(" %", nb);
-	int result2 = printf(" %", nb);
-
-	printf("result : %d\n", result);
-	printf("result2 : %d", result2);
+	printf("%d", ft_printf("fw % wewe", 12));
+	//printf("\nresult2 : %d", printf(" ewwe  % wewe", 12));
 }
