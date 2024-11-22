@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:58:38 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 16:20:02 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:53:54 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,3 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
-
-/*
-int	main(void)
-{
-	char	*str;
-
-	str = "--555svvr";
-	printf("en int : %d", ft_atoi(str));
-}
-*/

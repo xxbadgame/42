@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:44:37 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 11:40:59 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:02:50 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-
-/*
-#include <stdlib.h>
-#include <string.h>
-
-int main() {
-
-	int array [] = { 54, 85, 20, 63, 21 };
-	size_t size = sizeof( int ) * 5;
-	int length;
-
-	for( length=0; length<5; length++) {
-		printf( "%d ", array[ length ] );
-	}
-	printf( "\n" );
-
-	
-	ft_memset( array, 0, size );
-
-	for( length=0; length<5; length++) {
-		printf( "%d ", array[ length ] );
-	}
-	printf( "\n" );
-
-	
-	return 0;
-}
-*/

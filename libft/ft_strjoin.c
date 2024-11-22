@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:42:29 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 11:13:43 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:17 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	strjoin[i] = '\0';
 	return (strjoin);
 }
-
-/*
-int main()
-{
-	char s1[] = "test1";
-	char s2[] = "tes2";
-
-	printf("%s", ft_strjoin(s1, s2));
-   
-}
-*/

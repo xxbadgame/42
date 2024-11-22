@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 09:08:48 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 15:52:36 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:03 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,3 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
-
-/*
-int main()
-{
-	char str[] = "test";
-
-	int fd = open("test.txt", O_RDWR | O_CREAT);
-	ft_putstr_fd(str, fd);
-}
-*/

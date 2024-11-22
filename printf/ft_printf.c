@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:14:16 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/18 18:24:21 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:31:23 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	ft_printf(const char *str, ...)
 				count += ft_put_big_hex(va_arg(args, int));
 			else if(*str == '%')
 				count += ft_putchar('%');
+			else
+				return (-1);
 		}
 		else
 			count += ft_putchar(*str);
@@ -105,18 +107,18 @@ int	ft_printf(const char *str, ...)
 		
 	}
 	va_end(args);
-	//printf("count : %d", count);
 	return (count);
 }
 
-/*
 #include <stdlib.h>
 
 int main ()
 {
-	int nb = -1;
+	int nb = 12;
 
-	ft_printf("%x\n", nb);
-	printf("%x", nb);
+	int result = ft_printf(" %", nb);
+	int result2 = printf(" %", nb);
+
+	printf("result : %d\n", result);
+	printf("result2 : %d", result2);
 }
-*/

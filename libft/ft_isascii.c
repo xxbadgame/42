@@ -6,15 +6,13 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:33:50 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/13 12:02:44 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:57:41 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isascii(int character)
 {
 	if (character >= 0 && character <= 127)
-	{
 		return (1);
-	}
 	return (0);
 }

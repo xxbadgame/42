@@ -6,18 +6,15 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 11:37:37 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 12:07:41 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:07:35 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
 # include <unistd.h>
-# include <string.h>
 
 typedef struct s_list
 {

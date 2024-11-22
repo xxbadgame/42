@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:11:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 17:46:55 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:29 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	str[i] = '\0';
 	return (str);
 }
-
-/*
-int main()
-{
-	char *str = "testing"; 
-
-	printf("result : %s",ft_strmapi(str, ft_toupper));
-}
-*/

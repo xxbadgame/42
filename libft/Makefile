@@ -2,7 +2,7 @@ NAME = libft.a
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
+AR = ar rc
 RM = rm -f
 
 FILES = ft_memset \
@@ -51,17 +51,14 @@ FILES_B = 	ft_lstnew_bonus \
 	  		ft_lstiter_bonus \
 	  		ft_lstmap_bonus
 
-SRCS_DIR = ./
-SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
-SRCS_B = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES_B)))
+SRCS = $(addsuffix .c, $(FILES))
+SRCS_B = $(addsuffix .c, $(FILES_B))
 
-OBJS_DIR = ./
-OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))
-OBJS_B = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES_B)))
+OBJS = $(SRCS:.c=.o)
+OBJS_B = $(SRCS_B:.c=.o)
 
-
-.c.o: $(SRCS)
-	$(CC) $(CFLAGS) -c -o $@ $<
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	$(AR) $@ $^

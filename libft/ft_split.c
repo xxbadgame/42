@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:25:19 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 12:22:10 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:06 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,3 @@ char	**ft_split(char const *s, char c)
 	split[i] = NULL;
 	return (split);
 }
-
-/*
-int main()
-{
-	char *str = "";
-	char sep = 'z';
-	int i;
-
-	i = 0;
-	char **split;
-	split = ft_split(str, sep);
-
-	while (split[i])
-	{
-		printf("%s\n", split[i]);
-		i++;
-	}
-}
-*/

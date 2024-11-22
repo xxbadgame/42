@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:40:41 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 17:32:38 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:34 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,3 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (NULL);
 }
-
-/*
-int main()
-{
-	char *big = "lorem ipsum dolor sit amet";
-	char *little = "dolor";
-	size_t len = 15;
-
-	printf("%s",ft_strnstr(big, little, len));
-}
-*/

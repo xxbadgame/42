@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:23:29 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 15:24:02 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:31 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-/*
-int main()
-{
-	char s1[] = "test\200";
-	char s2[] = "test\0";
-
-	printf("%d",ft_strncmp(s1, s2, 6));
-}
-*/

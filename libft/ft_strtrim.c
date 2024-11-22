@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:48:42 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 12:25:19 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:02:10 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	}
 	return (copy_s1);
 }
-
-/*
-int main()
-{
-	char *str = "lorem \n ipsum \t dolor \n sit \t amet";
-	char *set = " ";
-
-	printf("\nresult : \n%s",ft_strtrim(str, set));
-}
-*/

@@ -1,26 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:39:09 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/20 16:03:08 by ynzue-es         ###   ########.fr       */
+/*   Created: 2024/11/20 11:24:17 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/11/20 11:24:18 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((unsigned char)c == '\0')
-		return ((char *)s);
-	return (NULL);
-}

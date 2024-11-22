@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:35:34 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 15:52:31 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:01 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,3 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 	ft_putchar_fd(nb % 10 + '0', fd);
 }
-
-/*
-int main()
-{
-	int i;
-
-	i = 42;
-	
-	int fd = open("test.txt", O_RDWR | O_CREAT);
-	ft_putnbr_fd(i, fd);
-	return 0;
-}
-*/

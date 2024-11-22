@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:51:14 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/14 17:13:12 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:03:36 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,3 @@ char	*ft_strrchr(const char *s, int c)
 		return ((char *)s + j);
 	return (NULL);
 }
-
-/*
-int main()
-{
-	const char *s = "bonjour";
-
-	printf("%s",ft_strrchr(s + 2, 'b'));
-}
-*/

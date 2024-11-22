@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:00:18 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/15 12:24:52 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:02:15 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str[i] = '\0';
 	return (str);
 }
-
-/*
-int main()
-{
-	char	*str = "le test";
-	printf("%s",ft_substr(str, 3, 3));
-}
-*/
