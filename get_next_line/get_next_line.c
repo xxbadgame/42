@@ -14,17 +14,35 @@
 
 #define BUFFER_SIZE 1
 
-// creation d un noeud
-
-t_list *ft_lstnew(void *content)
+// creation noeud
+t_list	*ft_lstnew(void *content)
 {
 	t_list *node;
 	
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
 	node->content = content;
 	node->next = NULL;
 }
 
 // fonction ajouter dans la liste
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list *node;
+
+	if (new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	node = *lst;
+	while (node->next != NULL)
+		node = node->next;
+	node->next = new;
+}
 
 // Lire jusqu au \n en ajoutant des str a la liste chaine
 
