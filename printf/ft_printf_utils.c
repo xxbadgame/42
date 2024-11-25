@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_utils.c                                   :+:      :+:    :+:   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:20:05 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/18 17:57:06 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:58:51 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -22,12 +22,12 @@ int ft_strlen(char *str)
 	return (i);
 }
 
-int ft_putchar(char c)
+int	ft_putchar(char c)
 {
-	return write(1, &c, 1);
+	return (write(1, &c, 1));
 }
 
-int ft_putstr(char *str)
+int	ft_putstr(char *str)
 {
 	int	i;
 
@@ -38,10 +38,10 @@ int ft_putstr(char *str)
 		return (write(1, str, ft_strlen(str)));
 }
 
-int ft_putnbr(int n)
+int	ft_putnbr(int n)
 {
-	unsigned int nb;
-	int i;
+	unsigned int	nb;
+	int				i;
 
 	i = 0;
 	if (n < 0)
@@ -49,7 +49,7 @@ int ft_putnbr(int n)
 		ft_putchar('-');
 		i++;
 		nb = -n;
-	} 
+	}
 	else
 		nb = n;
 	if (nb >= 10)
@@ -59,9 +59,9 @@ int ft_putnbr(int n)
 	return (i);
 }
 
-int ft_putnbr_usigned(unsigned int n)
+int	ft_putnbr_usigned(unsigned int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (n >= 10)

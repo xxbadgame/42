@@ -4,7 +4,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 
-FILES = ft_print_utils.c \
+FILES = ft_printf_utils.c \
         ft_printf.c
 
 OBJS = $(FILES:.c=.o)
