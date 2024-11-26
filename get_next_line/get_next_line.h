@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:23:04 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/25 16:16:36 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:11:35 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+# ifndef BUFFER_SIZE
+#define BUFFER_SIZE 2
+#endif
 
 typedef struct s_list
 {
