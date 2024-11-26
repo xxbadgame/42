@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/26 17:11:02 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:43:18 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,6 @@ char	*ft_check_overtaking(t_list *lst)
 		return (NULL);
 	while (lst->next != NULL)
 		lst = lst->next;
-		
 	start = 0;
 	i = 0;
 	size_over = 0;
@@ -215,7 +214,9 @@ char	*ft_check_overtaking(t_list *lst)
 	{
 		if (start == 1)
 			str_over[j++] = lst->buff[i];
-		if (lst->buff[i] == '\n')
+		if
+		
+		 (lst->buff[i] == '\n')
 			start = 1;
 		i++;
 		
@@ -264,7 +265,7 @@ char *get_next_line(int fd)
 	ft_print_linked_list(&lst);
 	result_line = ft_result_line(lst);
 	over_node = ft_lstnew(ft_check_overtaking(lst));
-	printf("visu over node : %s", over_node->buff);
+	printf("visu over node : %s\n", over_node->buff);
 	ft_lstclear(&lst);
 	ft_lstadd_front(&lst, over_node);
 	
