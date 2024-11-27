@@ -44,7 +44,6 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-// creation noeud
 t_list	*ft_lstnew(char *buff)
 {
 	t_list *node;
@@ -62,7 +61,7 @@ t_list	*ft_lstnew(char *buff)
 	return(node);
 }
 
-// fonction ajouter dans la liste
+
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list *move;
@@ -78,19 +77,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	while (move->next != NULL)
 		move = move->next;
 	move->next = new;
-}
-
-int		ft_lstsize(t_list *lst)
-{
-	int i;
-
-	i = 0;
-	while (lst)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);	
 }
 
 void	ft_lstclear(t_list **lst)
@@ -111,6 +97,7 @@ void	ft_lstclear(t_list **lst)
 	*lst = NULL;
 }
 
+// Potentielement inutile
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
 	if (!lst || !new)
@@ -124,29 +111,6 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	*lst = new;
 }
 
-/*
-// aficher la liste chaine !!!!!!!!!!!!!!!!
-void	ft_print_linked_list(t_list **lst)
-{
-	t_list *move;
-
-	move = *lst;
-	while (move != NULL)
-	{
-		if (ft_strlen(move->buff) == 0)
-		{
-			printf("\nBuff vide\n");
-			return ;
-		}
-		else
-			printf("%s -> ",move->buff);
-		move = move->next;
-	}
-	printf("NULL\n");
-}
-*/
-
-// Sert a regarder a chaque fois dans toutes la liste chainee si il y a un \n
 int		ft_check_in_line(t_list *lst)
 {
 	t_list *move;
@@ -169,7 +133,6 @@ int		ft_check_in_line(t_list *lst)
 	return (0);
 }
 
-// Lire jusqu au \n en ajoutant des buff a la liste chaine
 void	ft_read_and_stock(t_list **lst, int fd)
 {
 	int nb_bytes;
@@ -276,7 +239,6 @@ char *ft_result_line(t_list *lst)
 		testI = 0;
 		while (move_size->buff[testI])
 		{
-			//printf("lettre : %c\n", move_size->buff[testI]);
 			if (move_size->buff[testI] == '\n')
 			{
 				size_list++;
@@ -287,8 +249,6 @@ char *ft_result_line(t_list *lst)
 		}
 		move_size = move_size->next;
 	}
-	
-	//printf("taille : %d\n", size_list);
 	result = malloc(size_list + 1);
 	if (!result)
 		return (NULL);
@@ -309,15 +269,12 @@ char *ft_result_line(t_list *lst)
 		}
 		lst = lst->next;
 	}
-
 	result[j] = '\0';
-
 	if (j == 0)
     {
         free(result);
         return (NULL);
     }
-	
 	return (result);
 }
 
@@ -353,6 +310,7 @@ char *get_next_line(int fd)
 			return (NULL);
 		}
 	ft_lstclear(&lst);
+	// lst = NULL dircetement 
 	ft_lstadd_front(&lst, over_node);
 	
 	if (ft_strlen(result_line) == 0)
@@ -364,25 +322,6 @@ char *get_next_line(int fd)
 	return (result_line);
 }
 
-/*
-int main()
-{
-	int fd;
-	char *str;
-	
-	fd = open("text.txt", O_RDONLY);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	close(fd);
-}
-*/
 
 /*
 int main()
