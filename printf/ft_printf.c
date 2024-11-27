@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:14:16 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/25 16:05:17 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/27 08:55:52 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,12 @@ int	ft_printf(const char *str, ...)
 	return (count);
 }
 
-/*
+
 #include <stdlib.h>
 #include <stdio.h>
 
 int main ()
 {
-	printf("%d\n", ft_printf("yannis : fw %    d", 12));
-	printf("%d", printf("vrai : fw %   d", "char" , 12));
+	ft_printf("moi : fw %c\n", 't');
+	printf("vrai : fw %c" , 't');
 }
-*/
