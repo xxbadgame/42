@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/26 17:43:18 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/27 08:00:17 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	*lst = new;
 }
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -105,7 +105,13 @@ void	ft_print_linked_list(t_list **lst)
 	move = *lst;
 	while (move != NULL)
 	{
-		printf("%s -> ",move->buff);
+		if (ft_strlen(move->buff) == 0)
+		{
+			printf("\nBuff vide\n");
+			return ;
+		}
+		else
+			printf("%s -> ",move->buff);
 		move = move->next;
 	}
 	printf("NULL\n");
@@ -262,23 +268,35 @@ char *get_next_line(int fd)
 	t_list 				*over_node;
 
 	ft_read_and_stock(&lst, fd);
-	ft_print_linked_list(&lst);
+	//ft_print_linked_list(&lst);
 	result_line = ft_result_line(lst);
 	over_node = ft_lstnew(ft_check_overtaking(lst));
-	printf("visu over node : %s\n", over_node->buff);
+	//printf("visu over node : %s\n", over_node->buff);
 	ft_lstclear(&lst);
 	ft_lstadd_front(&lst, over_node);
-	
-	return(result_line);
-}
 
+	if (ft_strlen(result_line) == 0)
+	{
+		printf("\n");
+		return (NULL);
+	}
+	else
+		return(result_line);
+}
+/*
 int main()
 {
 	int fd;
 	
 	fd = open("text.txt", O_RDONLY);
 	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 }
+*/
 
 /*
 int main()
