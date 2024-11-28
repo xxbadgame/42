@@ -6,28 +6,28 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:23:04 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/26 17:11:35 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:48:47 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#define BUFFER_SIZE 2
-#endif
+#  define BUFFER_SIZE 2
+# endif
 
 typedef struct s_list
 {
 	char			*buff;
 	struct s_list	*next;
-}	t_list;
+}					t_list;
 
-char *get_next_line(int fd);
+char				*get_next_line(int fd);
 
 #endif

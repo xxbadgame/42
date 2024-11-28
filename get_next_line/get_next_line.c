@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/27 16:34:09 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:50:45 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s)
 	size_t	i;
 
 	if (!s)
-    	return (NULL);
+		return (NULL);
 	str = malloc(ft_strlen(s) + 1);
 	if (!str)
 		return (NULL);
@@ -46,8 +46,8 @@ char	*ft_strdup(const char *s)
 
 t_list	*ft_lstnew(char *buff)
 {
-	t_list *node;
-	
+	t_list	*node;
+
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
@@ -58,13 +58,12 @@ t_list	*ft_lstnew(char *buff)
 		return (NULL);
 	}
 	node->next = NULL;
-	return(node);
+	return (node);
 }
-
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list *move;
+	t_list	*move;
 
 	if (new == NULL)
 		return ;
@@ -79,13 +78,13 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	move->next = new;
 }
 
-void	ft_lstclear(t_list **lst)
+char	*ft_lstclear(t_list **lst)
 {
-	t_list *next;
-	t_list *move;
+	t_list	*next;
+	t_list	*move;
 
 	if (!lst || !*lst)
-    	return;
+		return (NULL);
 	move = *lst;
 	while (move != NULL)
 	{
@@ -95,27 +94,14 @@ void	ft_lstclear(t_list **lst)
 		move = next;
 	}
 	*lst = NULL;
+	return (NULL);
 }
 
-// Potentielement inutile
-void	ft_lstadd_front(t_list **lst, t_list *new)
+int	ft_check_in_line(t_list *lst)
 {
-	if (!lst || !new)
-		return ;
-	if (lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	new->next = *lst;
-	*lst = new;
-}
+	t_list	*move;
+	int		i;
 
-int		ft_check_in_line(t_list *lst)
-{
-	t_list *move;
-	int i;
-	
 	move = lst;
 	if (lst == NULL)
 		return (0);
@@ -135,128 +121,92 @@ int		ft_check_in_line(t_list *lst)
 
 void	ft_read_and_stock(t_list **lst, int fd)
 {
-	int nb_bytes;
-	char *buff;
-	t_list *node;
+	int		nb_bytes;
+	char	*buff;
+	t_list	*node;
 
 	buff = NULL;
 	while (ft_check_in_line(*lst) == 0)
 	{
 		buff = malloc(BUFFER_SIZE + 1);
 		if (!buff)
-		{
-			ft_lstclear(lst);
-			return ;
-		}
+			return ((void)ft_lstclear(lst));
 		nb_bytes = read(fd, buff, BUFFER_SIZE);
 		if (nb_bytes == -1)
-		{
-			free(buff);
-			ft_lstclear(lst);
-			return ;
-		}
+			return (free(buff), (void)ft_lstclear(lst));
 		if (nb_bytes == 0)
-		{
-			free(buff);
-			break;
-		}
+			return (free(buff));
 		buff[nb_bytes] = '\0';
 		node = ft_lstnew(buff);
 		if (!node)
-		{
-			free(buff);
-			ft_lstclear(lst);
-			return ;
-		}
+			return (free(buff), (void)ft_lstclear(lst));
 		ft_lstadd_back(lst, node);
 		free(buff);
 	}
 }
 
-char	*ft_check_overtaking(t_list *lst)
+void	ft_check_overtaking(t_list *lst, char *overtaking)
 {
-	int start;
-	int i;
-	int j;
-	int size_over;
-	char *str_over;
+	int	start;
+	int	i;
+	int	j;
 
 	if (lst == NULL)
-		return (NULL);
+		return ;
 	while (lst->next != NULL)
 		lst = lst->next;
 	start = 0;
 	i = 0;
-	size_over = 0;
-	while (lst->buff[i])
-	{
-		if (start == 1)
-			size_over++;
-		if (lst->buff[i] == '\n')
-			start = 1;
-		i++;
-	}
-	if (size_over == 0)
-    	return (NULL);
-	start = 0;
-	i = 0;
 	j = 0;
-	str_over = malloc(size_over + 1);
-	if (!str_over)
-		return (NULL);
 	while (lst->buff[i])
 	{
 		if (start == 1)
-			str_over[j++] = lst->buff[i];
+			overtaking[j++] = lst->buff[i];
 		if (lst->buff[i] == '\n')
 			start = 1;
 		i++;
-		
 	}
-	if (str_over[0] == 0)
-	{
-		free(str_over);
-    	return (NULL);
-	}
-	str_over[j] = 0;
-	return (str_over);
+	overtaking[j] = 0;
 }
 
-char *ft_result_line(t_list *lst)
+int	strlen_line_n(t_list *lst)
 {
-	int size_list;
-	t_list *move_size;
-	char *result;
-	int i;
-	int j;
-	int testI;
-	
-	size_list = 0;
+	t_list	*move_size;
+	int		size_list;
+	int		i;
+
 	move_size = lst;
-	testI = 0;
+	size_list = 0;
+	i = 0;
 	while (move_size)
 	{
-		testI = 0;
-		while (move_size->buff[testI])
+		i = 0;
+		while (move_size->buff[i])
 		{
-			if (move_size->buff[testI] == '\n')
+			if (move_size->buff[i] == '\n')
 			{
 				size_list++;
-				break;
+				break ;
 			}
 			size_list++;
-			testI++;
+			i++;
 		}
 		move_size = move_size->next;
 	}
-	result = malloc(size_list + 1);
+	return (size_list);
+}
+
+char	*ft_result_line(t_list *lst, int j, int i)
+{
+	char	*result;
+
+	result = malloc(strlen_line_n(lst) + 1);
 	if (!result)
 		return (NULL);
-	j = 0;
 	while (lst)
 	{
-		i = 0;
-		while (lst->buff[i])
+		i = -1;
+		while (lst->buff[++i])
 		{
 			result[j] = lst->buff[i];
 			if (lst->buff[i] == '\n')
@@ -265,100 +215,39 @@ char *ft_result_line(t_list *lst)
 				return (result);
 			}
 			j++;
-			i++;
 		}
 		lst = lst->next;
 	}
 	result[j] = '\0';
 	if (j == 0)
-    {
-        free(result);
-        return (NULL);
-    }
+		return (free(result), NULL);
 	return (result);
 }
 
-
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static t_list 		*lst;
-	char 				*result_line;
-	t_list 				*over_node;
-	char				*over_buff;
+	t_list		*lst;
+	char		*result_line;
+	t_list		*over_node;
+	static char	over_buff[BUFFER_SIZE + 1];
 
-	ft_read_and_stock(&lst, fd);
-	if (!lst)
+	lst = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	result_line = ft_result_line(lst);
-	if (!result_line)
-	{
-		ft_lstclear(&lst);
-		return (NULL);
-	}
-	over_buff = ft_check_overtaking(lst);
-	if (!over_buff)
-	{
-		ft_lstclear(&lst);
-		return (result_line);
-	}
+	result_line = NULL;
 	over_node = ft_lstnew(over_buff);
 	if (!over_node)
-		{
-			free(result_line);
-			free(over_buff);
-			ft_lstclear(&lst);
-			return (NULL);
-		}
+		return (free(result_line), (char *)ft_lstclear(&lst));
+	lst = over_node;
+	ft_read_and_stock(&lst, fd);
+	if (!lst)
+		return (over_buff[0] = '\0', NULL);
+	result_line = ft_result_line(lst, 0, 0);
+	if (!result_line)
+		return ((char *)ft_lstclear(&lst));
+	ft_check_overtaking(lst, over_buff);
 	ft_lstclear(&lst);
-	// lst = NULL dircetement 
-	ft_lstadd_front(&lst, over_node);
-	
 	if (ft_strlen(result_line) == 0)
-	{
-		free(result_line);
-		return (NULL);
-	}
-	free(over_buff);
+		return (free(result_line), NULL);
 	return (result_line);
 }
-
-
-/*
-int main()
-{
-	int fd;
-	char *str;
-	
-	fd = open("text.txt", O_RDONLY);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	while (1)
-	{
-		str = get_next_line(fd);
-		if (!str)
-			break ;
-		free(str);
-	}
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	close(fd);
-	fd = open("text.txt", O_RDONLY);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(fd);
-	printf("%s", str);
-	free(str);
-}
-*/
