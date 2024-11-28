@@ -6,118 +6,11 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/28 17:50:45 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:07:46 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-//#define BUFFER_SIZE 1
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*str;
-	size_t	i;
-
-	if (!s)
-		return (NULL);
-	str = malloc(ft_strlen(s) + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-t_list	*ft_lstnew(char *buff)
-{
-	t_list	*node;
-
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->buff = ft_strdup(buff);
-	if (!node->buff)
-	{
-		free(node);
-		return (NULL);
-	}
-	node->next = NULL;
-	return (node);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*move;
-
-	if (new == NULL)
-		return ;
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	move = *lst;
-	while (move->next != NULL)
-		move = move->next;
-	move->next = new;
-}
-
-char	*ft_lstclear(t_list **lst)
-{
-	t_list	*next;
-	t_list	*move;
-
-	if (!lst || !*lst)
-		return (NULL);
-	move = *lst;
-	while (move != NULL)
-	{
-		free(move->buff);
-		next = move->next;
-		free(move);
-		move = next;
-	}
-	*lst = NULL;
-	return (NULL);
-}
-
-int	ft_check_in_line(t_list *lst)
-{
-	t_list	*move;
-	int		i;
-
-	move = lst;
-	if (lst == NULL)
-		return (0);
-	while (move)
-	{
-		i = 0;
-		while (move->buff[i])
-		{
-			if (move->buff[i] == '\n')
-				return (1);
-			i++;
-		}
-		move = move->next;
-	}
-	return (0);
-}
 
 void	ft_read_and_stock(t_list **lst, int fd)
 {
