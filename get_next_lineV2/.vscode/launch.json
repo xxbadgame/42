@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/ynzue-es/Documents/42_CRAZY",
-      "program": "/home/ynzue-es/Documents/42_CRAZY/build/Debug/outDebug",
+      "cwd": "/home/ynzue-es/Documents/42_CRAZY/get_next_lineV2",
+      "program": "/home/ynzue-es/Documents/42_CRAZY/get_next_lineV2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

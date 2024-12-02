@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 11:23:04 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/29 15:46:31 by ynzue-es         ###   ########.fr       */
+/*   Created: 2024/12/02 10:57:10 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/12/02 12:45:13 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,9 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 3
 # endif
 
-typedef struct s_list
-{
-	char			buff[BUFFER_SIZE];
-	struct s_list	*next;
-}					t_list;
+# endif
 
-int					ft_strlen(const char *str);
-t_list				*ft_lstnew(char *buff);
-void				ft_lstadd_back(t_list **lst, t_list *new);
-char				*ft_lstclear(t_list **lst);
-int					ft_check_in_line(t_list *lst);
-void				ft_read_and_stock(t_list **lst, int fd);
-void				ft_check_overtaking(t_list *lst, char *overtaking);
-int					strlen_line_n(t_list *lst);
-char				*ft_result_line(t_list *lst, int j, int i);
-char				*get_next_line(int fd);
 
-#endif

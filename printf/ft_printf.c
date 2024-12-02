@@ -6,13 +6,13 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:14:16 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/27 08:55:52 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:35:03 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	convert_base_16(unsigned long long int nb, int maj)
+static int	convert_base_16(unsigned long long int nb, int maj)
 {
 	char	*base16;
 	int		i;
@@ -29,7 +29,7 @@ int	convert_base_16(unsigned long long int nb, int maj)
 	return (i);
 }
 
-int	ft_putptr(void *ptr)
+static int	ft_putptr(void *ptr)
 {
 	unsigned long long int	ptr_number;
 	int						size;
@@ -46,7 +46,7 @@ int	ft_putptr(void *ptr)
 	return (size);
 }
 
-int	ft_arg_printf(const char *str, va_list args)
+static int	ft_arg_printf(const char *str, va_list args)
 {
 	int	count;
 
@@ -64,9 +64,9 @@ int	ft_arg_printf(const char *str, va_list args)
 	else if (*str == 'u')
 		count += ft_putnbr_usigned(va_arg(args, unsigned long long int));
 	else if (*str == 'x')
-		count += convert_base_16 ((unsigned int)va_arg(args, int), 0);
+		count += convert_base_16((unsigned int)va_arg(args, int), 0);
 	else if (*str == 'X')
-		count += convert_base_16 ((unsigned int)va_arg(args, int), 1);
+		count += convert_base_16((unsigned int)va_arg(args, int), 1);
 	else if (*str == '%')
 		count += ft_putchar('%');
 	else
@@ -94,14 +94,4 @@ int	ft_printf(const char *str, ...)
 	}
 	va_end(args);
 	return (count);
-}
-
-
-#include <stdlib.h>
-#include <stdio.h>
-
-int main ()
-{
-	ft_printf("moi : fw %c\n", 't');
-	printf("vrai : fw %c" , 't');
 }
