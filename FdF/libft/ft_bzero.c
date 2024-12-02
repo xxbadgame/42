@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/02 01:04:25 by yannis           ###   ########.fr       */
+/*   Created: 2024/11/04 16:27:16 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/11/20 14:55:30 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-#include <mlx.h>
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*ptr;
 
-#endif
+	ptr = s;
+	while (n--)
+		*ptr++ = (unsigned char)0;
+}

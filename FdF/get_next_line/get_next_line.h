@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:23:04 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/01 18:22:16 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/02 01:10:42 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-int					ft_strlen(const char *str);
 t_list				*ft_lstnew(char *buff);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 char				*ft_lstclear(t_list **lst);

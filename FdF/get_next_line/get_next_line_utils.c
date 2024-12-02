@@ -6,21 +6,12 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:24:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/01 18:21:45 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/02 01:11:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
+#include "../libft/libft.h"
 
 t_list	*ft_lstnew(char *buff)
 {

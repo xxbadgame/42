@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/02 01:04:25 by yannis           ###   ########.fr       */
+/*   Created: 2024/11/06 12:41:44 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/11/20 16:02:21 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-#include <mlx.h>
+void	*ft_calloc( size_t nmemb, size_t size)
+{
+	unsigned char	*tab;
 
-#endif
+	tab = malloc(size * nmemb);
+	if (!tab)
+		return (NULL);
+	ft_bzero(tab, (size * nmemb));
+	return ((void *)tab);
+}

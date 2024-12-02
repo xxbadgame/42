@@ -6,11 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/01 20:11:00 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/02 01:54:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "get_next_line/get_next_line.h"
+#include "libft/libft.h"
 
 typedef struct	s_data {
 	void	*img;
@@ -21,6 +23,7 @@ typedef struct	s_data {
 	void    *mlx;
     void    *mlx_win;
 }				t_data;
+
 
 // Création d'un pixel
 void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
@@ -94,13 +97,12 @@ void segment_plot(int x1, int y1, int x2, int y2, t_data *img)
 	}
 }
 
-/*
+// la point de vue isométrique
 void iso_projection(int x, int y, int z, int *iso_x, int *iso_y)
 {
     *iso_x = (int)(0.866 * (x - y)); // cos(30°) = 0.866
     *iso_y = (int)(0.5 * (x + y) - z); // sin(30°) = 0.5
 }
-*/
 
 // lecture de toutes les lignes du fichier
 int parse_line_to_pixels(char *filename, t_data *img)
@@ -108,6 +110,8 @@ int parse_line_to_pixels(char *filename, t_data *img)
     int fd;
 	int x;
 	int y;
+	int z;
+	int iso_x1, iso_y1, iso_x2, iso_y2;
 	int d_px;
     char *line;
 	char *next_line;
@@ -115,6 +119,7 @@ int parse_line_to_pixels(char *filename, t_data *img)
 
 	y = 0;
 	x = 0;
+	z = 0;
 	d_px = 30;
     fd = open(filename, O_RDONLY);
     if (fd < 0)
@@ -129,23 +134,30 @@ int parse_line_to_pixels(char *filename, t_data *img)
 	{
 		x = 0;
 		split_line = ft_split(line, ' ');
-		printf("line: %d\n", y);
 		while (split_line[x] != NULL)
 		{
-			//my_mlx_pixel_put(img, x*10, y*10, 0xFF0000);
 
+			z = ft_atoi(split_line[x]);
+			// calcul iso de chaque point de départ si il a une hauteur z ou non
+			iso_projection(x * d_px, y * d_px, z, &iso_x1, &iso_y1);
+
+			// seg horizontaux
 			if (split_line[x + 1] != NULL)
 			{
-				segment_plot((x) * d_px, (y) * d_px, (x + 1) * d_px, (y) * d_px, img);
-				printf("départ ligne : (%d, %d)\n", (x) * d_px, (y) * d_px);
-				printf("arrivé ligne : (%d, %d)\n", (x + 1) * d_px, (y) * d_px);
+				int iso_x_next, iso_y_next;
+				// on calcul le suivant pour savoir si il a une hauteur pour bien tracer le segement
+                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]), &iso_x_next, &iso_y_next);
+                segment_plot(iso_x1+300, iso_y1+300, iso_x_next+300, iso_y_next+300, img);
 			}
 
+			// seg verticaux
 			if (next_line != NULL)
 			{
-				segment_plot((x)*d_px, (y)*d_px, (x)*d_px,(y + 1)*d_px, img);
-				printf("départ col : (%d, %d)\n", (x) * d_px, (y) * d_px);
-				printf("arrivé col : (%d, %d)\n", (x)*d_px, (y + 1)*d_px);
+				char **next_split = ft_split(next_line, ' ');
+                int iso_x_next, iso_y_next;
+				// on calcul le suivant pour savoir si il a une hauteur pour bien tracer le segement
+                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]), &iso_x_next, &iso_y_next);
+                segment_plot(iso_x1+300, iso_y1+300, iso_x_next+300, iso_y_next+300, img);
 			}
 			x++;
 		}

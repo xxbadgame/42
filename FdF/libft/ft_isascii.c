@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/02 01:04:25 by yannis           ###   ########.fr       */
+/*   Created: 2024/11/04 15:33:50 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/11/20 14:57:41 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
-
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-#include <mlx.h>
-
-#endif
+int	ft_isascii(int character)
+{
+	if (character >= 0 && character <= 127)
+		return (1);
+	return (0);
+}
