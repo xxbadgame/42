@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/02 01:04:25 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/03 19:43:59 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-#include <mlx.h>
+# include <mlx.h>
+# include <X11/Xlib.h>
+# include <X11/Xutil.h> 
 
 #endif

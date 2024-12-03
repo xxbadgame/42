@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/02 01:54:07 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/03 21:29:12 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,19 @@ typedef struct	s_data {
 	int		endian;
 	void    *mlx;
     void    *mlx_win;
-}				t_data;
+	int		width;
+	int		height;
+	int 	mouse_button_pressed;
+	int		mouse_x;
+	int		mouse_y;
+	int		offset_x;
+	int		offset_y;
+	int		zoom_level;
+}				t_data_img;
 
 
 // Création d'un pixel
-void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 {
 	if (x >= 0 && x < 1000 && y >= 0 && y < 1000)
 	{
@@ -41,7 +49,7 @@ int ft_abs(int nb)
 	return ((nb > 0) * nb + (nb < 0) * -nb);
 }
 
-void segment_plot(int x1, int y1, int x2, int y2, t_data *img)
+void segment_plot(int x1, int y1, int x2, int y2, t_data_img *img)
 {
 	int delta_x;
 	int delta_y;
@@ -104,23 +112,60 @@ void iso_projection(int x, int y, int z, int *iso_x, int *iso_y)
     *iso_y = (int)(0.5 * (x + y) - z); // sin(30°) = 0.5
 }
 
+
+
 // lecture de toutes les lignes du fichier
-int parse_line_to_pixels(char *filename, t_data *img)
+int parse_line_to_pixels(char *filename, t_data_img *img)
 {
     int fd;
 	int x;
 	int y;
 	int z;
 	int iso_x1, iso_y1, iso_x2, iso_y2;
+	int iso_x_next, iso_y_next;
 	int d_px;
     char *line;
 	char *next_line;
 	char **split_line;
+	int total_column;
+	int total_line;
+	int offset_x;
+	int offset_y;
 
 	y = 0;
 	x = 0;
 	z = 0;
+	offset_x = 0;
+	offset_y = 0;
+	total_column = 0;
+	total_line = 0;
 	d_px = 30;
+
+	fd = open(filename, O_RDONLY);
+    if (fd < 0)
+    {
+        perror("Error opening file");
+        return (-1);
+    }
+
+	while ((line = get_next_line(fd)))
+	{
+		if (total_column == 0)
+		{
+			split_line = ft_split(line, ' ');
+			while (split_line[total_column])
+				total_column++;
+			free(split_line);
+		}
+		total_line++;
+		free(line);
+	}
+	
+	close(fd);
+
+	offset_x = (img->width / 3);
+    offset_y = ((img->height - (total_line * d_px)) / 2);
+	
     fd = open(filename, O_RDONLY);
     if (fd < 0)
     {
@@ -130,6 +175,7 @@ int parse_line_to_pixels(char *filename, t_data *img)
 
 	line = get_next_line(fd);
 	next_line = get_next_line(fd);
+	
 	while (line != NULL)
 	{
 		x = 0;
@@ -144,20 +190,17 @@ int parse_line_to_pixels(char *filename, t_data *img)
 			// seg horizontaux
 			if (split_line[x + 1] != NULL)
 			{
-				int iso_x_next, iso_y_next;
-				// on calcul le suivant pour savoir si il a une hauteur pour bien tracer le segement
-                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]), &iso_x_next, &iso_y_next);
-                segment_plot(iso_x1+300, iso_y1+300, iso_x_next+300, iso_y_next+300, img);
+				// Ajouter un +z au atoi pour changer les hauteurs avec la molette !
+                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]) + img->zoom_level, &iso_x_next, &iso_y_next);
+                segment_plot(iso_x1 + offset_x, iso_y1 + offset_y, iso_x_next + offset_x , iso_y_next + offset_y , img);
 			}
 
 			// seg verticaux
 			if (next_line != NULL)
 			{
 				char **next_split = ft_split(next_line, ' ');
-                int iso_x_next, iso_y_next;
-				// on calcul le suivant pour savoir si il a une hauteur pour bien tracer le segement
-                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]), &iso_x_next, &iso_y_next);
-                segment_plot(iso_x1+300, iso_y1+300, iso_x_next+300, iso_y_next+300, img);
+                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]) + img->zoom_level, &iso_x_next, &iso_y_next);
+                segment_plot(iso_x1 + offset_x, iso_y1 + offset_y, iso_x_next + offset_x , iso_y_next + offset_y , img);
 			}
 			x++;
 		}
@@ -172,21 +215,111 @@ int parse_line_to_pixels(char *filename, t_data *img)
     return (0);
 }
 
+int close_window(void *param)
+{
+	(void)param;
+	exit(0);
+}
+
+int close_window_escape(int keycode,void *param)
+{
+	(void)param;
+	if (keycode == 65307)
+		exit(0);
+	return (0);
+}
+
+int mouse_button_press(int button, int x, int y, void *param)
+{
+    (void)x;
+    (void)y;
+    t_data_img *img = (t_data_img *)param;
+    if (button == 1)
+        img->mouse_button_pressed = 1;
+    return (0);
+}
+
+int mouse_button_release(int button, int x, int y, void *param)
+{
+    (void)x;
+    (void)y;
+    t_data_img *img = (t_data_img *)param;
+    if (button == 1)
+        img->mouse_button_pressed = 0;
+    return (0);
+}
+
+int move_mouse(int x, int y,void *param)
+{
+	t_data_img *img = (t_data_img *)param;
+	if (img->mouse_button_pressed)
+		printf("offset x : %d, offset y : %d", x, y);
+	return (0);
+}
+
+int mouse_scroll(int button, int x, int y, void *param)
+{
+	t_data_img *img = (t_data_img *)param;
+	(void)x;
+	(void)y;
+
+	if (button == 4) // Scroll up
+    {
+		printf("zoom : %d",img->zoom_level);
+        img->zoom_level += 1;
+    }
+    else if (button == 5) // Scroll down
+    {
+		printf("zoom : %d",img->zoom_level);
+        img->zoom_level += 1;
+    }
+    return (0);
+}
+
 // pixel dans la map depuis .fdf : getnextline appeler une fois : y = 0 et x = pos dans le char *
 int	main(void)
 {
 	void	*mlx;
 	void	*mlx_win;
-	t_data	img;
+	int 	width;
+	int 	height;
+	t_data_img	img;
     int     i;
-
+	int screen_width;
+	int screen_height;
+	
     i = 0;
+	img.mouse_button_pressed = 0;
+	img.zoom_level = 1;
+	height = 1000;
+	width = 1000;
 	img.mlx = mlx_init();
-	img.mlx_win = mlx_new_window(img.mlx, 1000, 1000, "Hello world!");
-	img.img = mlx_new_image(img.mlx, 1000, 1000);
+	img.mlx_win = mlx_new_window(img.mlx, width, height, "FdF ynzue-es");
+	img.img = mlx_new_image(img.mlx, width, height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
+	img.width = width;
+	img.height = height;
+
+	Display *d = XOpenDisplay(NULL);
+    Screen *s = DefaultScreenOfDisplay(d);
+	screen_height = s->height;
+	screen_width = s->width;
+
+	int window_x = (screen_width - width) / 2;
+    int window_y = (screen_height - height) / 2;
+
+	Window win = *(Window *)(img.mlx_win);
+	XMoveWindow(d, win, window_x, window_y);
+	XCloseDisplay(d);
+
+	mlx_hook(img.mlx_win, 17, 0, close_window, NULL);
+	mlx_hook(img.mlx_win, 2, 1L<<0, close_window_escape, NULL);
+	mlx_hook(img.mlx_win, 4, 1L<<2, mouse_button_press, &img);
+	mlx_hook(img.mlx_win, 5, 1L<<3, mouse_button_release, &img);
+	mlx_hook(img.mlx_win, 6, 1L<<6, move_mouse, &img);
+	mlx_hook(img.mlx_win, 4, 1L<<2, mouse_scroll, &img);
+	
 	parse_line_to_pixels("test_maps/42.fdf", &img);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
-	//mlx_mouse_hook(img.mlx_win, deal_mouse, &img);
 	mlx_loop(img.mlx);
 }
