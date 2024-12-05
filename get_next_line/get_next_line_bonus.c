@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 23:25:54 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/04 00:16:54 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/05 11:48:52 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-void	ft_read_and_stock(t_list **lst, int fd)
+static void	ft_read_and_stock(t_list **lst, int fd)
 {
 	int		nb_bytes;
 	char	*buff;
@@ -38,7 +38,7 @@ void	ft_read_and_stock(t_list **lst, int fd)
 	}
 }
 
-void	ft_check_overtaking(t_list *lst, char *overtaking)
+static void	ft_check_overtaking(t_list *lst, char *overtaking)
 {
 	int	start;
 	int	i;
@@ -62,7 +62,7 @@ void	ft_check_overtaking(t_list *lst, char *overtaking)
 	overtaking[j] = 0;
 }
 
-int	strlen_line_n(t_list *lst)
+static int	strlen_line_n(t_list *lst)
 {
 	t_list	*move_size;
 	int		size_list;
@@ -89,7 +89,7 @@ int	strlen_line_n(t_list *lst)
 	return (size_list);
 }
 
-char	*ft_result_line(t_list *lst, int j, int i)
+static char	*ft_result_line(t_list *lst, int j, int i)
 {
 	char	*result;
 
@@ -122,10 +122,10 @@ char	*get_next_line(int fd)
 	t_list		*lst;
 	char		*result_line;
 	t_list		*over_node;
-	static char	over_buff[1024][BUFFER_SIZE + 1];
+	static char	over_buff[FD_MAX][BUFFER_SIZE + 1];
 
 	lst = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || FD_MAX <= 0 || fd > FD_MAX)
 		return (NULL);
 	result_line = NULL;
 	over_node = ft_lstnew(over_buff[fd]);

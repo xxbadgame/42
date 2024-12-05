@@ -6,13 +6,13 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/28 18:07:46 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/04 11:14:04 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_read_and_stock(t_list **lst, int fd)
+static void	ft_read_and_stock(t_list **lst, int fd)
 {
 	int		nb_bytes;
 	char	*buff;
@@ -38,7 +38,7 @@ void	ft_read_and_stock(t_list **lst, int fd)
 	}
 }
 
-void	ft_check_overtaking(t_list *lst, char *overtaking)
+static void	ft_check_overtaking(t_list *lst, char *overtaking)
 {
 	int	start;
 	int	i;
@@ -62,7 +62,7 @@ void	ft_check_overtaking(t_list *lst, char *overtaking)
 	overtaking[j] = 0;
 }
 
-int	strlen_line_n(t_list *lst)
+static int	strlen_line_n(t_list *lst)
 {
 	t_list	*move_size;
 	int		size_list;
@@ -89,7 +89,7 @@ int	strlen_line_n(t_list *lst)
 	return (size_list);
 }
 
-char	*ft_result_line(t_list *lst, int j, int i)
+static char	*ft_result_line(t_list *lst, int j, int i)
 {
 	char	*result;
 

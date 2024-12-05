@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/03 21:29:12 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/05 16:06:31 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ typedef struct	s_data {
     void    *mlx_win;
 	int		width;
 	int		height;
-	int 	mouse_button_pressed;
-	int		mouse_x;
-	int		mouse_y;
-	int		offset_x;
-	int		offset_y;
 	int		zoom_level;
 }				t_data_img;
 
@@ -229,34 +224,6 @@ int close_window_escape(int keycode,void *param)
 	return (0);
 }
 
-int mouse_button_press(int button, int x, int y, void *param)
-{
-    (void)x;
-    (void)y;
-    t_data_img *img = (t_data_img *)param;
-    if (button == 1)
-        img->mouse_button_pressed = 1;
-    return (0);
-}
-
-int mouse_button_release(int button, int x, int y, void *param)
-{
-    (void)x;
-    (void)y;
-    t_data_img *img = (t_data_img *)param;
-    if (button == 1)
-        img->mouse_button_pressed = 0;
-    return (0);
-}
-
-int move_mouse(int x, int y,void *param)
-{
-	t_data_img *img = (t_data_img *)param;
-	if (img->mouse_button_pressed)
-		printf("offset x : %d, offset y : %d", x, y);
-	return (0);
-}
-
 int mouse_scroll(int button, int x, int y, void *param)
 {
 	t_data_img *img = (t_data_img *)param;
@@ -271,12 +238,11 @@ int mouse_scroll(int button, int x, int y, void *param)
     else if (button == 5) // Scroll down
     {
 		printf("zoom : %d",img->zoom_level);
-        img->zoom_level += 1;
+        img->zoom_level -= 1;
     }
     return (0);
 }
 
-// pixel dans la map depuis .fdf : getnextline appeler une fois : y = 0 et x = pos dans le char *
 int	main(void)
 {
 	void	*mlx;
@@ -289,7 +255,6 @@ int	main(void)
 	int screen_height;
 	
     i = 0;
-	img.mouse_button_pressed = 0;
 	img.zoom_level = 1;
 	height = 1000;
 	width = 1000;
@@ -314,9 +279,6 @@ int	main(void)
 
 	mlx_hook(img.mlx_win, 17, 0, close_window, NULL);
 	mlx_hook(img.mlx_win, 2, 1L<<0, close_window_escape, NULL);
-	mlx_hook(img.mlx_win, 4, 1L<<2, mouse_button_press, &img);
-	mlx_hook(img.mlx_win, 5, 1L<<3, mouse_button_release, &img);
-	mlx_hook(img.mlx_win, 6, 1L<<6, move_mouse, &img);
 	mlx_hook(img.mlx_win, 4, 1L<<2, mouse_scroll, &img);
 	
 	parse_line_to_pixels("test_maps/42.fdf", &img);

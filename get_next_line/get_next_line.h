@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:23:04 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/11/29 15:46:31 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/05 12:23:44 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_H
 
 # include <fcntl.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -33,10 +32,6 @@ t_list				*ft_lstnew(char *buff);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 char				*ft_lstclear(t_list **lst);
 int					ft_check_in_line(t_list *lst);
-void				ft_read_and_stock(t_list **lst, int fd);
-void				ft_check_overtaking(t_list *lst, char *overtaking);
-int					strlen_line_n(t_list *lst);
-char				*ft_result_line(t_list *lst, int j, int i);
 char				*get_next_line(int fd);
 
 #endif
