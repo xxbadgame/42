@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/06 17:19:38 by ynzue-es         ###   ########.fr       */
+/*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/12/06 17:11:17 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "push_swap.h"
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-int main(void)
+# include "stdio.h"
+# include "libft/libft.h"
+#define MAX_SIZE 100
+
+typedef struct s_stack 
 {
-	t_stack *stack_a;
-	int i;
+	int arr[MAX_SIZE];
+	int top;
+} t_stack;
 
-	stack_a = malloc(sizeof(t_stack));
-	i = 0;
-	stack_a->top = 0;
-	push(stack_a, 12);
-	push(stack_a, 14);
-	push(stack_a, 16);
+void push(t_stack *stack, int value);
 
-
-	while(i < stack_a->top)
-	{
-		printf("%d\n",stack_a->arr[i]);
-		i++;
-	}
-	free(stack_a);
-}
-
-
+#endif
