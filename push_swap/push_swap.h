@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/06 17:11:17 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/06 20:31:01 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_stack
 	int top;
 } t_stack;
 
-void push(t_stack *stack, int value);
+void push_a(t_stack *stack_a, t_stack *stack_b);
+void push_b(t_stack *stack_a, t_stack *stack_b);
 
 #endif
