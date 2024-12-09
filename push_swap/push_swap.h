@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/06 20:31:01 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/09 12:26:27 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,14 @@ typedef struct s_stack
 
 void push_a(t_stack *stack_a, t_stack *stack_b);
 void push_b(t_stack *stack_a, t_stack *stack_b);
+void swap_a(t_stack *stack_a);
+void swap_b(t_stack *stack_b);
+void swap_all(t_stack *stack_a, t_stack *stack_b);
+void rotate_a(t_stack *stack_a);
+void rotate_b(t_stack *stack_b);
+void rotate_all(t_stack *stack_a, t_stack *stack_b);
+void reverse_rotate_a(t_stack *stack_a);
+void reverse_rotate_b(t_stack *stack_b);
+void reverse_rotate_all(t_stack *stack_a, t_stack *stack_b);
 
 #endif

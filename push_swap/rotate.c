@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:35:16 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/07 11:33:35 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/09 12:24:59 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void rotate_a(t_stack *stack_a)
     while (i > 0)
     {
         stack_a->arr[i] =  stack_a->arr[i - 1];
-        i++;
+        i--;
     }
     stack_a->arr[i] = temp;
     
@@ -39,7 +39,7 @@ void rotate_b(t_stack *stack_b)
     while (i > 0)
     {
         stack_b->arr[i] =  stack_b->arr[i - 1];
-        i++;
+        i--;
     }
     stack_b->arr[i] = temp;
     
@@ -48,7 +48,26 @@ void rotate_b(t_stack *stack_b)
 
 void rotate_all(t_stack *stack_a, t_stack *stack_b)
 {
-    rotate_a(stack_a);
-    rotate_b(stack_b);
+    int temp;
+    int i;
+
+    temp = stack_a->arr[stack_a->top];
+    i = stack_a->top;
+    while (i > 0)
+    {
+        stack_a->arr[i] =  stack_a->arr[i - 1];
+        i--;
+    }
+    stack_a->arr[i] = temp;
+
+    temp = stack_b->arr[stack_b->top];
+    i = stack_b->top;
+    while (i > 0)
+    {
+        stack_b->arr[i] =  stack_b->arr[i - 1];
+        i--;
+    }
+    stack_b->arr[i] = temp;
+
     write(1, "rr\n", 4);
 }
