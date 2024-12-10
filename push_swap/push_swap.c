@@ -6,11 +6,12 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/10 20:16:16 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/11 00:55:24 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "push_swap.h"
+#include <stdlib.h>
 # include <limits.h>
 
 void display_stacks(t_stack *stack_a, t_stack *stack_b)
@@ -46,54 +47,6 @@ void push_2_numbers(t_stack *stack_a, t_stack *stack_b)
     push_b(stack_a, stack_b);
 }
 
-/*
-void find_cheapest_number(t_stack *stack_a, t_stack *stack_b, int ind_min, int ind_max)
-{
-    int current;
-    int cost;
-    int smaller_diff;
-    int target;
-
-    current = stack_a->arr[stack_a->top];
-
-    // trouver la target par rapport au current
-    if (current - max < current - min)
-        target = max;
-    else if (current - max > current - min)
-        target = min;
-    else
-        target = max;
-
-    // Calcul la diff des indices, pour simuler le nombre de rota de stack_a et le nombre de rota de stack_b, a partir du current et pas faire tous les currents de la liste, on en test 4 maxi
-    
-    // on prend le cost minimum, et la suite d instruction enregistrer avec 
-}
-*/
-
-/*
-// Il faut trouver l'indice le plus rapide sois depuis en haut sois depuis en bas car par exemple si c'est juste en dessous du top on fera juste une opération
-int find_min_ind(t_stack *stack)
-{
-    int i;
-    int ind;
-    int min;
-
-    i = 0;
-    ind = 0;
-    min = stack->arr[0];
-    while (i < stack->top)
-    {
-        if (stack->arr[i] < min)
-        {
-            min = stack->arr[i];
-            ind = i;
-        }  
-        i++;  
-    }
- 
-    return (ind);
-}
-*/
 
 int find_max_ind(t_stack *stack)
 {
@@ -224,11 +177,11 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
         //cost_a = cost_a_top + cost_a_bottom;
         //cost_b = cost_b_top + cost_b_bottom;
         
-        printf("cost_a_top : %d\n", cost_a_top);
-        printf("cost_a_bottom : %d\n", cost_a_bottom);
-        printf("cost_b_top : %d\n", cost_b_top);
-        printf("cost_b_bottom : %d\n", cost_b_bottom);
-        printf("element stack : %d | target : %d | cost : %d\n", stack_a->arr[i_a] , close_small_index , cost);
+        //printf("cost_a_top : %d\n", cost_a_top);
+        //printf("cost_a_bottom : %d\n", cost_a_bottom);
+        //printf("cost_b_top : %d\n", cost_b_top);
+        //printf("cost_b_bottom : %d\n", cost_b_bottom);
+        //printf("element stack : %d | target : %d | cost : %d\n", stack_a->arr[i_a] , close_small_index , cost);
 
         if (cost < min_cost)
         {
@@ -245,6 +198,8 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
 }
 
 
+// ajouter les rrr et les rr dans le cas ou c'est en commun
+
 void turk_sort(t_stack *stack_a, t_stack *stack_b)
 {
     int ind_elem_push;
@@ -255,24 +210,16 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
 
     test = 0;
     push_2_numbers(stack_a, stack_b);
-
-    printf("Base-------------------------------");
-    display_stacks(stack_a, stack_b);
-
     
-    // tant au il y a au mois 3 element dans A
+    // tant qu il y a au mois 3 element dans A
     while (stack_a->top > 2) // stack_a->top > 2
     {
         ind_elem_push = cost_push(stack_a, stack_b);
         element = stack_a->arr[ind_elem_push];
-        printf("element a envoyer %d\n", stack_a->arr[ind_elem_push]);
         ind_target = closest_smaller_target(stack_a->arr[ind_elem_push], stack_b);
         target = stack_b->arr[ind_target];
-        printf("Target %d\n", target);
 
-        //printf("element push : %d, target : %d\n", i,target);
-
-        // mettre l element de A en haut si il n y est pas
+        // ajouter un while stack_a->arr[stack_a->top] != element && stack_b->arr[stack_b->top] != target
 
         while (stack_a->arr[stack_a->top] != element) //&& i >= (stack_a->top / 2))
         {
@@ -299,19 +246,32 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
     }   
 
     // apres ca on a nos element trier dans B, il en reste 3 dans A qu on tri
+    sort_three(stack_a);
 
     // on remet les element de B dans A en verifiant si il y un des elements deja dans A qu on rotate pour tout mettre dans l ordre
-     
+    while (stack_b->top >= 0)
+    {
+    
+        if (stack_a->arr[stack_a->top] < stack_b->arr[stack_b->top])
+            reverse_rotate_a(stack_a);
+
+        while (stack_a->arr[stack_a->top] - stack_b->arr[stack_b->top] > stack_a->arr[stack_a->top] - stack_a->arr[0]
+            && stack_a->arr[stack_a->top] > stack_a->arr[0])
+        {
+            reverse_rotate_a(stack_a);
+        }
+        
+        push_a(stack_a, stack_b);
+    }
 }
 
 
 int main(int argc, char **argv)
 {
-    t_stack stack_a;
-    t_stack stack_b;
-
+    t_stack stack_a, stack_b;
     stack_a.top = -1;
     stack_b.top = -1;
+   
 
     stack_a.arr[++stack_a.top] = 8;
     stack_a.arr[++stack_a.top] = 4;
@@ -322,11 +282,21 @@ int main(int argc, char **argv)
     stack_a.arr[++stack_a.top] = 7;
     stack_a.arr[++stack_a.top] = 2;
     stack_a.arr[++stack_a.top] = 5;
-
     
-    turk_sort(&stack_a, &stack_b);
+    
+    /*
+    int i = 1;
+    while (i < argc)
+    {
+        stack_a.arr[++stack_a.top] = atoi(argv[i]);
+        i++;
+    }
+    */
     
     display_stacks(&stack_a, &stack_b);
+    turk_sort(&stack_a, &stack_b);
+    display_stacks(&stack_a, &stack_b);
+    
     //push_2_numbers(&stack_a, &stack_b);
     //display_stacks(&stack_a, &stack_b);
     //cost_push(&stack_a, &stack_b);
