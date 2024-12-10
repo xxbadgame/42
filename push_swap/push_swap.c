@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/10 18:06:33 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/10 20:16:16 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,8 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
         else if (i_a < (stack_a->top / 2))
         {
             cost_a_top = 0;
-            cost_a_bottom = stack_a->top - i_a + 1;
+            // j ai juste changer ça -> stack_a->top - i_a + 1;
+            cost_a_bottom = i_a + 1;
         }            
         
         close_small_index = closest_smaller_target(stack_a->arr[i_a], stack_b);
@@ -216,7 +217,7 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
         if (cost_a_bottom > cost_b_bottom)
             cost += cost_a_bottom;
         else if (cost_a_bottom < cost_b_bottom)
-            cost += cost_b_top;
+            cost += cost_b_bottom;
         else
             cost += cost_a_bottom;
 
