@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/11 00:55:24 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/11 02:45:12 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,33 @@ int find_max_ind(t_stack *stack)
     return (ind);
 }
 
+int find_min_ind(t_stack *stack)
+{
+    int i;
+    int ind;
+    int min;
+
+    i = 0;
+    ind = 0;
+    min = stack->arr[0];
+    while (i <= stack->top)
+    {
+        if (stack->arr[i] < min)
+        {
+            min = stack->arr[i];
+            ind = i;
+        }    
+        i++;
+    }
+
+    return (ind);
+}
+
+int ft_abs(int value)
+{
+    return (value > 0) * value + (value < 0) * -value; 
+}
+
 // return l'indice du closet smaller dans B
 int closest_smaller_target(int value, t_stack *stack_b)
 {
@@ -82,9 +109,9 @@ int closest_smaller_target(int value, t_stack *stack_b)
     min_diff = INT_MAX;
     while (i >= 0)
     {
-        if(stack_b->arr[i] < value && (value - stack_b->arr[i]) < min_diff)
+        if(stack_b->arr[i] <= value && ft_abs(value - stack_b->arr[i]) < min_diff)
         {
-            min_diff = value - stack_b->arr[i];
+            min_diff = ft_abs(value - stack_b->arr[i]);
             ind_target = i;
         }
         
@@ -94,6 +121,35 @@ int closest_smaller_target(int value, t_stack *stack_b)
     if (min_diff == INT_MAX)
     {
         ind_target = find_max_ind(stack_b);
+    }   
+
+    return (ind_target);
+}
+
+// return l'indice du closet bigger dans A
+int closest_bigger_target(int value, t_stack *stack_a)
+{
+    int i;
+    int ind_target;
+    int min_diff;
+
+    i = stack_a->top;
+    ind_target = i;
+    min_diff = INT_MAX;
+    while (i >= 0)
+    {
+        if(stack_a->arr[i] >= value && ft_abs(stack_a->arr[i] - value) < min_diff)
+        {
+            min_diff = ft_abs(stack_a->arr[i] - value);
+            ind_target = i;
+        }
+        
+        i--;
+    }
+    
+    if (min_diff == INT_MAX)
+    {
+        ind_target = find_min_ind(stack_a);
     }   
 
     return (ind_target);
@@ -207,6 +263,8 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
     int ind_target;
     int target;
     int test;
+    int i_b;
+    int min_a;
 
     test = 0;
     push_2_numbers(stack_a, stack_b);
@@ -241,7 +299,7 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         // push de A a B
         push_b(stack_a, stack_b);
 
-        display_stacks(stack_a, stack_b);
+        //display_stacks(stack_a, stack_b);
         
     }   
 
@@ -249,20 +307,40 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
     sort_three(stack_a);
 
     // on remet les element de B dans A en verifiant si il y un des elements deja dans A qu on rotate pour tout mettre dans l ordre
-    while (stack_b->top >= 0)
+    i_b = stack_b->top;
+    while (i_b >= 0)
     {
-    
-        if (stack_a->arr[stack_a->top] < stack_b->arr[stack_b->top])
-            reverse_rotate_a(stack_a);
+        ind_target = closest_bigger_target(stack_b->arr[i_b], stack_a);
+        target = stack_a->arr[ind_target];
 
-        while (stack_a->arr[stack_a->top] - stack_b->arr[stack_b->top] > stack_a->arr[stack_a->top] - stack_a->arr[0]
-            && stack_a->arr[stack_a->top] > stack_a->arr[0])
-        {
-            reverse_rotate_a(stack_a);
-        }
+        //printf("etape de B");
+        //display_stacks(stack_a, stack_b);
+        //printf("target : %d\n", target);
         
+        while (stack_a->arr[stack_a->top] != target) //&& i >= (stack_a->top / 2))
+        {
+            if (ind_target >= stack_a->top / 2)
+                rotate_a(stack_a);
+            else
+                reverse_rotate_a(stack_a);
+        }
+
         push_a(stack_a, stack_b);
+
+        i_b--; 
     }
+    
+    min_a = find_min_ind(stack_a);
+    while (min_a >= 0)
+    {
+        if (min_a >= stack_a->top / 2)
+            rotate_a(stack_a);
+        else
+            reverse_rotate_a(stack_a);
+        
+        min_a--;
+    }
+    
 }
 
 
@@ -272,30 +350,32 @@ int main(int argc, char **argv)
     stack_a.top = -1;
     stack_b.top = -1;
    
-
-    stack_a.arr[++stack_a.top] = 8;
-    stack_a.arr[++stack_a.top] = 4;
-    stack_a.arr[++stack_a.top] = 9;
-    stack_a.arr[++stack_a.top] = 3;
-    stack_a.arr[++stack_a.top] = 6;
-    stack_a.arr[++stack_a.top] = 1;
-    stack_a.arr[++stack_a.top] = 7;
-    stack_a.arr[++stack_a.top] = 2;
-    stack_a.arr[++stack_a.top] = 5;
-    
-    
     /*
+    stack_a.arr[++stack_a.top] = -38;
+    stack_a.arr[++stack_a.top] = 85;
+    stack_a.arr[++stack_a.top] = 9;
+    stack_a.arr[++stack_a.top] = 12;
+    stack_a.arr[++stack_a.top] = 6;
+    stack_a.arr[++stack_a.top] = 5;
+    stack_a.arr[++stack_a.top] = 7;
+    stack_a.arr[++stack_a.top] = 42;
+    stack_a.arr[++stack_a.top] = 57;
+    stack_a.arr[++stack_a.top] = 58;
+    stack_a.arr[++stack_a.top] = 35;
+    stack_a.arr[++stack_a.top] = 49;
+    stack_a.arr[++stack_a.top] = 57;
+    */
+    
     int i = 1;
     while (i < argc)
     {
         stack_a.arr[++stack_a.top] = atoi(argv[i]);
         i++;
     }
-    */
-    
-    display_stacks(&stack_a, &stack_b);
+
+    //display_stacks(&stack_a, &stack_b);
     turk_sort(&stack_a, &stack_b);
-    display_stacks(&stack_a, &stack_b);
+    //display_stacks(&stack_a, &stack_b);
     
     //push_2_numbers(&stack_a, &stack_b);
     //display_stacks(&stack_a, &stack_b);
