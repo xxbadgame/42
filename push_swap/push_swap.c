@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/12 07:58:27 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/12 15:57:38 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int find_min_ind(t_stack *stack)
     min = stack->arr[0];
     while (i <= stack->top)
     {
-        if (stack->arr[i] < min)
+        if (stack->arr[i] <= min)
         {
             min = stack->arr[i];
             ind = i;
@@ -192,13 +192,10 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
             cost_a_top = stack_a->top - i_a;
             cost_a_bottom = 0;
         }
-        // partie basse de la stack et cout moins chere
-        else if (i_a < (stack_a->top / 2))
-        {
-            cost_a_top = 0;
-            // j ai juste changer ça -> stack_a->top - i_a + 1;
-            cost_a_bottom = i_a + 1;
-        }            
+        // partie basse de la stack et cout moiint cost_a_top;
+    int cost_b_top;
+    int cost_a_bottom;
+    int cost_b_bottom;
         
         close_small_index = closest_smaller_target(stack_a->arr[i_a], stack_b);
 
@@ -275,9 +272,10 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
     {
         ind_elem_push = cost_push(stack_a, stack_b);
         element = stack_a->arr[ind_elem_push];
-        ind_target = closest_smaller_target(stack_a->arr[ind_elem_push], stack_b);
+        ind_target = closest_smaller_target(element, stack_b);
         target = stack_b->arr[ind_target];
 
+        /*
         // Les deux en même temps
         while (stack_a->arr[stack_a->top] != element && stack_b->arr[stack_b->top] != target)
         {
@@ -296,8 +294,8 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
             else if (ind_target < stack_b->top / 2 && stack_a->arr[stack_a->top] != element)
                 reverse_rotate_b(stack_b);
         }
-
-        /*
+        */
+        
         // La stack A
         while (stack_a->arr[stack_a->top] != element)
         {
@@ -315,7 +313,7 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
             else
                 reverse_rotate_b(stack_b);
         }
-        */
+        
 
         // push de A a B
         push_b(stack_a, stack_b);
@@ -324,11 +322,12 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         
     }   
 
+    
     // apres ca on a nos element trier dans B, il en reste 3 dans A qu on tri
     sort_three(stack_a);
 
 
-
+    
     // on remet les element de B dans A en verifiant si il y un des elements deja dans A qu on rotate pour tout mettre dans l ordre
     i_b = stack_b->top;
     while (i_b >= 0)
@@ -340,7 +339,7 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         //display_stacks(stack_a, stack_b);
         //printf("target : %d\n", target);
         
-        while (stack_a->arr[stack_a->top] != target) //&& i >= (stack_a->top / 2))
+        while (stack_a->arr[stack_a->top] != target)
         {
             if (ind_target >= stack_a->top / 2)
                 rotate_a(stack_a);
@@ -353,17 +352,21 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         i_b--; 
     }
     
+    
     min_a = find_min_ind(stack_a);
+    //printf("index du min : %d\n", min_a);
+    
     while (min_a >= 0)
-    {
-        if (min_a >= stack_a->top / 2)
+    {   
+        //printf("min a : %d\n", min_a);
+        reverse_rotate_a(stack_a);
+        /*if (min_a >= stack_a->top / 2)
             rotate_a(stack_a);
         else
             reverse_rotate_a(stack_a);
-        
+        */
         min_a--;
     }
-    
 }
 
 
@@ -388,17 +391,19 @@ int main(int argc, char **argv)
     stack_a.arr[++stack_a.top] = 49;
     stack_a.arr[++stack_a.top] = 57;
     */
-    
-    int i = 1;
-    while (i < argc)
+   
+    argc = argc - 1;
+    while (argc >= 1)
     {
-        stack_a.arr[++stack_a.top] = atoi(argv[i]);
-        i++;
+        //printf("argc :%d\n", argc);
+        //printf("nbr : %d\n", atoi(argv[argc]));
+        stack_a.arr[++stack_a.top] = atoi(argv[argc]);
+        argc--;
     }
 
     //display_stacks(&stack_a, &stack_b);
     turk_sort(&stack_a, &stack_b);
-    display_stacks(&stack_a, &stack_b);
+    //display_stacks(&stack_a, &stack_b);
     
     //push_2_numbers(&stack_a, &stack_b);
     //display_stacks(&stack_a, &stack_b);
