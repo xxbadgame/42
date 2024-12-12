@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/11 02:45:12 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/12 05:58:30 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,7 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
     test = 0;
     push_2_numbers(stack_a, stack_b);
     
+    
     // tant qu il y a au mois 3 element dans A
     while (stack_a->top > 2) // stack_a->top > 2
     {
@@ -277,8 +278,16 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         ind_target = closest_smaller_target(stack_a->arr[ind_elem_push], stack_b);
         target = stack_b->arr[ind_target];
 
-        // ajouter un while stack_a->arr[stack_a->top] != element && stack_b->arr[stack_b->top] != target
+        // Les deux en même temps
+        while (stack_a->arr[stack_a->top] != element && stack_b->arr[stack_b->top] != target)
+        {
+            if (ind_elem_push >= stack_a->top / 2 && ind_target >= stack_b->top / 2)
+                    rotate_all(stack_a, stack_a);
+                else
+                    reverse_rotate_all(stack_a, stack_b);
+        }        
 
+        // La stack A
         while (stack_a->arr[stack_a->top] != element) //&& i >= (stack_a->top / 2))
         {
             if (ind_elem_push >= stack_a->top / 2)
@@ -305,6 +314,8 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
 
     // apres ca on a nos element trier dans B, il en reste 3 dans A qu on tri
     sort_three(stack_a);
+
+
 
     // on remet les element de B dans A en verifiant si il y un des elements deja dans A qu on rotate pour tout mettre dans l ordre
     i_b = stack_b->top;
