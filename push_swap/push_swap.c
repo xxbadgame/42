@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/12 05:58:30 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/12 07:58:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,13 +282,24 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         while (stack_a->arr[stack_a->top] != element && stack_b->arr[stack_b->top] != target)
         {
             if (ind_elem_push >= stack_a->top / 2 && ind_target >= stack_b->top / 2)
-                    rotate_all(stack_a, stack_a);
-                else
-                    reverse_rotate_all(stack_a, stack_b);
-        }        
+                rotate_all(stack_a, stack_b);
+            else
+                reverse_rotate_all(stack_a, stack_b);
 
+            if (ind_elem_push >= stack_a->top / 2 && stack_b->arr[stack_b->top] == target)
+                rotate_a(stack_a);
+            else if (ind_elem_push < stack_a->top / 2 && stack_b->arr[stack_b->top] == target)
+                reverse_rotate_a(stack_a);
+
+            if (ind_target >= stack_b->top / 2 && stack_a->arr[stack_a->top] != element)
+                rotate_b(stack_b);
+            else if (ind_target < stack_b->top / 2 && stack_a->arr[stack_a->top] != element)
+                reverse_rotate_b(stack_b);
+        }
+
+        /*
         // La stack A
-        while (stack_a->arr[stack_a->top] != element) //&& i >= (stack_a->top / 2))
+        while (stack_a->arr[stack_a->top] != element)
         {
             if (ind_elem_push >= stack_a->top / 2)
                 rotate_a(stack_a);
@@ -297,13 +308,14 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         }
         
         // mettre la target de B en haut
-        while (stack_b->arr[stack_b->top] != target) //&& i >= (stack_a->top / 2))
+        while (stack_b->arr[stack_b->top] != target)
         {
             if (ind_target >= stack_b->top / 2)
                 rotate_b(stack_b);
             else
                 reverse_rotate_b(stack_b);
         }
+        */
 
         // push de A a B
         push_b(stack_a, stack_b);
@@ -386,7 +398,7 @@ int main(int argc, char **argv)
 
     //display_stacks(&stack_a, &stack_b);
     turk_sort(&stack_a, &stack_b);
-    //display_stacks(&stack_a, &stack_b);
+    display_stacks(&stack_a, &stack_b);
     
     //push_2_numbers(&stack_a, &stack_b);
     //display_stacks(&stack_a, &stack_b);
