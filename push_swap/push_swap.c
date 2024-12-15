@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   push_swapV2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 16:55:17 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/12 15:57:38 by ynzue-es         ###   ########.fr       */
+/*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
+/*   Updated: 2024/12/15 00:50:58 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,40 @@ void display_stacks(t_stack *stack_a, t_stack *stack_b)
 	i = stack_a->top;
     j = stack_b->top;
 	printf("-----------------------------------------------------------\n");
-	while(1)
-	{
-        if (j < 0 && i < 0)
-            break;
+	while (i >= 0 || j >= 0)
+    {
         if (i >= 0)
-            printf("%d", stack_a->arr[i]);
-        if (j >= 0 && i < 0)
-            printf("  %d\n", stack_b->arr[j]);
-        else if (j >= 0)
-            printf(" %d\n", stack_b->arr[j]);
-        if (j < 0)
+            printf("%d\t", stack_a->arr[i--]);
+        else
+            printf("\t");
+        if (j >= 0)
+            printf("%d\n", stack_b->arr[j--]);
+        else
             printf("\n");
-		i--;
-        j--;
-	}
-	printf("_ _\n");
-	printf("a b\n");
+    }
+	printf("_       _\n");
+	printf("a       b\n");
 }
 
-void push_2_numbers(t_stack *stack_a, t_stack *stack_b)
+void push_median_numbers(t_stack *stack_a, t_stack *stack_b)
 {
-    push_b(stack_a, stack_b);
-    push_b(stack_a, stack_b);
+    int len_stack_a;
+    int median;
+
+    len_stack_a = stack_a->top + 1; // car départ de zero
+    if (len_stack_a % 2 == 0) // si c'est pair
+        median = (stack_a->arr[(len_stack_a - 1) / 2] + stack_a->arr[(len_stack_a) / 2]) / 2;
+    else
+        median = stack_a->arr[(len_stack_a - 1) / 2];
+
+    
+    while (stack_a->top > 2)
+    {
+        push_b(stack_a,stack_b);
+        if (stack_b->arr[stack_b->top] > median)
+            rotate_b(stack_b);
+    }
+        
 }
 
 
@@ -114,7 +125,6 @@ int closest_smaller_target(int value, t_stack *stack_b)
             min_diff = ft_abs(value - stack_b->arr[i]);
             ind_target = i;
         }
-        
         i--;
     }
     
@@ -138,7 +148,7 @@ int closest_bigger_target(int value, t_stack *stack_a)
     min_diff = INT_MAX;
     while (i >= 0)
     {
-        if(stack_a->arr[i] >= value && ft_abs(stack_a->arr[i] - value) < min_diff)
+        if(stack_a->arr[i] > value && ft_abs(stack_a->arr[i] - value) < min_diff)
         {
             min_diff = ft_abs(stack_a->arr[i] - value);
             ind_target = i;
@@ -158,6 +168,10 @@ int closest_bigger_target(int value, t_stack *stack_a)
 
 int cost_push(t_stack *stack_a, t_stack *stack_b)
 {
+    int min_cost;
+    int target;
+    int i_b;
+    int ind_min_cost;
     int cost_a_top;
     int cost_b_top;
     int cost_a_bottom;
@@ -165,51 +179,50 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
     int cost_a;
     int cost_b;
     int cost;
-    int min_cost;
-    int close_small_index ;
-    int i_a;
-    int i_b;
-    int ind_min_cost;
 
     min_cost = INT_MAX;
     ind_min_cost = 0;
-    cost = 0;
     cost_a_top = 0;
     cost_b_top = 0;
     cost_a_bottom = 0;
     cost_b_bottom = 0;
     cost_a = 0;
     cost_b = 0;
-    i_a = stack_a->top;
+    cost = 0;
+    target = 0;
     i_b = stack_b->top;
+
     
     // l'objectif est de trouver l'élément de A le moins chère a envoyer dans B
-    while (i_a >= 0)
+    while (i_b >= 0)
     {
-        // cost de a
-        if (i_a >= (stack_a->top / 2))
-        {
-            cost_a_top = stack_a->top - i_a;
-            cost_a_bottom = 0;
-        }
-        // partie basse de la stack et cout moiint cost_a_top;
-    int cost_b_top;
-    int cost_a_bottom;
-    int cost_b_bottom;
-        
-        close_small_index = closest_smaller_target(stack_a->arr[i_a], stack_b);
 
-        // partie haute de la stack et cout moins chere
-        if (close_small_index >= (stack_b->top / 2))
+        // cost de b   
+        if (i_b >= (stack_b->top / 2))
         {
-            cost_b_top = stack_b->top - close_small_index;
+            cost_b_top = stack_b->top - i_b;
             cost_b_bottom = 0;
         }
-        // partie basse de la stack et cout moins chere
-        else if (close_small_index < stack_b->top / 2)
+        else if (i_b < (stack_b->top / 2))
         {
             cost_b_top = 0;
-            cost_b_bottom = close_small_index + 1;
+            cost_b_bottom = i_b + 1;
+        }
+
+
+        target = closest_bigger_target(stack_b->arr[i_b], stack_a);
+
+        // partie haute de la stack et cout moins chere
+        if (target >= (stack_a->top / 2))
+        {
+            cost_a_top = stack_a->top - target;
+            cost_a_bottom = 0;
+        }
+        // partie basse de la stack et cout moins chere
+        else if (target < stack_a->top / 2)
+        {
+            cost_a_top = 0;
+            cost_a_bottom = target + 1;
         }   
         
         
@@ -227,146 +240,78 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
         else
             cost += cost_a_bottom;
 
-        //cost_a = cost_a_top + cost_a_bottom;
-        //cost_b = cost_b_top + cost_b_bottom;
         
-        //printf("cost_a_top : %d\n", cost_a_top);
-        //printf("cost_a_bottom : %d\n", cost_a_bottom);
-        //printf("cost_b_top : %d\n", cost_b_top);
-        //printf("cost_b_bottom : %d\n", cost_b_bottom);
-        //printf("element stack : %d | target : %d | cost : %d\n", stack_a->arr[i_a] , close_small_index , cost);
-
         if (cost < min_cost)
         {
             min_cost = cost;
-            ind_min_cost = i_a;
+            ind_min_cost = i_b;
         }
         
 
-        i_a--;
+        i_b--;
     }
+
    
-    // return l'indice de l'élément a push
     return (ind_min_cost);
 }
-
 
 // ajouter les rrr et les rr dans le cas ou c'est en commun
 
 void turk_sort(t_stack *stack_a, t_stack *stack_b)
 {
-    int ind_elem_push;
-    int element;
     int ind_target;
+    int ind_element;
     int target;
-    int test;
-    int i_b;
+    int element;
     int min_a;
-
-    test = 0;
-    push_2_numbers(stack_a, stack_b);
     
-    
-    // tant qu il y a au mois 3 element dans A
-    while (stack_a->top > 2) // stack_a->top > 2
+    while (stack_b->top >= 0)
     {
-        ind_elem_push = cost_push(stack_a, stack_b);
-        element = stack_a->arr[ind_elem_push];
-        ind_target = closest_smaller_target(element, stack_b);
-        target = stack_b->arr[ind_target];
-
-        /*
-        // Les deux en même temps
-        while (stack_a->arr[stack_a->top] != element && stack_b->arr[stack_b->top] != target)
-        {
-            if (ind_elem_push >= stack_a->top / 2 && ind_target >= stack_b->top / 2)
-                rotate_all(stack_a, stack_b);
-            else
-                reverse_rotate_all(stack_a, stack_b);
-
-            if (ind_elem_push >= stack_a->top / 2 && stack_b->arr[stack_b->top] == target)
-                rotate_a(stack_a);
-            else if (ind_elem_push < stack_a->top / 2 && stack_b->arr[stack_b->top] == target)
-                reverse_rotate_a(stack_a);
-
-            if (ind_target >= stack_b->top / 2 && stack_a->arr[stack_a->top] != element)
-                rotate_b(stack_b);
-            else if (ind_target < stack_b->top / 2 && stack_a->arr[stack_a->top] != element)
-                reverse_rotate_b(stack_b);
-        }
-        */
         
-        // La stack A
-        while (stack_a->arr[stack_a->top] != element)
-        {
-            if (ind_elem_push >= stack_a->top / 2)
-                rotate_a(stack_a);
-            else
-                reverse_rotate_a(stack_a);
-        }
-        
-        // mettre la target de B en haut
-        while (stack_b->arr[stack_b->top] != target)
-        {
-            if (ind_target >= stack_b->top / 2)
-                rotate_b(stack_b);
-            else
-                reverse_rotate_b(stack_b);
-        }
-        
-
-        // push de A a B
-        push_b(stack_a, stack_b);
-
-        //display_stacks(stack_a, stack_b);
-        
-    }   
-
-    
-    // apres ca on a nos element trier dans B, il en reste 3 dans A qu on tri
-    sort_three(stack_a);
-
-
-    
-    // on remet les element de B dans A en verifiant si il y un des elements deja dans A qu on rotate pour tout mettre dans l ordre
-    i_b = stack_b->top;
-    while (i_b >= 0)
-    {
-        ind_target = closest_bigger_target(stack_b->arr[i_b], stack_a);
+        ind_element = cost_push(stack_a, stack_b);
+        ind_target = closest_bigger_target(stack_b->arr[ind_element], stack_a);
         target = stack_a->arr[ind_target];
+        element = stack_b->arr[ind_element];
+        
+        
+        while (stack_b->arr[stack_b->top] != element && stack_a->arr[stack_a->top] != target)
+        {
+            if (ind_element >= (stack_b->top / 2) && ind_target >= (stack_a->top / 2))
+                rotate_all(stack_a, stack_b);
+            else if(ind_element < (stack_b->top / 2) && ind_target < (stack_a->top / 2))
+                reverse_rotate_all(stack_a, stack_b); 
+            else
+                break;
+        }
 
-        //printf("etape de B");
-        //display_stacks(stack_a, stack_b);
-        //printf("target : %d\n", target);
+        while (stack_b->arr[stack_b->top] != element)
+        {
+            if (ind_element >= (stack_b->top / 2))
+                rotate_b(stack_b);
+            else
+                reverse_rotate_b(stack_b);
+        }
         
         while (stack_a->arr[stack_a->top] != target)
         {
-            if (ind_target >= stack_a->top / 2)
+            if (ind_target >= (stack_a->top / 2))
                 rotate_a(stack_a);
             else
-                reverse_rotate_a(stack_a);
+                reverse_rotate_a(stack_a);   
         }
 
         push_a(stack_a, stack_b);
-
-        i_b--; 
     }
     
     
     min_a = find_min_ind(stack_a);
-    //printf("index du min : %d\n", min_a);
     
     while (min_a >= 0)
     {   
-        //printf("min a : %d\n", min_a);
         reverse_rotate_a(stack_a);
-        /*if (min_a >= stack_a->top / 2)
-            rotate_a(stack_a);
-        else
-            reverse_rotate_a(stack_a);
-        */
         min_a--;
     }
+    
 }
 
 
@@ -375,22 +320,6 @@ int main(int argc, char **argv)
     t_stack stack_a, stack_b;
     stack_a.top = -1;
     stack_b.top = -1;
-   
-    /*
-    stack_a.arr[++stack_a.top] = -38;
-    stack_a.arr[++stack_a.top] = 85;
-    stack_a.arr[++stack_a.top] = 9;
-    stack_a.arr[++stack_a.top] = 12;
-    stack_a.arr[++stack_a.top] = 6;
-    stack_a.arr[++stack_a.top] = 5;
-    stack_a.arr[++stack_a.top] = 7;
-    stack_a.arr[++stack_a.top] = 42;
-    stack_a.arr[++stack_a.top] = 57;
-    stack_a.arr[++stack_a.top] = 58;
-    stack_a.arr[++stack_a.top] = 35;
-    stack_a.arr[++stack_a.top] = 49;
-    stack_a.arr[++stack_a.top] = 57;
-    */
    
     argc = argc - 1;
     while (argc >= 1)
@@ -401,9 +330,9 @@ int main(int argc, char **argv)
         argc--;
     }
 
-    //display_stacks(&stack_a, &stack_b);
+    push_median_numbers(&stack_a, &stack_b);
+    sort_three(&stack_a);
     turk_sort(&stack_a, &stack_b);
-    //display_stacks(&stack_a, &stack_b);
     
     //push_2_numbers(&stack_a, &stack_b);
     //display_stacks(&stack_a, &stack_b);
@@ -414,5 +343,3 @@ int main(int argc, char **argv)
     
     
 }
-
-
