@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/11 00:36:41 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/18 14:53:37 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ typedef struct s_stack
 	int arr[MAX_SIZE];
 	int top;
 } t_stack;
+
+typedef struct s_cost_push
+{
+	int a_top;
+    int b_top;
+    int a_bottom;
+    int b_bottom;
+} t_cost_push;
+
 
 void push_a(t_stack *stack_a, t_stack *stack_b);
 void push_b(t_stack *stack_a, t_stack *stack_b);

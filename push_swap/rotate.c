@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:35:16 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/15 00:17:05 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/18 11:24:01 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void rotate(t_stack *stack)
     int i;
 
     if (stack->top <= 0)
-        return; // Rien à faire si la pile est vide ou a un seul élément
+        return ;
 
+    i = stack->top;
     temp = stack->arr[stack->top];
-    for (i = stack->top; i > 0; i--)
+    while(i > 0)
     {
         stack->arr[i] = stack->arr[i - 1];
+        i--;
     }
     stack->arr[0] = temp;
 }
