@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/18 19:57:12 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/18 20:02:40 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,6 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
     int element;
     int min_a;
     
-    
     while (stack_b->top >= 0)
     {
         ind_element = cost_push(stack_a, stack_b);
@@ -265,9 +264,9 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
         }
 
         //printf("enoyée --> ind elem : %d, ind target : %d\n", ind_element, ind_target);
-        complete_rotatation_two(stack_a, stack_b, ind_element, ind_target);
+        //complete_rotatation_two(stack_a, stack_b, ind_element, ind_target);
 
-        /*
+        
         while (stack_b->arr[stack_b->top] != element)
         {
             if (ind_element >= (stack_b->top / 2))
@@ -283,7 +282,7 @@ void turk_sort(t_stack *stack_a, t_stack *stack_b)
             else
                 reverse_rotate_a(stack_a);   
         }
-        */
+        
         
         push_a(stack_a, stack_b);
     }
