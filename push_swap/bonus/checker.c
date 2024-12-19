@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 07:54:02 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/19 09:47:48 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/19 13:49:02 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,25 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int main()//int argc, char **argv)
+int main(int argc, char **argv)
 {
+    t_stack stack_a;
+    t_stack stack_b;
+
+    char *line;
     // recevoir la sortie d'un push swap depuis la sortie standard avec un pipe
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-    printf("%s",get_next_line(0));
-
-    // Lire l'entrée standard (sortie de push_swap)
+    while ((line = get_next_line(0)) != NULL)
+        printf("%s", line);    
     
-
-    // récupérer les éléments de la sortie standard
-    
-    
-    /*
+    // les appliqués sur nos arguments de ./checker args
     argc = argc - 1;
-    while (argc > 0)
+    while (argc >= 1)
     {
-        printf("stack a : %s\n", argv[argc]);
+        stack_a.arr[++stack_a.top] = atoi(argv[argc]);
         argc--;
     }
-    */
-
-    // les appliqués sur nos arguments de ./checker args
-
+    push_swap(&stack_a, &stack_b);
     
-
-
     // vérifier si la liste est trié.
 }
 
