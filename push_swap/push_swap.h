@@ -6,15 +6,17 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/18 14:53:37 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/19 08:50:55 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "stdio.h"
-# include "unistd.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <limits.h>
+# include <stdlib.h>
 #define MAX_SIZE 1000
 
 typedef struct s_stack 

@@ -6,13 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/18 20:02:40 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/19 08:44:58 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "push_swap.h"
-#include <stdlib.h>
-# include <limits.h>
 
 void display_stacks(t_stack *stack_a, t_stack *stack_b)
 {
@@ -132,7 +130,7 @@ void push_median_numbers(t_stack *stack_a, t_stack *stack_b)
 }
 
 
-int cost_calculate(int i_b, t_stack *stack_a, t_stack *stack_b, t_cost_push *cost)
+void cost_calculate(int i_b, t_stack *stack_a, t_stack *stack_b, t_cost_push *cost)
 {
     int target;
 

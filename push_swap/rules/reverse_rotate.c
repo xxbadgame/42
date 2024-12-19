@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 11:24:32 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/18 11:23:15 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/19 08:10:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "push_swap.h"
+# include "../push_swap.h"
 
 void reverse_rotate(t_stack *stack)
 {

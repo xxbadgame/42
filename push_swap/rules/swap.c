@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:53:14 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/09 12:26:17 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/19 08:10:38 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "push_swap.h"
+# include "../push_swap.h"
 
 void swap_a(t_stack *stack_a)
 {
