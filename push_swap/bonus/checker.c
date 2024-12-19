@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 07:54:02 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/19 13:49:02 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:23:05 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int main(int argc, char **argv)
+int main()//int argc, char **argv)
 {
-    t_stack stack_a;
-    t_stack stack_b;
+    //t_stack stack_a;
+    //t_stack stack_b;
 
-    char *line;
+    //char *line;
+    printf("%s", get_next_line(0));
     // recevoir la sortie d'un push swap depuis la sortie standard avec un pipe
-    while ((line = get_next_line(0)) != NULL)
-        printf("%s", line);    
+    //while ((line = get_next_line(0)) != NULL)
+    //    printf("%s", line);    
     
     // les appliqués sur nos arguments de ./checker args
+    /*
     argc = argc - 1;
     while (argc >= 1)
     {
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
         argc--;
     }
     push_swap(&stack_a, &stack_b);
-    
+    */
     // vérifier si la liste est trié.
 }
 
