@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_three.c                                       :+:      :+:    :+:   */
+/*   sort_three_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 23:05:39 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/20 21:35:02 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/20 21:35:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "push_swap.h"
+# include "../push_swap.h"
 
-void sort_three(t_stack *stack_a)
+int sort_three(t_stack *stack_a)
 {
     int ind_big;
     
