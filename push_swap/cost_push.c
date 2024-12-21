@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cost_push.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:56:21 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/19 14:57:28 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:07:17 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int cost_push(t_stack *stack_a, t_stack *stack_b)
     int ind_min_cost;
     t_cost_push cost;
 
-    min_cost = INT_MAX;
+    min_cost = __INT_MAX__;
     ind_min_cost = 0;
     i_b = stack_b->top;
     while (i_b >= 0)

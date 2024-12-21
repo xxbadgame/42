@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/20 21:35:34 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:22:45 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,59 @@ void push_swap(t_stack *stack_a, t_stack *stack_b)
     turk_sort(stack_a, stack_b);
 }
 
+#include <stdio.h>
 int main(int argc, char **argv)
 {
     t_stack stack_a;
     t_stack stack_b;
+    char **spl_str;
+    
+    int i;
+    
+    stack_a.arr = malloc(argc * sizeof(int));
+    stack_b.arr = malloc(argc * sizeof(int));
+
+    i = 0;
+    spl_str = NULL;
     stack_a.top = -1;
     stack_b.top = -1;
-   
-    argc = argc - 1;
-    while (argc >= 1)
-    {
-        stack_a.arr[++stack_a.top] = atoi(argv[argc]);
-        argc--;
-    }
 
+    argc = argc - 1;
+
+    if (argc == 0)
+        exit(0);
+    if (argc == 1)
+    {
+        spl_str = ft_split(argv[1], ' ');
+        duplicates_error(spl_str);
+        while (spl_str[i])
+            i++;
+        i -= 1;
+        while (i >= 0)
+        {
+            real_number_checker(spl_str[i]);
+            stack_a.arr[++stack_a.top] = ft_atoi(spl_str[i]);
+            i--;
+        }
+    }
+    else
+    {
+        duplicates_error(argv);
+        while (argc >= 1)
+        {
+            real_number_checker(argv[argc]);
+            stack_a.arr[++stack_a.top] = ft_atoi(argv[argc]);
+            argc--;
+        }
+    }
+    
     push_swap(&stack_a, &stack_b);
+
+    free(stack_a.arr);
+    free(stack_b.arr);
+    
+    if (argc == 1)
+        free(spl_str);
+
+    return (0);
 }

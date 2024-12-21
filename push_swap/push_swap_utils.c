@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:58:23 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/19 14:58:52 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:31:53 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "push_swap.h"
 
+/*
 void display_stacks(t_stack *stack_a, t_stack *stack_b)
 {
 	int i;
@@ -34,6 +35,7 @@ void display_stacks(t_stack *stack_a, t_stack *stack_b)
 	printf("_       _\n");
 	printf("a       b\n");
 }
+*/
 
 int ft_abs(int value)
 {
@@ -90,7 +92,7 @@ int closest_bigger_target(int value, t_stack *stack_a)
 
     i = stack_a->top;
     ind_target = i;
-    min_diff = INT_MAX;
+    min_diff = __INT_MAX__;
     while (i >= 0)
     {
         if(stack_a->arr[i] > value && ft_abs(stack_a->arr[i] - value) < min_diff)
@@ -100,7 +102,7 @@ int closest_bigger_target(int value, t_stack *stack_a)
         }
         i--;
     }
-    if (min_diff == INT_MAX)
+    if (min_diff == __INT_MAX__)
         ind_target = find_min_ind(stack_a);
     return (ind_target);
 }

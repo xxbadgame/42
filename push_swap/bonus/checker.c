@@ -6,16 +6,12 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 07:54:02 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/21 01:26:39 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/21 13:10:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "checker.h"
 # include "../push_swap.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-#include <string.h>
 
 void display_stacks(t_stack *stack_a, t_stack *stack_b)
 {
@@ -40,18 +36,9 @@ void display_stacks(t_stack *stack_a, t_stack *stack_b)
 	printf("a       b\n");
 }
 
-
-
-void trim_rule(char *rule) {
-    size_t len = strlen(rule);
-    while (len > 0 && (rule[len - 1] == ' ' || rule[len - 1] == '\n' || rule[len - 1] == '\r')) {
-        rule[--len] = '\0';
-    }
-}
-
 void do_rules(char *rule, t_stack *stack_a, t_stack *stack_b)
 {
-    trim_rule(rule);
+    ft_strtrim(rule, " \r\n");
 
     if (strcmp(rule, "sa") == 0)
         swap_a(stack_a);
@@ -105,7 +92,7 @@ int main(int argc, char **argv)
     argc = argc - 1;
     while (argc > 0)
     {
-        stack_a.arr[++stack_a.top] = atoi(argv[argc]);
+        stack_a.arr[++stack_a.top] = ft_atoi(argv[argc]);
         argc--;
     }
 
@@ -119,6 +106,5 @@ int main(int argc, char **argv)
     
     // vérifier si la stack A est trié.
     printf("%s",check_stack_sort(&stack_a));
-    
 }
 

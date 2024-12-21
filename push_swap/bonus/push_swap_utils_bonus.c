@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:58:23 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/20 21:21:16 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/21 13:08:32 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int closest_bigger_target(int value, t_stack *stack_a)
 
     i = stack_a->top;
     ind_target = i;
-    min_diff = INT_MAX;
+    min_diff = __INT_MAX__;
     while (i >= 0)
     {
         if(stack_a->arr[i] > value && ft_abs(stack_a->arr[i] - value) < min_diff)
@@ -100,7 +100,7 @@ int closest_bigger_target(int value, t_stack *stack_a)
         }
         i--;
     }
-    if (min_diff == INT_MAX)
+    if (min_diff == __INT_MAX__)
         ind_target = find_min_ind(stack_a);
     return (ind_target);
 }
