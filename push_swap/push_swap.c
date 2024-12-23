@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/21 21:22:45 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/22 12:30:16 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,39 +65,32 @@ void push_swap(t_stack *stack_a, t_stack *stack_b)
     turk_sort(stack_a, stack_b);
 }
 
-#include <stdio.h>
-int main(int argc, char **argv)
+int len_stack_split(char **spl_str)
 {
-    t_stack stack_a;
-    t_stack stack_b;
-    char **spl_str;
-    
     int i;
-    
-    stack_a.arr = malloc(argc * sizeof(int));
-    stack_b.arr = malloc(argc * sizeof(int));
 
     i = 0;
-    spl_str = NULL;
-    stack_a.top = -1;
-    stack_b.top = -1;
+    while (spl_str[i])
+        i++;
+    i -= 1;
+    return (i);
+}
 
-    argc = argc - 1;
+void create_stack(int argc, char **argv, char **spl_str, t_stack *stack_a)
+{
+    int i;
 
     if (argc == 0)
         exit(0);
-    if (argc == 1)
+    else if (argc == 1)
     {
         spl_str = ft_split(argv[1], ' ');
         duplicates_error(spl_str);
-        while (spl_str[i])
-            i++;
-        i -= 1;
+        i = len_stack_split(spl_str);
         while (i >= 0)
         {
             real_number_checker(spl_str[i]);
-            stack_a.arr[++stack_a.top] = ft_atoi(spl_str[i]);
-            i--;
+            stack_a->arr[++stack_a->top] = ft_atoi(spl_str[i--]);
         }
     }
     else
@@ -106,13 +99,25 @@ int main(int argc, char **argv)
         while (argc >= 1)
         {
             real_number_checker(argv[argc]);
-            stack_a.arr[++stack_a.top] = ft_atoi(argv[argc]);
-            argc--;
+            stack_a->arr[++stack_a->top] = ft_atoi(argv[argc--]);
         }
     }
-    
-    push_swap(&stack_a, &stack_b);
+}
 
+int main(int argc, char **argv)
+{
+    t_stack stack_a;
+    t_stack stack_b;
+    char **spl_str;
+    
+    stack_a.arr = malloc(argc * sizeof(int));
+    stack_b.arr = malloc(argc * sizeof(int));
+    spl_str = NULL;
+    stack_a.top = -1;
+    stack_b.top = -1;
+    argc = argc - 1;
+    create_stack(argc, argv, spl_str, &stack_a);
+    push_swap(&stack_a, &stack_b);
     free(stack_a.arr);
     free(stack_b.arr);
     

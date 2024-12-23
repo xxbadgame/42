@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/05 16:06:31 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/23 12:40:04 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int parse_line_to_pixels(char *filename, t_data_img *img)
 	int x;
 	int y;
 	int z;
-	int iso_x1, iso_y1, iso_x2, iso_y2;
+	int iso_x1, iso_y1;
 	int iso_x_next, iso_y_next;
 	int d_px;
     char *line;
@@ -245,16 +245,10 @@ int mouse_scroll(int button, int x, int y, void *param)
 
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
 	int 	width;
 	int 	height;
 	t_data_img	img;
-    int     i;
-	int screen_width;
-	int screen_height;
-	
-    i = 0;
+
 	img.zoom_level = 1;
 	height = 1000;
 	width = 1000;
@@ -264,18 +258,6 @@ int	main(void)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 	img.width = width;
 	img.height = height;
-
-	Display *d = XOpenDisplay(NULL);
-    Screen *s = DefaultScreenOfDisplay(d);
-	screen_height = s->height;
-	screen_width = s->width;
-
-	int window_x = (screen_width - width) / 2;
-    int window_y = (screen_height - height) / 2;
-
-	Window win = *(Window *)(img.mlx_win);
-	XMoveWindow(d, win, window_x, window_y);
-	XCloseDisplay(d);
 
 	mlx_hook(img.mlx_win, 17, 0, close_window, NULL);
 	mlx_hook(img.mlx_win, 2, 1L<<0, close_window_escape, NULL);

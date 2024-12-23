@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 07:54:02 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/21 13:10:00 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/22 12:39:22 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void display_stacks(t_stack *stack_a, t_stack *stack_b)
 void do_rules(char *rule, t_stack *stack_a, t_stack *stack_b)
 {
     ft_strtrim(rule, " \r\n");
-
     if (strcmp(rule, "sa") == 0)
         swap_a(stack_a);
     else if (strcmp(rule, "sb") == 0)
@@ -85,26 +84,17 @@ int main(int argc, char **argv)
     
     stack_a.top = -1;
     stack_b.top = -1;
-
     char *line;
-
-    // remplir les stacks
     argc = argc - 1;
     while (argc > 0)
     {
         stack_a.arr[++stack_a.top] = ft_atoi(argv[argc]);
         argc--;
     }
-
     display_stacks(&stack_a, &stack_b);
-
-    // recevoir la sortie d'un push swap depuis la sortie standard avec un pipe et appliqué les regles
     while ((line = get_next_line(0)) != NULL)
         do_rules(line, &stack_a, &stack_b);    
-
     display_stacks(&stack_a, &stack_b);
-    
-    // vérifier si la stack A est trié.
     printf("%s",check_stack_sort(&stack_a));
 }
 

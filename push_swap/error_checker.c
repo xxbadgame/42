@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:10:58 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/21 23:55:54 by yannis           ###   ########.fr       */
+/*   Updated: 2024/12/22 12:08:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ void duplicates_error(char **args)
     while (args[i])
     {
         y = 1 + i;
-        //printf("args x : %s\n", args[i]);
         while (args[y])
         {
-            //printf("check args y : %s\n", args[y]);
             if (find_str(args[i], args[y]) == 1)
             {
                 write(2, "Error\n", 6);
