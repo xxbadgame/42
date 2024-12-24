@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/04 11:14:04 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:06:09 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,17 @@ char	*get_next_line(int fd)
 	if (ft_strlen(result_line) == 0)
 		return (free(result_line), NULL);
 	return (result_line);
+}
+
+#include <stdio.h>
+
+int main()
+{
+	int fd;
+
+	fd = open("test.txt", O_RDONLY);
+	
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 }
