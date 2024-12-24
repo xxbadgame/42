@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/05 15:01:07 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:18:23 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <X11/Xlib.h>
-# include <X11/Xutil.h> 
+#include <math.h>
+
+long int str_to_hexa(char *str);
 
 #endif
