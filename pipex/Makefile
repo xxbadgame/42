@@ -6,11 +6,11 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/01 22:58:20 by yannis            #+#    #+#              #
-#    Updated: 2025/01/02 00:33:33 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/03 14:03:30 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = pipex.a 
+NAME = pipex
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
