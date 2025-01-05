@@ -6,13 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/03 14:38:14 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:42:44 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void    execute_cmd(char *file, char *cmd)
+const void   *execute_cmd(char *file, char *cmd)
 {
     char *path_bin;
     char *full_path;
@@ -55,6 +55,48 @@ void    execute_cmd(char *file, char *cmd)
     }
 }
 
+// vérifier les accès aux fichiers avec access
+
+// supprimer les fichier si plus besoin
+
+// voir la vidéo sur les dup et dup2
+
+void    pipes_and_fork(file1, cmd1, cmd2, file2)
+{
+    int fd[2];
+    int pid1;
+    int pid2;
+
+    if (pipe(fd) == -1){
+        perror("An Error occured with opening the pipe\n");
+    }
+    
+    pid1 = fork();
+    printf("pid1 : %d\n", pid1);
+    if (pid1 == 0) 
+    {
+
+        // faire le premier travail, partie gauche de la fonction
+        
+        write(dup2(fd[1], fd[0]) , execute_cmd(file1, cmd1), sizeof(void *));
+
+    } 
+    else 
+    {
+        // on crée le deuxieme enfant
+        pid2 = fork();
+        if (pid2 == 0)
+        {
+            void *result_left;
+            // faire le deuxième travail, la partie droite de la fonction
+            read(fd[0], result_left, sizeof(void *));
+            execute_cmd(file2, cmd2);
+        }
+        else
+            printf("Je suis le parent, PID = %d\n", getpid());
+    }
+}
+
 // execute une commande dans la console 
 int main(int argc, char **argv)
 {
@@ -63,6 +105,8 @@ int main(int argc, char **argv)
         perror("no args");
         exit(1);
     }
-    execute_cmd(argv[1], argv[2]);
+
+    pipes_and_fork(argv[1], argv[2], argv[3], argv[4]);
+
     return 0;
 }
