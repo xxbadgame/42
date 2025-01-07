@@ -6,107 +6,97 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/07 18:07:35 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:38:08 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 
-
-int pipex(int infile, int outfile, char ***cmds, char **envp)
+int pipex(int in_fd, int out_fd, char **cmd, char **envp)
 {
     char    *full_path;
-    //int i;
-    int fd[2];
-
-    //i = 0;    
-    if (pipe(fd) == -1) {
+    int     pid;
+    
+    pid = fork();
+    if (pid < 0)
         return 1;
-    }
-    /*
-    while (cmds[i] != NULL)
+
+    if (pid == 0) 
     {
-        int pid1 = fork();
-        if (pid1 < 0){
-            return 2;
+        if (in_fd != -1) 
+        {
+            dup2(in_fd, STDIN_FILENO);
+            close(in_fd);
         }
 
-        if (pid1 == 0) {
-            dup2(infile, STDIN_FILENO);
-            dup2(fd[1], STDOUT_FILENO);
-            close(fd[1]);
-            full_path = ft_path_to_cmd(cmds[0], envp);
-            execve(full_path, cmds[0], envp);
+        if (out_fd != -1) 
+        {
+            dup2(out_fd, STDOUT_FILENO);
+            close(out_fd);
         }
-
-        int pid2 = fork();
-        if (pid2 < 0) {
-            return 3;
-        }
-        if (pid2 == 0) {        
-            dup2(outfile, STDOUT_FILENO);
-            dup2(fd[0], STDIN_FILENO);
-            close(fd[0]);
-            close(fd[1]);
-            full_path = ft_path_to_cmd(cmds[1], envp);
-            execve(full_path, cmds[1], envp);
-
-        }
-        close(fd[1]);
-        close(fd[0]);
-        waitpid(pid1, NULL, 0);
-        waitpid(pid2, NULL, 0);
-        i++;
+        
+        full_path = ft_path_to_cmd(cmd, envp);
+        execve(full_path, cmd, envp);
     }
-    */    
+    
+    if (in_fd != -1) 
+        close(in_fd);
+    if (out_fd != -1) 
+        close(out_fd);
 
-    int pid1 = fork();
-    if (pid1 < 0){
-        return 2;
-    }
-
-    if (pid1 == 0) {
-        dup2(infile, STDIN_FILENO);
-        dup2(fd[1], STDOUT_FILENO);
-        close(fd[1]);
-        full_path = ft_path_to_cmd(cmds[0], envp);
-        execve(full_path, cmds[0], envp);
-    }
-
-    int pid2 = fork();
-    if (pid2 < 0) {
-        return 3;
-    }
-    if (pid2 == 0) {        
-        dup2(outfile, STDOUT_FILENO);
-        dup2(fd[0], STDIN_FILENO);
-        close(fd[0]);
-        close(fd[1]);
-        full_path = ft_path_to_cmd(cmds[1], envp);
-        execve(full_path, cmds[1], envp);
-
-    }
-    close(fd[1]);
-    close(fd[0]);
-    waitpid(pid1, NULL, 0);
-    waitpid(pid2, NULL, 0);
+    close(in_fd);
+    close(out_fd);
+    waitpid(pid, NULL, 0);
     
     return 0;
 }
+
+void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
+{
+    int fd[2];
+    int infile;
+    int outfile;
+    int last_fd;
+    int i;
+
+    last_fd = -1;
+    infile = open(argv[1], O_RDONLY);
+    outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT | O_TRUNC);
+
+    i = 1;
+    while (i <= (argc - 2))
+    {
+        if (pipe(fd) == -1)
+        {
+            perror("Fork failed");
+            exit(1);
+        }
+
+        if (i == 1)
+            pipex(infile, fd[1], cmds[i], envp);
+        else if (i == (argc - 1))
+            pipex(last_fd, outfile, cmds[i], envp);
+        else
+            pipex(last_fd, fd[1], cmds[i], envp);
+
+        if (last_fd != -1) 
+            close(last_fd);
+        close(fd[1]);
+        last_fd = fd[0];
+        
+        i++;
+    }
+}
+
 
 int main(int argc, char **argv, char **envp)
 {
     char ***cmds;
     int i;
- 
-    if (argc < 2)
-    {
-        perror("no args");
-        exit(1);
-    }
-    
-    int infile = open(argv[1], O_RDONLY);
+
+    if (argc != 5)
+        return 1;
 
     i = 2;
     cmds = malloc((argc + 1) * sizeof(char **));
@@ -116,10 +106,7 @@ int main(int argc, char **argv, char **envp)
         i++;
     }
     cmds[i-2] = NULL;
-
-    int outfile = open(argv[i],  O_WRONLY | O_CREAT | O_TRUNC);
-
-    pipex(infile, outfile, cmds, envp);
+    exec_cmds(argc, argv, cmds, envp);
     
     return 0;
 }
