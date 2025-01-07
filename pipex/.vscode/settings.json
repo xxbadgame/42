@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "text_encoding": "c",
-        "functional": "c"
+        "functional": "c",
+        "wait.h": "c",
+        "string.h": "c"
     }
 }

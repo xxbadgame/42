@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/01 22:58:20 by yannis            #+#    #+#              #
-#    Updated: 2025/01/03 14:03:30 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/07 16:48:29 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,12 @@ CFLAGS = -Wall -Werror -Wextra
 AR = ar rcs
 
 SRCS = 	pipex.c \
+		pipex_utils.c \
 		libft/ft_strlcat.c \
-		libft/ft_strlen.c \
 		libft/ft_strlcpy.c \
+		libft/ft_strlen.c \
 		libft/ft_split.c \
+		libft/ft_strncmp.c \
 
 OBJS = $(SRCS:.o=.c)
 RM = rm -f
