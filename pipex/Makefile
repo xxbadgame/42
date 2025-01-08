@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/01 22:58:20 by yannis            #+#    #+#              #
-#    Updated: 2025/01/07 16:48:29 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/08 01:33:24 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRCS = 	pipex.c \
 		libft/ft_strlen.c \
 		libft/ft_split.c \
 		libft/ft_strncmp.c \
+		get_next_line/get_next_line.c \
+		get_next_line/get_next_line_utils.c \
 
 OBJS = $(SRCS:.o=.c)
 RM = rm -f

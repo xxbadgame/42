@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:50:30 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/07 16:47:22 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/08 01:40:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include "get_next_line/get_next_line.h"
 #include "libft/libft.h"
 
 char *ft_getenv(char *var_name, char *envp[]);

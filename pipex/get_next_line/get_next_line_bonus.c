@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 11:47:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/01/08 02:24:03 by yannis           ###   ########.fr       */
+/*   Created: 2024/12/03 23:25:54 by yannis            #+#    #+#             */
+/*   Updated: 2024/12/05 11:48:52 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	ft_read_and_stock(t_list **lst, int fd)
 {
@@ -123,51 +122,25 @@ char	*get_next_line(int fd)
 	t_list		*lst;
 	char		*result_line;
 	t_list		*over_node;
-	static char	over_buff[BUFFER_SIZE + 1];
+	static char	over_buff[FD_MAX][BUFFER_SIZE + 1];
 
 	lst = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || FD_MAX <= 0 || fd > FD_MAX)
 		return (NULL);
 	result_line = NULL;
-	over_node = ft_lstnew(over_buff);
+	over_node = ft_lstnew(over_buff[fd]);
 	if (!over_node)
 		return (free(result_line), (char *)ft_lstclear(&lst));
 	lst = over_node;
 	ft_read_and_stock(&lst, fd);
 	if (!lst)
-		return (over_buff[0] = '\0', NULL);
+		return (over_buff[fd][0] = '\0', NULL);
 	result_line = ft_result_line(lst, 0, 0);
 	if (!result_line)
 		return ((char *)ft_lstclear(&lst));
-	ft_check_overtaking(lst, over_buff);
+	ft_check_overtaking(lst, over_buff[fd]);
 	ft_lstclear(&lst);
 	if (ft_strlen(result_line) == 0)
 		return (free(result_line), NULL);
 	return (result_line);
-}
-
-#include <stdio.h>
-
-int main()
-{
-	int fd, saved_stdout;
-    char *line;
-
-    fd = open("file_temp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	
-    saved_stdout = dup(STDOUT_FILENO);	
-	dup2(fd, STDOUT_FILENO);
-	
-    line = get_next_line(STDIN_FILENO);
-	printf("%s\n", line);
-	fflush(stdout); 
-	
-    dup2(saved_stdout, STDOUT_FILENO);
-	
-	free(line);
-    close(fd);
-    close(saved_stdout);
-
-    return 0;
-	
 }
