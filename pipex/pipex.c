@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/08 02:25:28 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/08 07:32:32 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,67 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
     int infile;
     int outfile;
     int last_fd;
+    int heredoc;
     int i;
 
     last_fd = -1;
-    
-    infile = open(argv[1], O_RDONLY);
-    outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT | O_TRUNC);
+    heredoc = 0;
+
+    if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+        heredoc = 1;
+
+    if (heredoc)
+    {
+
+        int fd, saved_stdout;
+        char *line;
+
+        fd = open("file_temp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+        
+        saved_stdout = dup(STDOUT_FILENO);	
+        dup2(fd, STDOUT_FILENO);
+
+        
+        
+        line = get_next_line(STDIN_FILENO);
+        while(line && ft_strncmp(ft_strtrim(line, "\n"), argv[2], ft_strlen(line)) != 0)
+        {
+            write(1, line, ft_strlen(line));
+            line = get_next_line(STDIN_FILENO);
+        }
+        
+        dup2(saved_stdout, STDOUT_FILENO);
+
+        free(line);
+        close(fd);
+        close(saved_stdout);
+
+        infile = open("file_temp.txt", O_RDONLY);
+        outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT);
+    }
+    else
+    {
+        infile = open(argv[1], O_RDONLY);
+        outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT | O_TRUNC);
+    }
 
     i = 0;
+    
+    /*
+    int round;
+    int no_pipe;
+    if (heredoc)
+    {
+        round = 4;
+        no_pipe = 5;
+    }
+    else
+    {
+        round = 3;
+        no_pipe = 4;
+    }
+    */
+    
     while (i < (argc - 3))
     {
         if (i < argc - 4) {
@@ -93,48 +146,28 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
 int main(int argc, char **argv, char **envp)
 {
     char ***cmds;
+    int start;
     int i;
 
-    if (argc != 5)
+    if (argc <= 2)
         return 1;
 
-    i = 2;
+    if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+        start = 3;
+    else
+        start = 2;
+        
+    i = start;
     cmds = malloc((argc + 1) * sizeof(char **));
     while (i < (argc - 1))
     {
-        cmds[i-2] = ft_split(argv[i], ' ');
+        cmds[i-start] = ft_split(argv[i], ' ');
         i++;
     }
     cmds[i-2] = NULL;
-
-    if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
-    {
-        printf("test");
-        get_next_line(1);
-
-        /*
-            int fd, saved_stdout;
-            char *line;
-
-            fd = open("file_temp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
-            
-            saved_stdout = dup(STDOUT_FILENO);	
-            dup2(fd, STDOUT_FILENO);
-            
-            line = get_next_line(STDIN_FILENO);
-            printf("%s\n", line);
-            fflush(stdout); 
-            
-            dup2(saved_stdout, STDOUT_FILENO);
-            
-            free(line);
-            close(fd);
-            close(saved_stdout);
-
-            return 0;
-        */
-    }
+    
     
     exec_cmds(argc, argv, cmds, envp);
+    
     return 0;
 }

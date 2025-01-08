@@ -3,6 +3,7 @@
         "text_encoding": "c",
         "functional": "c",
         "wait.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "cmath": "c"
     }
 }
