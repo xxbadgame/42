@@ -103,6 +103,7 @@ apt-get install -y net-tools
 cd /usr/local/bin/
 monitoring.sh
 
+sudo crontab -u root :-e
 Cron permet d'automatiser des taches en les executant de manière régulière
 * * * * * /chemin/vers/commande
 - - - - -

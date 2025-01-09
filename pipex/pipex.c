@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/08 07:32:32 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/08 13:08:54 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
     int last_fd;
     int heredoc;
     int i;
+    int j;
 
     last_fd = -1;
     heredoc = 0;
@@ -72,7 +73,7 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
         int fd, saved_stdout;
         char *line;
 
-        fd = open("file_temp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+        fd = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
         
         saved_stdout = dup(STDOUT_FILENO);	
         dup2(fd, STDOUT_FILENO);
@@ -92,7 +93,7 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
         close(fd);
         close(saved_stdout);
 
-        infile = open("file_temp.txt", O_RDONLY);
+        infile = open("here_doc", O_RDONLY);
         outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT);
     }
     else
@@ -102,25 +103,13 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
     }
 
     i = 0;
-    
-    /*
-    int round;
-    int no_pipe;
     if (heredoc)
-    {
-        round = 4;
-        no_pipe = 5;
-    }
+        j = 3;
     else
+        j = 2;
+    while (argv[j + 1] != NULL)
     {
-        round = 3;
-        no_pipe = 4;
-    }
-    */
-    
-    while (i < (argc - 3))
-    {
-        if (i < argc - 4) {
+        if (argv[j + 2] != NULL) {
             if (pipe(fd) == -1) {
                 perror("Pipe failed");
                 exit(1);
@@ -129,16 +118,20 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
 
         if (i == 0)
             pipex(infile, fd[1], cmds[i], envp);
-        else if (i == (argc - 4))
+        else if (argv[j + 2] == NULL)
             pipex(last_fd, outfile, cmds[i], envp);
         else
             pipex(last_fd, fd[1], cmds[i], envp);
 
-        if (last_fd != -1) close(last_fd);
-        if (i < argc - 4) close(fd[1]);
+
+        if (last_fd != -1) 
+            close(last_fd);
+        if (i < argc - 4) 
+            close(fd[1]);
         
         last_fd = fd[0];
         
+        j++;
         i++;
     }
 }
