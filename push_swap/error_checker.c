@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:10:58 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/22 12:08:27 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/10 00:29:26 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ int find_str(char *arg, char *str)
     return (0);
 }
 
-void duplicates_error(char **args)
+void duplicates_error(char **args, int split)
 {
     int i;
     int y;
     
-    i = 1;
+    if (split)
+        i = 0;
+    else
+        i = 1;
     while (args[i])
     {
         y = 1 + i;

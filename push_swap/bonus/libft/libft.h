@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_three_bonus.c                                 :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 23:05:39 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/20 21:35:52 by yannis           ###   ########.fr       */
+/*   Created: 2024/11/08 11:37:37 by ynzue-es          #+#    #+#             */
+/*   Updated: 2025/01/10 01:18:58 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../push_swap.h"
+#ifndef LIBFT_H
+# define LIBFT_H
 
-int sort_three(t_stack *stack_a)
-{
-    int ind_big;
-    
-    ind_big = find_max_ind(stack_a);
+# include <stdlib.h>
+# include <unistd.h>
 
-    if (ind_big == stack_a->top)
-        rotate_a(stack_a);
-    else if (ind_big == stack_a->top - 1)
-        reverse_rotate_a(stack_a);
-    if (stack_a->arr[stack_a->top] > stack_a->arr[stack_a->top - 1])
-        swap_a(stack_a);
-}
+
+int		ft_atoi(const char *str);
+int		ft_isdigit(int digit);
+char	**ft_split(char const *s, char c);
+size_t	ft_strlen(const char *str);
+char	*ft_strtrim(char const *s1, char const *set);
+int	    ft_strncmp(const char *s1, const char *s2, size_t n);
+
+#endif

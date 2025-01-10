@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:23:04 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/05 12:23:44 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/10 01:20:05 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include "../libft/libft.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -27,7 +28,6 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-int					ft_strlen(const char *str);
 t_list				*ft_lstnew(char *buff);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 char				*ft_lstclear(t_list **lst);

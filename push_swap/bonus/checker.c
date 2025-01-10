@@ -6,12 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 07:54:02 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/22 12:39:22 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/10 01:27:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "checker.h"
-# include "../push_swap.h"
 
 void display_stacks(t_stack *stack_a, t_stack *stack_b)
 {
@@ -39,27 +38,27 @@ void display_stacks(t_stack *stack_a, t_stack *stack_b)
 void do_rules(char *rule, t_stack *stack_a, t_stack *stack_b)
 {
     ft_strtrim(rule, " \r\n");
-    if (strcmp(rule, "sa") == 0)
+    if (ft_strncmp(rule, "sa", ft_strlen(rule)) == 0)
         swap_a(stack_a);
-    else if (strcmp(rule, "sb") == 0)
+    else if (ft_strncmp(rule, "sb", ft_strlen(rule)) == 0)
         swap_b(stack_b);
-    else if (strcmp(rule, "ss") == 0)
+    else if (ft_strncmp(rule, "ss", ft_strlen(rule)) == 0)
         swap_all(stack_a, stack_b);
-    else if (strcmp(rule, "pa") == 0)
+    else if (ft_strncmp(rule, "pa", ft_strlen(rule)) == 0)
         push_a(stack_a, stack_b);
-    else if(strcmp(rule, "pb") == 0)
+    else if(ft_strncmp(rule, "pb", ft_strlen(rule)) == 0)
         push_b(stack_a, stack_b);
-    else if(strcmp(rule, "ra") == 0)
+    else if(ft_strncmp(rule, "ra", ft_strlen(rule)) == 0)
         rotate_a(stack_a);
-    else if(strcmp(rule, "rb") == 0)
+    else if(ft_strncmp(rule, "rb", ft_strlen(rule)) == 0)
         rotate_b(stack_b);
-    else if(strcmp(rule, "rr") == 0)
+    else if(ft_strncmp(rule, "rr", ft_strlen(rule)) == 0)
         rotate_all(stack_a, stack_b);
-    else if(strcmp(rule, "rra") == 0)
+    else if(ft_strncmp(rule, "rra", ft_strlen(rule)) == 0)
         reverse_rotate_a(stack_a);
-    else if(strcmp(rule, "rrb") == 0)
+    else if(ft_strncmp(rule, "rrb", ft_strlen(rule)) == 0)
         reverse_rotate_b(stack_a);
-    else if(strcmp(rule, "rrr") == 0)
+    else if(ft_strncmp(rule, "rrr", ft_strlen(rule)) == 0)
         reverse_rotate_all(stack_a, stack_b);
 }
 
@@ -81,15 +80,18 @@ int main(int argc, char **argv)
 {
     t_stack stack_a;
     t_stack stack_b;
+    char *line;
     
+    stack_a.arr = malloc(argc * sizeof(int));
+    stack_b.arr = malloc(argc * sizeof(int));
+
     stack_a.top = -1;
     stack_b.top = -1;
-    char *line;
+    
     argc = argc - 1;
     while (argc > 0)
     {
-        stack_a.arr[++stack_a.top] = ft_atoi(argv[argc]);
-        argc--;
+        stack_a.arr[++stack_a.top] = ft_atoi(argv[argc--]);
     }
     display_stacks(&stack_a, &stack_b);
     while ((line = get_next_line(0)) != NULL)

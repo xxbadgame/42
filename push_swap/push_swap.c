@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/22 12:30:16 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/10 00:29:48 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ int len_stack_split(char **spl_str)
     i = 0;
     while (spl_str[i])
         i++;
-    i -= 1;
     return (i);
 }
+
+#include <stdio.h>
 
 void create_stack(int argc, char **argv, char **spl_str, t_stack *stack_a)
 {
     int i;
 
-    if (argc == 0)
-        exit(0);
-    else if (argc == 1)
+    if (argc == 1)
     {
         spl_str = ft_split(argv[1], ' ');
-        duplicates_error(spl_str);
-        i = len_stack_split(spl_str);
+        duplicates_error(spl_str, 1);
+        i = len_stack_split(spl_str) - 1;
+        stack_a->arr = malloc(len_stack_split(spl_str) * sizeof(int));
         while (i >= 0)
         {
             real_number_checker(spl_str[i]);
@@ -95,7 +95,8 @@ void create_stack(int argc, char **argv, char **spl_str, t_stack *stack_a)
     }
     else
     {
-        duplicates_error(argv);
+        duplicates_error(argv, 0);
+        stack_a->arr = malloc(argc * sizeof(int));
         while (argc >= 1)
         {
             real_number_checker(argv[argc]);
@@ -109,10 +110,13 @@ int main(int argc, char **argv)
     t_stack stack_a;
     t_stack stack_b;
     char **spl_str;
+
+    if (argc == 0)
+        exit(0);
     
-    stack_a.arr = malloc(argc * sizeof(int));
     stack_b.arr = malloc(argc * sizeof(int));
     spl_str = NULL;
+    
     stack_a.top = -1;
     stack_b.top = -1;
     argc = argc - 1;

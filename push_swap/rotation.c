@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:00:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/19 15:00:28 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:45:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void complete_rotation_four(t_stack *stack_a)
     } 
     else
     {
-        while (stack_a->top - min_a >= 0)
+        while (stack_a->top - min_a > 0)
         {   
             rotate_a(stack_a);
             min_a++;

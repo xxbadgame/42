@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/21 21:20:20 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/10 00:58:54 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PUSH_SWAP_H
 
 # include <unistd.h>
-#include <stdlib.h>
+# include <stdlib.h>
 # include "libft/libft.h"
 #define MAX_SIZE 1000
 
@@ -58,7 +58,7 @@ void complete_rotation_one(t_stack *stack_a, t_stack *stack_b, int ind_element, 
 void complete_rotation_two(t_stack *stack_a, int ind_target, int target);
 void complete_rotation_three(t_stack *stack_b, int ind_element, int element);
 void complete_rotation_four(t_stack *stack_a);
-void duplicates_error(char **args);
+void duplicates_error(char **args, int split);
 int real_number_checker(char *str);
 
 #endif
