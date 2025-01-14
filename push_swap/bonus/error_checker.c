@@ -6,12 +6,11 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:10:58 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/14 17:09:54 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:05:27 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include <stdio.h>
+#include "checker.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -56,7 +55,9 @@ int	duplicates_error(char **args, int split)
 		while (args[y])
 		{
 			if (find_str(args[i], args[y]) == 1)
+			{
 				return (-1);
+			}
 			y++;
 		}
 		i++;
@@ -74,9 +75,7 @@ int	real_number_checker(char *str)
 		if (str[i] == '-' && ft_isdigit(str[i + 1]))
 			i++;
 		else if (ft_isdigit(str[i]) == 0)
-		{
 			return (-1);
-		}
 		else
 			i++;
 	}

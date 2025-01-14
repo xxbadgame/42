@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:58:38 by ynzue-es          #+#    #+#             */
-/*   Updated: 2024/12/21 18:35:32 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/14 16:50:51 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+long int	ft_atol(const char *str)
 {
-	int 	result;
-	int		sign;
-	int		i;
+	long int	result;
+	long int	sign;
+	long int	i;
 
 	i = 0;
 	sign = 1;
@@ -31,11 +31,6 @@ int	ft_atoi(const char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (result > (__INT_MAX__ - (str[i] - '0')) / 10)
-		{
-			write(2, "Error\n", 6);
-			exit(1);
-		}
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
