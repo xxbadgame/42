@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 07:54:02 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/14 18:10:50 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:46:05 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ void	check_stack_sort(t_stack *stack_a)
 	write(1, "OK", 2);
 }
 
-int	init_stacks(t_stack *stack_a, t_stack *stack_b)
+int	init_stacks(t_stack *stack_a, t_stack *stack_b, int argc)
 {
 	stack_a->top = -1;
 	stack_b->top = -1;
+	stack_b->arr = malloc((argc - 1) * sizeof(int));
+	if (!stack_b->arr)
+		return (-1);
 	return (0);
 }
 
@@ -78,22 +81,23 @@ int	main(int argc, char **argv)
 
 	if (argc == 0)
 		exit(0);
-	init_stacks(&stack_a, &stack_b);
+	init_stacks(&stack_a, &stack_b, argc);
 	spl_str = NULL;
-	stack_b.arr = malloc((argc - 1) * sizeof(int));
-	if (!stack_b.arr)
-		return (-1);
 	if (create_stack(argc - 1, argv, spl_str, &stack_a) == -1)
 	{
 		write(2, "Error\n", 6);
 		free_stacks(&stack_a, &stack_b);
 		exit(1);
 	}
-	while ((line = get_next_line(0)) != NULL)
+	while (1)
 	{
+		line = get_next_line(0);
+		if (line == NULL)
+			break;
 		do_rules(line, &stack_a, &stack_b);
 		free(line);
 	}
 	check_stack_sort(&stack_a);
 	free_stacks(&stack_a, &stack_b);
 }
+
