@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 16:24:26 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/01/14 17:55:09 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:23:37 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,31 @@ int	argc_stack(t_stack *stack_a, char **argv, int argc)
 	return (0);
 }
 
-int	create_stack(int argc, char **argv, char **spl_str, t_stack *stack_a)
+int	create_stack(int argc, char **argv, t_stack *stack_a, t_stack *stack_b)
 {
-	int	len_spl;
-
-	len_spl = 0;
+	char **spl_str;
+	
+	spl_str = NULL;
 	if (argc == 1)
 	{
 		spl_str = ft_split(argv[1], ' ');
-		len_spl = len_stack_split(spl_str) - 1;
 		stack_a->arr = malloc(len_stack_split(spl_str) * sizeof(long int));
 		if (!stack_a->arr)
-			return (-1);
-		if (spl_stack(stack_a, spl_str, len_spl) == -1)
-			return (-1);
-		free(spl_str);
+			return (free_split(spl_str), -1);
+		stack_b->arr = malloc(len_stack_split(spl_str) * sizeof(int));
+		if (!stack_b->arr)
+			return (free_split(spl_str), -1);
+		if (spl_stack(stack_a, spl_str, len_stack_split(spl_str) - 1) == -1)
+			return (free_split(spl_str), -1);
+		free_split(spl_str);
 	}
 	else
 	{
 		stack_a->arr = malloc(argc * sizeof(long int));
 		if (!stack_a->arr)
+			return (-1);
+		stack_b->arr = malloc(argc * sizeof(int));
+		if (!stack_b->arr)
 			return (-1);
 		if (argc_stack(stack_a, argv, argc) == -1)
 			return (-1);

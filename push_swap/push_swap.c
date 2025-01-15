@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:17:17 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/14 17:34:52 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:22:59 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,24 @@ void	turk_sort(t_stack *stack_a, t_stack *stack_b)
 	complete_rotation_four(stack_a);
 }
 
+int	is_sorted(t_stack *stack_a)
+{
+	int	i;
+
+	i = 0;
+	while (i < stack_a->top)
+	{
+		if (stack_a->arr[i] < stack_a->arr[i + 1])
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
 void	push_swap(t_stack *stack_a, t_stack *stack_b)
 {
+	if (is_sorted(stack_a) == 0)
+		return ;
 	push_median_numbers(stack_a, stack_b);
 	sort_three(stack_a);
 	turk_sort(stack_a, stack_b);
@@ -66,18 +82,13 @@ int	main(int argc, char **argv)
 {
 	t_stack	stack_a;
 	t_stack	stack_b;
-	char	**spl_str;
 
 	if (argc == 0)
 		exit(0);
-	stack_b.arr = malloc(argc * sizeof(int));
-	if (!stack_b.arr)
-		return (-1);
-	spl_str = NULL;
 	stack_a.top = -1;
 	stack_b.top = -1;
 	argc = argc - 1;
-	if (create_stack(argc, argv, spl_str, &stack_a) == -1)
+	if (create_stack(argc, argv, &stack_a, &stack_b) == -1)
 	{
 		write(2, "Error\n", 6);
 		free(stack_a.arr);

@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:22:28 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/01/14 16:46:47 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:40:08 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		real_number_checker(char *str);
 int		len_stack_split(char **spl_str);
 int		spl_stack(t_stack *stack_a, char **spl_str, int len_spl);
 int		argc_stack(t_stack *stack_a, char **argv, int argc);
-int		create_stack(int argc, char **argv, char **spl_str, t_stack *stack_a);
+int		create_stack(int argc, char **argv, t_stack *stack_a, t_stack *stack_b);
+void 	free_split(char **spl_str);
 
 #endif

@@ -130,6 +130,7 @@
     "text_encoding": "cpp",
     "checker.h": "c",
     "unistd.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "stdio.h": "c"
   }
 }

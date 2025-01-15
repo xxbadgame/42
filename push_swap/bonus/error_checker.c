@@ -6,11 +6,21 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:10:58 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/14 17:05:27 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:50:49 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
+
+void free_split(char **spl_str)
+{
+	int i;
+	
+	i = 0;
+	while (spl_str[i])
+		free(spl_str[i++]);
+	free(spl_str);
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -72,7 +82,13 @@ int	real_number_checker(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '-' && ft_isdigit(str[i + 1]))
+		if (str[i] == '-' && ft_isdigit(str[i + 1]) && i == 0)
+			i++;
+		else if (str[i] == '+' && ft_isdigit(str[i + 1]) && i == 0)
+			i++;
+		else if (str[i] == '-' && ft_isdigit(str[i + 1]) && str[i - 1] == ' ')
+			i++;
+		else if (str[i] == '+' && ft_isdigit(str[i + 1]) && str[i - 1] == ' ')
 			i++;
 		else if (ft_isdigit(str[i]) == 0)
 			return (-1);
