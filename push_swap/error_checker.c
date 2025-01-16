@@ -6,17 +6,17 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:10:58 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/15 14:18:53 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:06:03 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-void free_split(char **spl_str)
+void	free_split(char **spl_str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (spl_str[i])
 		free(spl_str[i++]);
@@ -83,11 +83,7 @@ int	real_number_checker(char *str)
 	{
 		if (str[i] == '-' && ft_isdigit(str[i + 1]) && i == 0)
 			i++;
-		else if (str[i] == '+' && ft_isdigit(str[i + 1]) && i == 0)
-			i++;
 		else if (str[i] == '-' && ft_isdigit(str[i + 1]) && str[i - 1] == ' ')
-			i++;
-		else if (str[i] == '+' && ft_isdigit(str[i + 1]) && str[i - 1] == ' ')
 			i++;
 		else if (ft_isdigit(str[i]) == 0)
 			return (-1);

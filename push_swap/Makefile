@@ -6,7 +6,7 @@
 #    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/21 15:32:57 by yannis            #+#    #+#              #
-#    Updated: 2025/01/14 16:27:30 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/01/16 15:18:45 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,10 @@ SRCS = 	push_swap.c \
 		libft/ft_strlen.c \
 		libft/ft_isdigit.c \
 		libft/ft_strtrim.c \
-		$(wildcard rules/*.c) 
+		rules/push.c \
+		rules/reverse_rotate.c \
+		rules/rotate.c \
+		rules/swap.c \
 
 OBJS = $(SRCS:.c=.o)
 NAME = push_swap
