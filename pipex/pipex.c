@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/14 20:12:07 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/16 18:20:03 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int pipex(int in_fd, int out_fd, char **cmd, char **envp)
+int pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
 {
     char    *full_path;
     int     pid;
@@ -81,11 +81,11 @@ void run_cmds(char **argv, int argc, int infile, int outfile, char ***cmds, char
             }
         }
         if (i == 0)
-            pipex(infile, fd[1], cmds[i], envp);
+            pipex_base(infile, fd[1], cmds[i], envp);
         else if (argv[j + 2] == NULL)
-            pipex(last_fd, outfile, cmds[i], envp);
+            pipex_base(last_fd, outfile, cmds[i], envp);
         else
-            pipex(last_fd, fd[1], cmds[i], envp);
+            pipex_base(last_fd, fd[1], cmds[i], envp);
         if (last_fd != -1) 
             close(last_fd);
         if (i < argc - 4) 
@@ -101,6 +101,8 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
     int infile;
     int outfile;
     int heredoc;
+    (void)cmds;
+    (void)envp;
     int j;
 
     heredoc = 0;
@@ -119,7 +121,23 @@ void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
         outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT | O_TRUNC);
         j = 2;
     }
-    run_cmds(argv, argc, infile, outfile, cmds, envp, j);
+    //run_cmds(argv, argc, infile, outfile, cmds, envp, j);
+}
+
+# include <stdio.h>
+
+void print_cmd(char **cmd)
+{
+    int i;
+    int y;
+    
+    i = 0;
+    y = 0;
+    while (cmd[i])
+    {
+        printf("elem : %s", cmd[i]);
+        i++;
+    }
 }
 
 int main(int argc, char **argv, char **envp)
@@ -127,15 +145,14 @@ int main(int argc, char **argv, char **envp)
     char ***cmds;
     int start;
     int i;
+    (void)envp;
 
     if (argc <= 2)
         return 1;
-
     if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
         start = 3;
     else
         start = 2;
-        
     i = start;
     cmds = malloc((argc + 1) * sizeof(char **));
     while (i < (argc - 1))
@@ -143,11 +160,9 @@ int main(int argc, char **argv, char **envp)
         cmds[i-start] = ft_split(argv[i], ' ');
         i++;
     }
+    /*
     cmds[i-2] = NULL;
-    
-    
     exec_cmds(argc, argv, cmds, envp);
-
     i = start;
     while (i < (argc - 1))
     {
@@ -155,6 +170,6 @@ int main(int argc, char **argv, char **envp)
         free(cmds);
         i++;
     }
-    
+    */
     return 0;
 }
