@@ -6,11 +6,19 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/16 18:20:03 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:39:36 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void close_fds(int in_fd, int out_fd)
+{
+    if (in_fd != -1) 
+        close(in_fd);
+    if (out_fd != -1) 
+        close(out_fd);
+}
 
 int pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
 {
@@ -35,10 +43,7 @@ int pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
         full_path = ft_path_to_cmd(cmd, envp);
         execve(full_path, cmd, envp);
     }
-    if (in_fd != -1) 
-        close(in_fd);
-    if (out_fd != -1) 
-        close(out_fd);
+    close_fds(in_fd, out_fd);
     waitpid(pid, NULL, 0);
     return 0;
 }
@@ -47,24 +52,40 @@ void heredoc_run(char **argv)
 {
     int fd;
     char *line;
+    char *trim_str;
     int saved_stdout;
     
-    fd = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+    fd = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0777);
     saved_stdout = dup(STDOUT_FILENO);	
     dup2(fd, STDOUT_FILENO);
-    line = get_next_line(STDIN_FILENO);
-    while(line && ft_strncmp(ft_strtrim(line, "\n"), argv[2], ft_strlen(line)) != 0)
+    while(1)
     {
-        write(1, line, ft_strlen(line));
         line = get_next_line(STDIN_FILENO);
+        trim_str = ft_strtrim(line, "\n");
+        if (ft_strncmp(trim_str, argv[2], ft_strlen(line)) == 0)
+            break;
+        write(1, line, ft_strlen(line));
+        free(line);
+        free(trim_str);
     }
     dup2(saved_stdout, STDOUT_FILENO);
     free(line);
+    free(trim_str);
     close(fd);
     close(saved_stdout);
 }
 
-void run_cmds(char **argv, int argc, int infile, int outfile, char ***cmds, char **envp, int j)
+void create_pipe(t_pipex *p_data, int *fd, int j)
+{
+    if (p_data->argv[j + 2] != NULL) {
+        if (pipe(fd) == -1) {
+            perror("Pipe failed");
+            exit(1);
+        }
+    }
+}
+
+void run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j)
 {
     int last_fd;
     int fd[2];
@@ -72,72 +93,76 @@ void run_cmds(char **argv, int argc, int infile, int outfile, char ***cmds, char
     
     last_fd = -1;
     i = 0;
-    while (argv[j + 1] != NULL)
+    while (p_data->argv[++j + 1] != NULL)
     {
-        if (argv[j + 2] != NULL) {
-            if (pipe(fd) == -1) {
-                perror("Pipe failed");
-                exit(1);
-            }
-        }
+        create_pipe(p_data, fd, j);
         if (i == 0)
-            pipex_base(infile, fd[1], cmds[i], envp);
-        else if (argv[j + 2] == NULL)
-            pipex_base(last_fd, outfile, cmds[i], envp);
+            pipex_base(p_data->infile, fd[1], cmds[i], envp);
+        else if (p_data->argv[j + 2] == NULL)
+            pipex_base(last_fd, p_data->outfile, cmds[i], envp);
         else
             pipex_base(last_fd, fd[1], cmds[i], envp);
         if (last_fd != -1) 
             close(last_fd);
-        if (i < argc - 4) 
+        if (i++ < p_data->argc - 4)
             close(fd[1]);
         last_fd = fd[0];
-        j++;
-        i++;
     }
 }
 
-void exec_cmds(int argc, char **argv, char ***cmds, char **envp)
+void exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
 {
-    int infile;
-    int outfile;
     int heredoc;
-    (void)cmds;
     (void)envp;
     int j;
 
     heredoc = 0;
-    if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+    if (ft_strncmp(p_data->argv[1], "here_doc", ft_strlen(p_data->argv[1])) == 0)
         heredoc = 1;
     if (heredoc)
     {
-        heredoc_run(argv);
-        infile = open("here_doc", O_RDONLY);
-        outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT);
+        heredoc_run(p_data->argv);
+        p_data->infile = open("here_doc", O_RDONLY);
+        p_data->outfile = open(p_data->argv[p_data->argc - 1],  O_WRONLY | O_CREAT | O_APPEND, 0777);
         j = 3;
     }
     else
     {
-        infile = open(argv[1], O_RDONLY);
-        outfile = open(argv[argc - 1],  O_WRONLY | O_CREAT | O_TRUNC);
+        p_data->infile = open(p_data->argv[1], O_RDONLY);
+        p_data->outfile = open(p_data->argv[p_data->argc - 1],  O_WRONLY | O_CREAT | O_TRUNC, 0777);
         j = 2;
     }
-    //run_cmds(argv, argc, infile, outfile, cmds, envp, j);
+
+    run_cmds(p_data, cmds, envp, j - 1);
 }
 
-# include <stdio.h>
+int free_split(char **str_spl)
+{
+   int i;
 
-void print_cmd(char **cmd)
+   i = 0;
+   while (str_spl[i])
+        free(str_spl[i++]);
+    return 0;
+}
+
+int free_cmds(int start, int argc, char ***cmds)
 {
     int i;
     int y;
     
-    i = 0;
+    i = start;
     y = 0;
-    while (cmd[i])
+    while (i < argc)
     {
-        printf("elem : %s", cmd[i]);
+        y = 0;
+        while (cmds[i-start][y])
+            free(cmds[i-start][y++]);
+        free(cmds[i-start]);
         i++;
     }
+    free(cmds);
+    return 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -145,31 +170,23 @@ int main(int argc, char **argv, char **envp)
     char ***cmds;
     int start;
     int i;
+    t_pipex p_data;
     (void)envp;
 
-    if (argc <= 2)
+    p_data.argc = argc;
+    p_data.argv = argv;
+    if (p_data.argc <= 2)
         return 1;
-    if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+    if (ft_strncmp(p_data.argv[1], "here_doc", ft_strlen(p_data.argv[1])) == 0)
         start = 3;
     else
         start = 2;
-    i = start;
-    cmds = malloc((argc + 1) * sizeof(char **));
-    while (i < (argc - 1))
-    {
-        cmds[i-start] = ft_split(argv[i], ' ');
-        i++;
-    }
-    /*
-    cmds[i-2] = NULL;
-    exec_cmds(argc, argv, cmds, envp);
-    i = start;
-    while (i < (argc - 1))
-    {
-        free(cmds[i-start]);
-        free(cmds);
-        i++;
-    }
-    */
+    i = start - 1;
+    cmds = malloc((p_data.argc + 1) * sizeof(char **));
+    while (++i < p_data.argc)
+        cmds[i-start] = ft_split(p_data.argv[i], ' ');
+    cmds[i-start] = NULL;
+    exec_cmds(&p_data, cmds, envp);
+    free_cmds(start, argc, cmds);
     return 0;
 }
