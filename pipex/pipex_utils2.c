@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 09:56:32 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 10:41:24 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:49:28 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "pipex.h"
+#include "pipex.h"
 
 int	free_split(char **str_spl)
 {
@@ -19,7 +19,7 @@ int	free_split(char **str_spl)
 	i = 0;
 	while (str_spl[i])
 		free(str_spl[i++]);
-    free(str_spl);
+	free(str_spl);
 	return (0);
 }
 
@@ -42,11 +42,11 @@ int	free_cmds(int start, int argc, char ***cmds)
 	return (0);
 }
 
-void	create_pipe(t_pipex *p_data, int *fd, int j)
+void	create_pipe(t_pipex *p_data, t_cmd *cmd)
 {
-	if (p_data->argv[j + 2] != NULL)
+	if (p_data->argv[cmd->j + 2] != NULL)
 	{
-		if (pipe(fd) == -1)
+		if (pipe(cmd->fd) == -1)
 		{
 			perror("Pipe failed");
 			exit(1);

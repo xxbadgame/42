@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 13:45:16 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:50:38 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,10 @@ int	pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
 	if (pid == 0)
 	{
 		if (in_fd != -1)
-		{
 			dup2(in_fd, STDIN_FILENO);
-			close(in_fd);
-		}
 		if (out_fd != -1)
-		{
 			dup2(out_fd, STDOUT_FILENO);
-			close(out_fd);
-		}
+		close_fds(in_fd, out_fd);
 		full_path = ft_path_to_cmd(cmd, envp);
 		if (full_path == NULL)
 			return (-1);
@@ -70,54 +65,6 @@ void	heredoc_run(char **argv)
 	close(pipe_fd[0]);
 }
 
-int	run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j)
-{
-	int	last_fd;
-	int	fd[2];
-	int	i;
-
-	last_fd = -1;
-	i = 0;
-	while (p_data->argv[++j + 1] != NULL)
-	{
-		create_pipe(p_data, fd, j);
-		if (i == 0)
-		{
-			if (pipex_base(p_data->infile, fd[1], cmds[i], envp) == -1)
-			{
-				close(fd[1]);
-				return (-1);
-			}
-		}
-		else if (p_data->argv[j + 2] == NULL)
-		{
-			if (pipex_base(last_fd, p_data->outfile, cmds[i], envp) == -1)
-			{
-				close(last_fd);
-				return (-1);
-			}
-		}
-		else
-		{
-			if (pipex_base(last_fd, fd[1], cmds[i], envp) == -1)
-			{
-				close(last_fd);
-				close(fd[1]);
-				return (-1);
-			}
-		}
-		if (last_fd != -1)
-			close(last_fd);
-		if (i++ < p_data->argc - 4)
-			close(fd[1]);
-		last_fd = dup(fd[0]);
-		close(fd[0]);
-	}
-	if (last_fd != -1)
-		close(last_fd);
-	return (0);
-}
-
 void	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
 {
 	int	heredoc;
@@ -143,14 +90,14 @@ void	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
 			close_fds(p_data->infile, p_data->outfile);
 		}
 		else
-			perror("File not found");    
+			perror("File not found");
 	}
 }
 
-int check_start_args(int argc, char **argv)
+int	check_start_args(int argc, char **argv)
 {
-	int		start;
-	
+	int	start;
+
 	if (argc < 5)
 	{
 		write(2, "Format error : infile cmd1 cmd2 outfile\n", 41);
@@ -160,7 +107,7 @@ int check_start_args(int argc, char **argv)
 		start = 3;
 	else
 		start = 2;
-	return start;
+	return (start);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -172,14 +119,11 @@ int	main(int argc, char **argv, char **envp)
 
 	p_data.argc = argc;
 	p_data.argv = argv;
-		
 	start = check_start_args(p_data.argc, p_data.argv);
-	i = start - 1; 
-	
+	i = start - 1;
 	cmds = malloc((p_data.argc + 1) * sizeof(char **));
 	if (!cmds)
 		return (-1);
-
 	while (++i < p_data.argc)
 		cmds[i - start] = ft_split(p_data.argv[i], ' ');
 	cmds[i - start] = NULL;

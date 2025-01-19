@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:50:30 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 10:01:09 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:47:20 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,23 @@ typedef struct s_pipex
 	char	**argv;
 }			t_pipex;
 
+typedef struct s_cmd
+{
+	int		i;
+	int		j;
+	int		last_fd;
+	int		fd[2];
+}			t_cmd;
+
 char		*ft_getenv(char *var_name, char *envp[]);
 char		*ft_path_to_cmd(char **cmd, char *envp[]);
 void		heredoc_fds(t_pipex *p_data);
 void		heredoc_run(char **argv);
-void 		close_fds(int in_fd, int out_fd);
-void		create_pipe(t_pipex *p_data, int *fd, int j);
+void		close_fds(int in_fd, int out_fd);
+void		create_pipe(t_pipex *p_data, t_cmd *cmd);
 int			free_cmds(int start, int argc, char ***cmds);
 int			free_split(char **str_spl);
+int			run_cmd(t_pipex *p_data, t_cmd *cmd, char ***cmds, char **envp);
+int			run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j);
 
 #endif
