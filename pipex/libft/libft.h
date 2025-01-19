@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 11:37:37 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/01/08 01:35:38 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 09:22:25 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
 
 char	*ft_itoa(int n);
 int		ft_atoi(const char *str);
