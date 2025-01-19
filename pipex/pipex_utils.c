@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:09:06 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 15:47:45 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:07:42 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,36 @@ char	*ft_getenv(char *var_name, char *envp[])
 		i++;
 	}
 	return (NULL);
+}
+
+int	free_split(char **str_spl)
+{
+	int	i;
+
+	i = 0;
+	while (str_spl[i])
+		free(str_spl[i++]);
+	free(str_spl);
+	return (0);
+}
+
+int	free_cmds(int start, int argc, char ***cmds)
+{
+	int	i;
+	int	y;
+
+	i = start;
+	y = 0;
+	while (i < argc)
+	{
+		y = 0;
+		while (cmds[i - start][y])
+			free(cmds[i - start][y++]);
+		free(cmds[i - start]);
+		i++;
+	}
+	free(cmds);
+	return (0);
 }
 
 void	all_free_path(char **all_path_str, char **all_path_unit)
@@ -63,6 +93,5 @@ char	*ft_path_to_cmd(char **cmd, char *envp[])
 			return (all_free_path(all_path_str, all_path_unit), full_path);
 		free(full_path);
 	}
-	write(2, "Command not found\n", 19);
 	return (all_free_path(all_path_str, all_path_unit), NULL);
 }

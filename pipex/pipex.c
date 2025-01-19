@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 15:50:38 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:31:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ int	pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
 			dup2(out_fd, STDOUT_FILENO);
 		close_fds(in_fd, out_fd);
 		full_path = ft_path_to_cmd(cmd, envp);
-		if (full_path == NULL)
-			return (-1);
-		execve(full_path, cmd, envp);
+		if (execve(full_path, cmd, envp) == -1)
+		{
+            perror("Error executing command");
+            exit(1);
+        }
 	}
 	close_fds(in_fd, out_fd);
 	waitpid(pid, NULL, 0);
@@ -65,7 +67,7 @@ void	heredoc_run(char **argv)
 	close(pipe_fd[0]);
 }
 
-void	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
+int	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
 {
 	int	heredoc;
 
@@ -75,23 +77,20 @@ void	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
 		heredoc = 1;
 	if (heredoc)
 	{
-		heredoc_fds(p_data);
-		run_cmds(p_data, cmds, envp, 2);
-		close_fds(p_data->infile, p_data->outfile);
+		if (heredoc_fds(p_data, cmds, envp) == -1)
+			return (-1);
 	}
 	else
 	{
 		if (access(p_data->argv[1], F_OK) == 0)
 		{
-			p_data->infile = open(p_data->argv[1], O_RDONLY);
-			p_data->outfile = open(p_data->argv[p_data->argc - 1],
-					O_WRONLY | O_CREAT | O_TRUNC, 0777);
-			run_cmds(p_data, cmds, envp, 1);
-			close_fds(p_data->infile, p_data->outfile);
+			if (no_heredoc_fds(p_data, cmds, envp) == -1)
+				return (-1);
 		}
 		else
 			perror("File not found");
 	}
+	return (0);
 }
 
 int	check_start_args(int argc, char **argv)

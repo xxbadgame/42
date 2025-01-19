@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:46:12 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 15:51:15 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:15:47 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	run_cmd(t_pipex *p_data, t_cmd *cmd, char ***cmds, char **envp)
 	}
 	else
 	{
-		if (pipex_base(cmd->last_fd, cmd->fd[1], cmds[cmd->i], envp) == -1)
+		if (pipex_base(cmd->last_fd, cmd->fd[1], cmds[cmd->i], envp) == -1)	
 			return (close(cmd->last_fd), close(cmd->fd[1]), -1);
 	}
 	return (0);
@@ -42,7 +42,7 @@ int	run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j)
 	while (p_data->argv[++cmd.j + 1] != NULL)
 	{
 		create_pipe(p_data, &cmd);
-		if (run_cmd(p_data, &cmd, cmds, envp))
+		if (run_cmd(p_data, &cmd, cmds, envp) == -1)
 			return (-1);
 		if (cmd.last_fd != -1)
 			close(cmd.last_fd);

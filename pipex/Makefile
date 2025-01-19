@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/01 22:58:20 by yannis            #+#    #+#              #
-#    Updated: 2025/01/19 09:59:14 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/19 16:00:05 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ AR = ar rcs
 SRCS = 	pipex.c \
 		pipex_utils.c \
 		pipex_utils2.c \
+		pipex_cmds.c \
 		libft/ft_strlcat.c \
 		libft/ft_strlcpy.c \
 		libft/ft_strlen.c \
