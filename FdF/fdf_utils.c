@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 10:38:26 by yannis            #+#    #+#             */
-/*   Updated: 2024/12/24 10:52:49 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 20:52:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,9 @@ long int str_to_hexa(char *str)
 		i++;
 	}
     return (result);
+}
+
+int ft_abs(int nb)
+{
+	return ((nb > 0) * nb + (nb < 0) * -nb);
 }

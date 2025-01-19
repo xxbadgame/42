@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 20:48:02 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 21:09:14 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,10 @@ typedef struct	s_data {
     void    *mlx_win;
 	int		width;
 	int		height;
-	int 	zoom_level;
 	int		altitude;
 	int		total_line;
 	int 	total_column;
 	char 	*filename;
-	int     mouse_pressed;
-	int		x_grab;
-	int		y_grab;
-	double  angle_x;
-    double  angle_y;
 }				t_data_img;
 
 
@@ -44,11 +38,6 @@ void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
-}
-
-int ft_abs(int nb)
-{
-	return ((nb > 0) * nb + (nb < 0) * -nb);
 }
 
 void segment_plot(int x1, int y1, int x2, int y2, t_data_img *img, int color)
@@ -109,7 +98,7 @@ void segment_plot(int x1, int y1, int x2, int y2, t_data_img *img, int color)
 void iso_projection(int x, int y, int z, int *iso_x, int *iso_y)
 {
     *iso_x = 0.866 * (x - y);
-    *iso_y = 0.5 * (x + y) - z;
+    *iso_y = 0.52 * (x + y) - z;
 }
 
 int size_parsing(char *filename, t_data_img *img)
@@ -142,8 +131,6 @@ int size_parsing(char *filename, t_data_img *img)
 	return (0);
 }
 
-
-
 void draw_image(t_data_img *img, char *filename)
 {
 	int fd;
@@ -154,7 +141,7 @@ void draw_image(t_data_img *img, char *filename)
 	long int color;
     int x, y, z;
     int iso_x, iso_y, iso_x_next, iso_y_next;
-    int d_px = 5 * img->zoom_level;
+    int d_px = 30;
     int offset_x = (img->width / 2);
     int offset_y = ((img->height - (img->total_line * d_px)) / 2);
 
@@ -193,13 +180,13 @@ void draw_image(t_data_img *img, char *filename)
 
             if (split_line[x + 1] != NULL)
             {
-                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]) + img->zoom_level, &iso_x_next, &iso_y_next);
+                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]), &iso_x_next, &iso_y_next);
                 segment_plot(iso_x + offset_x, iso_y + offset_y, iso_x_next + offset_x , iso_y_next + offset_y , img, color);
 			}
             if (next_line != NULL)
             {
                 next_split = ft_split(next_line, ' ');
-                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]) + img->zoom_level, &iso_x_next, &iso_y_next);
+                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]), &iso_x_next, &iso_y_next);
                 segment_plot(iso_x + offset_x, iso_y + offset_y, iso_x_next + offset_x , iso_y_next + offset_y , img, color);
             }
             x++;
@@ -243,12 +230,7 @@ int	main(void)
 	t_data_img	img;
 	
 	img.filename = "test_maps/42.fdf";
-	img.zoom_level = 1;
 	img.altitude = 1;
-	img.x_grab = 0;
-	img.y_grab = 0;
-	img.angle_x = 0.0;
-    img.angle_y = 0.0;
 	height = 1000;
 	width = 1000;
 	img.mlx = mlx_init();
@@ -257,11 +239,8 @@ int	main(void)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 	img.width = width;
 	img.height = height;
-
 	parse_line_to_pixels(img.filename, &img);
-
 	mlx_hook(img.mlx_win, 17, 0, close_window, NULL);
 	mlx_hook(img.mlx_win, 2, 1L<<0, close_window_escape, NULL);
-	
 	mlx_loop(img.mlx);
 }
