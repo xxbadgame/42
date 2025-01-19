@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2024/12/24 14:20:03 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/19 20:33:23 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS) $(MLX)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lmlx -lX11 -lXext -lm
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) minilibx/libmlx.a -L/usr/lib -lX11 -lXext -lm
 
 %.o : %.C
 	$(CC) $(CFLAGS) -c $< -o $@
