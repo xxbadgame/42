@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 17:31:07 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:52:50 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ int	pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
 			dup2(out_fd, STDOUT_FILENO);
 		close_fds(in_fd, out_fd);
 		full_path = ft_path_to_cmd(cmd, envp);
+		if (full_path == NULL)
+			return (perror("Error executing command"), -1);
 		if (execve(full_path, cmd, envp) == -1)
-		{
-            perror("Error executing command");
-            exit(1);
-        }
+			return (perror("Error executing command"), -1);
 	}
 	close_fds(in_fd, out_fd);
 	waitpid(pid, NULL, 0);
