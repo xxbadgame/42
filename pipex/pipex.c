@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/20 16:09:35 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:33:54 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	check_start_args(int argc, char **argv)
 	&& (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0)
 			&& (ft_strlen("here_doc") == ft_strlen(argv[1]))))
 	{
-		ft_putendl_fd("Format pipe error", 2);
+		ft_putendl_fd("Format error", 2);
 		exit(1);
 	}
 	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)

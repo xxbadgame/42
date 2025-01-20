@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:46:12 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/20 17:45:44 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:32:44 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_getenv(char *var_name, char *envp[])
 	return (NULL);
 }
 
-void create_path(char	**all_path_unit, char	**all_path_str, char **cmd, int i)
+char *create_path(char	**all_path_unit, char	**all_path_str, char **cmd, int i)
 {
 	int		size_path;
 	char	*full_path;
@@ -48,6 +48,7 @@ void create_path(char	**all_path_unit, char	**all_path_str, char **cmd, int i)
 	if (access(full_path, X_OK) == 0)
 		return (all_free_path(all_path_str, all_path_unit), full_path);
 	free(full_path);
+	return NULL;
 }
 
 char	*ft_path_to_cmd(char **cmd, char *envp[])
@@ -64,7 +65,7 @@ char	*ft_path_to_cmd(char **cmd, char *envp[])
 	if (!all_path_unit)
 		return (free(all_path_str), NULL);
 	while (all_path_unit[i] != NULL)
-		create_path(all_path_unit[i], all_path_str, cmd, i);
+		create_path(all_path_unit, all_path_str, cmd, i);
 	return (all_free_path(all_path_str, all_path_unit), NULL);
 }
 
