@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/01 22:58:20 by yannis            #+#    #+#              #
-#    Updated: 2025/01/19 16:00:05 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/20 16:07:07 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ CFLAGS = -Wall -Werror -Wextra
 AR = ar rcs
 
 SRCS = 	pipex.c \
-		pipex_utils.c \
-		pipex_utils2.c \
+		pipex_free.c \
+		pipex_fds.c \
 		pipex_cmds.c \
 		libft/ft_strlcat.c \
 		libft/ft_strlcpy.c \
@@ -27,16 +27,19 @@ SRCS = 	pipex.c \
 		libft/ft_strncmp.c \
 		libft/ft_strtrim.c \
 		libft/ft_strdup.c \
+		libft/ft_putendl_fd.c \
+		libft/ft_putchar_fd.c \
 		get_next_line/get_next_line.c \
 		get_next_line/get_next_line_utils.c \
 
-OBJS = $(SRCS:.o=.c)
+OBJS = $(SRCS:.c=.o)
+HEADER = pipex.h
 RM = rm -f
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -I$(HEADER)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

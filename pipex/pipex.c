@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:13:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 17:52:50 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/20 16:09:35 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,31 @@ int	pipex_base(int in_fd, int out_fd, char **cmd, char **envp)
 	if (pid == 0)
 	{
 		if (in_fd != -1)
-			dup2(in_fd, STDIN_FILENO);
+			if (dup2(in_fd, STDIN_FILENO) == -1)
+				return (-1);
 		if (out_fd != -1)
-			dup2(out_fd, STDOUT_FILENO);
+			if (dup2(out_fd, STDOUT_FILENO) == -1)
+				return (-1);
 		close_fds(in_fd, out_fd);
 		full_path = ft_path_to_cmd(cmd, envp);
 		if (full_path == NULL)
-			return (perror("Error executing command"), -1);
+			return (ft_putendl_fd("Command not found", 2), -1);
 		if (execve(full_path, cmd, envp) == -1)
-			return (perror("Error executing command"), -1);
+			return (ft_putendl_fd("Command not found", 2), -1);
 	}
 	close_fds(in_fd, out_fd);
 	waitpid(pid, NULL, 0);
 	return (0);
 }
 
-void	heredoc_run(char **argv)
+int	heredoc_run(char **argv)
 {
 	int		pipe_fd[2];
 	char	*line;
 	char	*trim_str;
 
 	if (pipe(pipe_fd) < 0)
-		exit(1);
+		return (-1);
 	while (1)
 	{
 		write(STDOUT_FILENO, "> ", 2);
@@ -62,8 +64,9 @@ void	heredoc_run(char **argv)
 		free(trim_str);
 	}
 	close(pipe_fd[1]);
-	dup2(pipe_fd[0], STDIN_FILENO);
-	close(pipe_fd[0]);
+	if (dup2(pipe_fd[0], STDIN_FILENO))
+		return (-1);
+	return (close(pipe_fd[0]));
 }
 
 int	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
@@ -87,7 +90,7 @@ int	exec_cmds(t_pipex *p_data, char ***cmds, char **envp)
 				return (-1);
 		}
 		else
-			perror("File not found");
+			ft_putendl_fd("File not found", 2);
 	}
 	return (0);
 }
@@ -96,9 +99,12 @@ int	check_start_args(int argc, char **argv)
 {
 	int	start;
 
-	if (argc < 5)
+	if ((argc < 5) 
+	|| ((argc < 6) 
+	&& (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0)
+			&& (ft_strlen("here_doc") == ft_strlen(argv[1]))))
 	{
-		write(2, "Format error : infile cmd1 cmd2 outfile\n", 41);
+		ft_putendl_fd("Format pipe error", 2);
 		exit(1);
 	}
 	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)

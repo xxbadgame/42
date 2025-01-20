@@ -1,11 +1,4 @@
 {
-  "files.associations": {
-    "text_encoding": "c",
-    "functional": "c",
-    "wait.h": "c",
-    "string.h": "c",
-    "cmath": "c"
-  },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",
