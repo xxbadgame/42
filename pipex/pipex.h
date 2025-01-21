@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 22:50:30 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/20 16:10:31 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:56:04 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int			run_cmd(t_pipex *p_data, t_cmd *cmd, char ***cmds, char **envp);
 int			run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j);
 int			pipex_base(int in_fd, int out_fd, char **cmd, char **envp);
 void		all_free_path(char **all_path_str, char **all_path_unit);
+int			check_dup_fds(int in_fd, int out_fd);
 
 #endif

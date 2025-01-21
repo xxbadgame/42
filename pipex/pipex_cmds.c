@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:46:12 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/20 18:32:44 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:45:31 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	*ft_getenv(char *var_name, char *envp[])
 	return (NULL);
 }
 
-char *create_path(char	**all_path_unit, char	**all_path_str, char **cmd, int i)
+char	*create_path(char **all_path_unit, char **all_path_str, char **cmd,
+		int i)
 {
 	int		size_path;
 	char	*full_path;
@@ -41,23 +42,23 @@ char *create_path(char	**all_path_unit, char	**all_path_str, char **cmd, int i)
 	full_path = malloc(size_path);
 	if (!full_path)
 		return (all_free_path(all_path_str, all_path_unit), NULL);
-	ft_strlcpy(full_path, all_path_unit[i], ft_strlen(all_path_unit[i])
-		+ 1);
+	ft_strlcpy(full_path, all_path_unit[i], ft_strlen(all_path_unit[i]) + 1);
 	ft_strlcat(full_path, "/", ft_strlen(all_path_unit[i++]) + 2);
 	ft_strlcat(full_path, cmd[0], size_path);
-	if (access(full_path, X_OK) == 0)
-		return (all_free_path(all_path_str, all_path_unit), full_path);
-	free(full_path);
-	return NULL;
+	return (full_path);
 }
 
-char	*ft_path_to_cmd(char **cmd, char *envp[])
+char	*ft_path_to_cmd(char **cmd, char **envp)
 {
 	char	**all_path_str;
 	char	**all_path_unit;
+	char	*full_path;
 	int		i;
 
+	(void)envp;
 	i = 0;
+	if (!cmd[0])
+		return (NULL);
 	all_path_str = ft_split(ft_getenv("PATH", envp), '=');
 	if (!all_path_str)
 		return (NULL);
@@ -65,7 +66,12 @@ char	*ft_path_to_cmd(char **cmd, char *envp[])
 	if (!all_path_unit)
 		return (free(all_path_str), NULL);
 	while (all_path_unit[i] != NULL)
-		create_path(all_path_unit, all_path_str, cmd, i);
+	{
+		full_path = create_path(all_path_unit, all_path_str, cmd, i++);
+		if (access(full_path, F_OK | X_OK) == 0)
+			return (all_free_path(all_path_str, all_path_unit), full_path);
+		free(full_path);
+	}
 	return (all_free_path(all_path_str, all_path_unit), NULL);
 }
 
@@ -98,7 +104,8 @@ int	run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j)
 	cmd.j = j;
 	while (p_data->argv[++cmd.j + 1] != NULL)
 	{
-		create_pipe(p_data, &cmd);
+		if (create_pipe(p_data, &cmd) == -1)
+			return (-1);
 		if (run_cmd(p_data, &cmd, cmds, envp) == -1)
 			return (-1);
 		if (cmd.last_fd != -1)
@@ -106,9 +113,8 @@ int	run_cmds(t_pipex *p_data, char ***cmds, char **envp, int j)
 		if (cmd.i++ < p_data->argc - 4)
 			close(cmd.fd[1]);
 		cmd.last_fd = dup(cmd.fd[0]);
-		if (cmd.last_fd == -1)
-			return (-1);
-		close(cmd.fd[0]);
+		if (cmd.last_fd == -1 && p_data->argv[++cmd.j + 2] != NULL)
+			close(cmd.fd[0]);
 	}
 	if (cmd.last_fd != -1)
 		close(cmd.last_fd);
