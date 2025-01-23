@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/23 15:16:37 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:30:59 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ void draw_image(t_data_img *img, char *filename)
 				z = ft_atoi(split_line[x]) + img->altitude;
 				color = 0xFFFFFF;
 			}
+			else
 			{
 				z = ft_atoi(split_line[x]);
 				color = 0xFFFFFF;
