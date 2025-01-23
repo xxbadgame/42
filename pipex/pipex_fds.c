@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 09:56:32 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/21 17:58:00 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:43:31 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	heredoc_fds(t_pipex *p_data, char ***cmds, char **envp)
 		return (close(stdin_backup), -1);
 	p_data->infile = dup(STDIN_FILENO);
 	if (p_data->infile == -1)
-		return (ft_putendl_fd("error file", 2), close(stdin_backup), -1);
+		return (perror("error file :"), close(stdin_backup), -1);
 	p_data->outfile = open(p_data->argv[p_data->argc - 1],
 			O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (p_data->outfile == -1)
-		return (ft_putendl_fd("error file", 2), close(stdin_backup),
+		return (perror("error file :"), close(stdin_backup),
 			close(p_data->infile), -1);
 	if (dup2(stdin_backup, STDIN_FILENO) == -1)
 		return (close_fds(p_data->infile, p_data->outfile), -1);

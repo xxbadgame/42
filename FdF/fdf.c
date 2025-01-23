@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/19 21:09:14 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:16:37 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,16 @@ void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 	}
 }
 
-void segment_plot(int x1, int y1, int x2, int y2, t_data_img *img, int color)
+
+typedef struct s_segment_points
+{
+	int x1;
+	int x2;
+	int y1;
+	int y2;
+} t_segment_points ;
+
+void segment_plot(t_segment_points *seg_points, t_data_img *img, int color)
 {
 	int delta_x;
 	int delta_y;
@@ -50,25 +59,25 @@ void segment_plot(int x1, int y1, int x2, int y2, t_data_img *img, int color)
 	int y;
 	int decision;
 
-	delta_x = ft_abs(x2 - x1);
-	delta_y = ft_abs(y2 - y1);
+	delta_x = ft_abs(seg_points->x2 - seg_points->x1);
+	delta_y = ft_abs(seg_points->y2 - seg_points->y1);
 
-	if (x2 > x1)
+	if (seg_points->x2 > seg_points->x1)
 		sign_x = 1;
 	else
 		sign_x = -1;
-	if (y2 > y1)
+	if (seg_points->y2 > seg_points->y1)
 		sign_y = 1;
 	else
 		sign_y = -1;
 
 	decision = 2 * delta_y - delta_x;
-	x = x1;
-	y = y1;
+	x = seg_points->x1;
+	y = seg_points->y1;
 
 	if (delta_x > delta_y) 
 	{	
-		while (x != x2)
+		while (x != seg_points->x2)
 		{
 			my_mlx_pixel_put(img, x, y, color);
 			if (decision >= 0)
@@ -82,7 +91,7 @@ void segment_plot(int x1, int y1, int x2, int y2, t_data_img *img, int color)
 	}
 	else 
 	{
-		while (y != y2)
+		while (y != seg_points->y2)
 		{
 			my_mlx_pixel_put(img, x, y, color);
 			if (decision >= 0)
@@ -131,6 +140,16 @@ int size_parsing(char *filename, t_data_img *img)
 	return (0);
 }
 
+typedef struct s_iso_segment_points
+{
+	int iso_x;
+	int iso_y;
+	int iso_x_next;
+	int iso_y_next;
+} t_iso_segment_points;
+
+
+
 void draw_image(t_data_img *img, char *filename)
 {
 	int fd;
@@ -140,10 +159,11 @@ void draw_image(t_data_img *img, char *filename)
 	char **next_split;
 	long int color;
     int x, y, z;
-    int iso_x, iso_y, iso_x_next, iso_y_next;
     int d_px = 30;
     int offset_x = (img->width / 2);
     int offset_y = ((img->height - (img->total_line * d_px)) / 2);
+	t_segment_points seg_points;
+	t_iso_segment_points iso_seg_points;
 
 	fd = open(filename, O_RDONLY);
     mlx_destroy_image(img->mlx, img->img);
@@ -170,24 +190,31 @@ void draw_image(t_data_img *img, char *filename)
 				z = ft_atoi(split_line[x]) + img->altitude;
 				color = 0xFFFFFF;
 			}
-			else
 			{
 				z = ft_atoi(split_line[x]);
 				color = 0xFFFFFF;
 			}            	
 								
-			iso_projection(x * d_px, y * d_px, z, &iso_x, &iso_y);	
+			iso_projection(x * d_px, y * d_px, z, &iso_seg_points.iso_x, &iso_seg_points.iso_y);	
 
             if (split_line[x + 1] != NULL)
             {
-                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]), &iso_x_next, &iso_y_next);
-                segment_plot(iso_x + offset_x, iso_y + offset_y, iso_x_next + offset_x , iso_y_next + offset_y , img, color);
+                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]), &iso_seg_points.iso_x_next, &iso_seg_points.iso_y_next);
+				seg_points.x1 = iso_seg_points.iso_x + offset_x;
+				seg_points.y1 = iso_seg_points.iso_y + offset_y;
+				seg_points.x2 = iso_seg_points.iso_x_next + offset_x;
+				seg_points.y2 = iso_seg_points.iso_y_next + offset_y;
+                segment_plot(&seg_points, img, color);
 			}
             if (next_line != NULL)
             {
                 next_split = ft_split(next_line, ' ');
-                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]), &iso_x_next, &iso_y_next);
-                segment_plot(iso_x + offset_x, iso_y + offset_y, iso_x_next + offset_x , iso_y_next + offset_y , img, color);
+                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]), &iso_seg_points.iso_x_next, &iso_seg_points.iso_y_next);
+                seg_points.x1 = iso_seg_points.iso_x + offset_x;
+				seg_points.y1 = iso_seg_points.iso_y + offset_y;
+				seg_points.x2 = iso_seg_points.iso_x_next + offset_x;
+				seg_points.y2 = iso_seg_points.iso_y_next + offset_y;
+                segment_plot(&seg_points, img, color);
             }
             x++;
         }
@@ -197,7 +224,6 @@ void draw_image(t_data_img *img, char *filename)
         y++;
     }
     mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
-
 	close(fd);
 }
 

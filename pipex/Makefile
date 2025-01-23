@@ -6,7 +6,7 @@
 #    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/01 22:58:20 by yannis            #+#    #+#              #
-#    Updated: 2025/01/20 16:07:07 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/01/23 12:31:48 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME = pipex
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-AR = ar rcs
 
 SRCS = 	pipex.c \
 		pipex_free.c \
@@ -41,7 +40,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -I$(HEADER)
 
-%.o: %.c
+%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
