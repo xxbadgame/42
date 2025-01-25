@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/23 15:30:59 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/25 22:35:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 		*(unsigned int *)dst = color;
 	}
 }
-
 
 typedef struct s_segment_points
 {
@@ -104,6 +103,7 @@ void segment_plot(t_segment_points *seg_points, t_data_img *img, int color)
 		}
 	}
 }
+
 void iso_projection(int x, int y, int z, int *iso_x, int *iso_y)
 {
     *iso_x = 0.866 * (x - y);
@@ -120,10 +120,7 @@ int size_parsing(char *filename, t_data_img *img)
 
 	fd = open(filename, O_RDONLY);
     if (fd < 0)
-    {
-        perror("Error opening file");
-        return (-1);
-    }
+		return (perror("Error opening file"), -1);
 	while ((line = get_next_line(fd)))
 	{	
 		if (img->total_column == 0)
@@ -136,94 +133,121 @@ int size_parsing(char *filename, t_data_img *img)
 		img->total_line++;
 		free(line);
 	}
-	close(fd);
-	return (0);
+	return (close(fd), 0);
 }
 
-typedef struct s_iso_segment_points
+
+int calc_z(char *line_element, t_data_img *img, long int *color)
 {
+	int index_comma;
+	
+	if (ft_strchr(line_element, ',') != NULL)
+	{
+		index_comma = ft_strchr(line_element, ',') - line_element;
+		*color = str_to_hexa(ft_substr(line_element, index_comma + 1, ft_strlen(line_element)));
+		return ft_atoi(ft_substr(line_element, 0, index_comma)) + img->altitude;
+	}
+	else if (ft_atoi(line_element) > 0 && ft_strchr(line_element, ',') == NULL)
+	{
+		*color = 0xFFFFFF;
+		return ft_atoi(line_element) + img->altitude;
+	}
+	else
+	{
+		*color = 0xFFFFFF;
+		return ft_atoi(line_element);
+	}
+}
+
+typedef struct s_data_points
+{
+	int x;
+	int y;
+	int z;
 	int iso_x;
 	int iso_y;
 	int iso_x_next;
 	int iso_y_next;
-} t_iso_segment_points;
+	int offset_x;
+	int offset_y;
+	int d_px;
+	long int color;
+} t_data_points;
 
+void offset_points(t_segment_points *seg_points, t_data_points *data_points)
+{
+	seg_points->x1 = data_points->iso_x + data_points->offset_x;
+	seg_points->y1 = data_points->iso_y + data_points->offset_y;
+	seg_points->x2 = data_points->iso_x_next + data_points->offset_x;
+	seg_points->y2 = data_points->iso_y_next + data_points->offset_y;
+}
+
+
+void find_end_points(t_data_points data_points, t_data_img *img, t_segment_points *seg_points, char **split_line)
+{
+	iso_projection((data_points.x + 1) * data_points.d_px, data_points.y * data_points.d_px, atoi(split_line[data_points.x + 1]), &data_points.iso_x_next, &data_points.iso_y_next);
+	offset_points(seg_points, &data_points);
+	segment_plot(seg_points, img, data_points.color);
+}
+
+void find_next_end_points(t_data_points data_points, t_data_img *img, t_segment_points *seg_points, char *next_line)
+{
+	char **next_split;
+	
+	next_split = ft_split(next_line, ' ');
+	iso_projection(data_points.x * data_points.d_px, (data_points.y + 1) * data_points.d_px, atoi(next_split[data_points.x]), &data_points.iso_x_next, &data_points.iso_y_next);
+	offset_points(seg_points, &data_points);
+	segment_plot(seg_points, img, data_points.color);
+}
+
+void create_segments(t_data_points data_points, t_segment_points seg_points,int fd, t_data_img *img)
+{
+	char *line;
+    char *next_line;
+    char **split_line;
+
+	line = get_next_line(fd);
+    next_line = get_next_line(fd);
+    while (line != NULL)
+    {
+        data_points.x = 0;
+        split_line = ft_split(line, ' ');
+        while (split_line[data_points.x] != NULL)
+        {
+			data_points.z = calc_z(split_line[data_points.x], img, &data_points.color);
+			iso_projection(data_points.x * data_points.d_px, data_points.y * data_points.d_px, data_points.z, &data_points.iso_x, &data_points.iso_y);
+			if (split_line[data_points.x + 1] != NULL)
+				find_end_points(data_points, img, &seg_points, split_line);
+            if (next_line != NULL)
+                find_next_end_points(data_points, img, &seg_points, next_line);
+            data_points.x++;
+        }
+        free(line);
+        line = next_line;
+        next_line = get_next_line(fd);
+        data_points.y++;
+    }
+}
 
 
 void draw_image(t_data_img *img, char *filename)
 {
 	int fd;
-    char *line;
-    char *next_line;
-    char **split_line;
-	char **next_split;
-	long int color;
-    int x, y, z;
-    int d_px = 30;
-    int offset_x = (img->width / 2);
-    int offset_y = ((img->height - (img->total_line * d_px)) / 2);
+	t_data_points data_points;
 	t_segment_points seg_points;
-	t_iso_segment_points iso_seg_points;
+
+    data_points.d_px = 30;
+    data_points.offset_x = (img->width / 2);
+    data_points.offset_y = ((img->height - (img->total_line * data_points.d_px)) / 2);
 
 	fd = open(filename, O_RDONLY);
     mlx_destroy_image(img->mlx, img->img);
     img->img = mlx_new_image(img->mlx, img->width, img->height);
     img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
-	line = get_next_line(fd);
-    next_line = get_next_line(fd);
-    y = 0;
-    while (line != NULL)
-    {
-        x = 0;
-        split_line = ft_split(line, ' ');
-        while (split_line[x] != NULL)
-        {
+	
+	data_points.y = 0;
+	create_segments(data_points, seg_points, fd, img);
 
-			if (ft_strchr(split_line[x], ',') != NULL)
-			{
-				int index_comma = ft_strchr(split_line[x], ',') - split_line[x];
-				z = ft_atoi(ft_substr(split_line[x], 0, index_comma)) + img->altitude;
-				color = str_to_hexa(ft_substr(split_line[x], index_comma + 1, ft_strlen(split_line[x])));
-			}
-			else if (ft_atoi(split_line[x]) > 0 && ft_strchr(split_line[x], ',') == NULL)
-			{
-				z = ft_atoi(split_line[x]) + img->altitude;
-				color = 0xFFFFFF;
-			}
-			else
-			{
-				z = ft_atoi(split_line[x]);
-				color = 0xFFFFFF;
-			}            	
-								
-			iso_projection(x * d_px, y * d_px, z, &iso_seg_points.iso_x, &iso_seg_points.iso_y);	
-
-            if (split_line[x + 1] != NULL)
-            {
-                iso_projection((x + 1) * d_px, y * d_px, atoi(split_line[x + 1]), &iso_seg_points.iso_x_next, &iso_seg_points.iso_y_next);
-				seg_points.x1 = iso_seg_points.iso_x + offset_x;
-				seg_points.y1 = iso_seg_points.iso_y + offset_y;
-				seg_points.x2 = iso_seg_points.iso_x_next + offset_x;
-				seg_points.y2 = iso_seg_points.iso_y_next + offset_y;
-                segment_plot(&seg_points, img, color);
-			}
-            if (next_line != NULL)
-            {
-                next_split = ft_split(next_line, ' ');
-                iso_projection(x * d_px, (y + 1) * d_px, atoi(next_split[x]), &iso_seg_points.iso_x_next, &iso_seg_points.iso_y_next);
-                seg_points.x1 = iso_seg_points.iso_x + offset_x;
-				seg_points.y1 = iso_seg_points.iso_y + offset_y;
-				seg_points.x2 = iso_seg_points.iso_x_next + offset_x;
-				seg_points.y2 = iso_seg_points.iso_y_next + offset_y;
-                segment_plot(&seg_points, img, color);
-            }
-            x++;
-        }
-        free(line);
-        line = next_line;
-        next_line = get_next_line(fd);
-        y++;
-    }
     mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
 	close(fd);
 }
@@ -256,7 +280,7 @@ int	main(void)
 	int 	height;
 	t_data_img	img;
 	
-	img.filename = "test_maps/42.fdf";
+	img.filename = "test_maps/20-60.fdf";
 	img.altitude = 1;
 	height = 1000;
 	width = 1000;
