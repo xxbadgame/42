@@ -6,27 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/25 22:35:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/26 19:41:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "fdf.h"
-
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	void    *mlx;
-    void    *mlx_win;
-	int		width;
-	int		height;
-	int		altitude;
-	int		total_line;
-	int 	total_column;
-	char 	*filename;
-}				t_data_img;
 
 
 void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
@@ -40,68 +24,54 @@ void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 	}
 }
 
-typedef struct s_segment_points
+
+void decision_loop_one(t_segment_points *seg_points, t_data_img *img, int color)
 {
-	int x1;
-	int x2;
-	int y1;
-	int y2;
-} t_segment_points ;
+	while (seg_points->x1 != seg_points->x2)
+	{
+		my_mlx_pixel_put(img, seg_points->x1, seg_points->y1, color);
+		if (seg_points->decision >= 0)
+		{
+			seg_points->y1 += seg_points->sign_y;
+			seg_points->decision -= 2 * seg_points->delta_x;
+		}
+		seg_points->decision += 2 * seg_points->delta_y;
+		seg_points->x1 += seg_points->sign_x;
+	}
+}
+
+void decision_loop_two(t_segment_points *seg_points, t_data_img *img, int color)
+{
+	while (seg_points->y1 != seg_points->y2)
+	{
+		my_mlx_pixel_put(img, seg_points->x1, seg_points->y1, color);
+		if (seg_points->decision >= 0)
+		{
+			seg_points->x1 += seg_points->sign_x;
+			seg_points->decision -= 2 * seg_points->delta_y;
+		}
+		seg_points->decision += 2 * seg_points->delta_x;
+		seg_points->y1 += seg_points->sign_y;
+	}
+}
 
 void segment_plot(t_segment_points *seg_points, t_data_img *img, int color)
 {
-	int delta_x;
-	int delta_y;
-	int sign_x;
-	int sign_y;
-	int x;
-	int y;
-	int decision;
-
-	delta_x = ft_abs(seg_points->x2 - seg_points->x1);
-	delta_y = ft_abs(seg_points->y2 - seg_points->y1);
-
+	seg_points->delta_x = ft_abs(seg_points->x2 - seg_points->x1);
+	seg_points->delta_y = ft_abs(seg_points->y2 - seg_points->y1);
 	if (seg_points->x2 > seg_points->x1)
-		sign_x = 1;
+		seg_points->sign_x = 1;
 	else
-		sign_x = -1;
+		seg_points->sign_x = -1;
 	if (seg_points->y2 > seg_points->y1)
-		sign_y = 1;
+		seg_points->sign_y = 1;
 	else
-		sign_y = -1;
-
-	decision = 2 * delta_y - delta_x;
-	x = seg_points->x1;
-	y = seg_points->y1;
-
-	if (delta_x > delta_y) 
-	{	
-		while (x != seg_points->x2)
-		{
-			my_mlx_pixel_put(img, x, y, color);
-			if (decision >= 0)
-			{
-				y += sign_y;
-				decision -= 2 * delta_x;
-			}
-			decision += 2 * delta_y;
-			x += sign_x;
-		}
-	}
+		seg_points->sign_y = -1;
+	seg_points->decision = 2 * seg_points->delta_y - seg_points->delta_x;
+	if (seg_points->delta_x > seg_points->delta_y)
+		decision_loop_one(seg_points, img, color);
 	else 
-	{
-		while (y != seg_points->y2)
-		{
-			my_mlx_pixel_put(img, x, y, color);
-			if (decision >= 0)
-			{
-				x += sign_x;
-				decision -= 2 * delta_y;
-			}
-			decision += 2 * delta_x;
-			y += sign_y;
-		}
-	}
+		decision_loop_two(seg_points, img, color);
 }
 
 void iso_projection(int x, int y, int z, int *iso_x, int *iso_y)
@@ -159,20 +129,7 @@ int calc_z(char *line_element, t_data_img *img, long int *color)
 	}
 }
 
-typedef struct s_data_points
-{
-	int x;
-	int y;
-	int z;
-	int iso_x;
-	int iso_y;
-	int iso_x_next;
-	int iso_y_next;
-	int offset_x;
-	int offset_y;
-	int d_px;
-	long int color;
-} t_data_points;
+
 
 void offset_points(t_segment_points *seg_points, t_data_points *data_points)
 {
@@ -183,24 +140,24 @@ void offset_points(t_segment_points *seg_points, t_data_points *data_points)
 }
 
 
-void find_end_points(t_data_points data_points, t_data_img *img, t_segment_points *seg_points, char **split_line)
+void find_end_points(t_data_points *data_points, t_data_img *img, t_segment_points *seg_points, char **split_line)
 {
-	iso_projection((data_points.x + 1) * data_points.d_px, data_points.y * data_points.d_px, atoi(split_line[data_points.x + 1]), &data_points.iso_x_next, &data_points.iso_y_next);
-	offset_points(seg_points, &data_points);
-	segment_plot(seg_points, img, data_points.color);
+	iso_projection((data_points->x + 1) * data_points->d_px, data_points->y * data_points->d_px, atoi(split_line[data_points->x + 1]), &data_points->iso_x_next, &data_points->iso_y_next);
+	offset_points(seg_points, data_points);
+	segment_plot(seg_points, img, seg_points->color);
 }
 
-void find_next_end_points(t_data_points data_points, t_data_img *img, t_segment_points *seg_points, char *next_line)
+void find_next_end_points(t_data_points *data_points, t_data_img *img, t_segment_points *seg_points, char *next_line)
 {
 	char **next_split;
 	
 	next_split = ft_split(next_line, ' ');
-	iso_projection(data_points.x * data_points.d_px, (data_points.y + 1) * data_points.d_px, atoi(next_split[data_points.x]), &data_points.iso_x_next, &data_points.iso_y_next);
-	offset_points(seg_points, &data_points);
-	segment_plot(seg_points, img, data_points.color);
+	iso_projection(data_points->x * data_points->d_px, (data_points->y + 1) * data_points->d_px, atoi(next_split[data_points->x]), &data_points->iso_x_next, &data_points->iso_y_next);
+	offset_points(seg_points, data_points);
+	segment_plot(seg_points, img, seg_points->color);
 }
 
-void create_segments(t_data_points data_points, t_segment_points seg_points,int fd, t_data_img *img)
+void create_segments(t_data_points *data_points, t_segment_points *seg_points,int fd, t_data_img *img)
 {
 	char *line;
     char *next_line;
@@ -210,22 +167,22 @@ void create_segments(t_data_points data_points, t_segment_points seg_points,int 
     next_line = get_next_line(fd);
     while (line != NULL)
     {
-        data_points.x = 0;
+        data_points->x = 0;
         split_line = ft_split(line, ' ');
-        while (split_line[data_points.x] != NULL)
+        while (split_line[data_points->x] != NULL)
         {
-			data_points.z = calc_z(split_line[data_points.x], img, &data_points.color);
-			iso_projection(data_points.x * data_points.d_px, data_points.y * data_points.d_px, data_points.z, &data_points.iso_x, &data_points.iso_y);
-			if (split_line[data_points.x + 1] != NULL)
-				find_end_points(data_points, img, &seg_points, split_line);
+			data_points->z = calc_z(split_line[data_points->x], img, &seg_points->color);
+			iso_projection(data_points->x * data_points->d_px, data_points->y * data_points->d_px, data_points->z, &data_points->iso_x, &data_points->iso_y);
+			if (split_line[data_points->x + 1] != NULL)
+				find_end_points(data_points, img, seg_points, split_line);
             if (next_line != NULL)
-                find_next_end_points(data_points, img, &seg_points, next_line);
-            data_points.x++;
+                find_next_end_points(data_points, img, seg_points, next_line);
+            data_points->x++;
         }
         free(line);
         line = next_line;
         next_line = get_next_line(fd);
-        data_points.y++;
+        data_points->y++;
     }
 }
 
@@ -246,7 +203,7 @@ void draw_image(t_data_img *img, char *filename)
     img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	
 	data_points.y = 0;
-	create_segments(data_points, seg_points, fd, img);
+	create_segments(&data_points, &seg_points, fd, img);
 
     mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
 	close(fd);
@@ -280,7 +237,7 @@ int	main(void)
 	int 	height;
 	t_data_img	img;
 	
-	img.filename = "test_maps/20-60.fdf";
+	img.filename = "test_maps/42.fdf";
 	img.altitude = 1;
 	height = 1000;
 	width = 1000;
