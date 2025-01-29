@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/29 19:01:57 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:22:49 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int	size_parsing(char *filename, t_data_img *img)
 		img->total_line++;
 		tmp = line;
 		line = get_next_line(fd);
+		if (!line)
+			return (free(tmp), free(line), close(fd), -1);
 		free(tmp);
 	}
 	free(line);
@@ -182,6 +184,7 @@ int	create_segments(t_data_points *data_points,
 	char	*tmp;
 
 	line = get_next_line(fd);
+	data_points->y = 0;
 	while (line != NULL)
 	{
 		data_points->x = 0;
@@ -203,8 +206,7 @@ int	create_segments(t_data_points *data_points,
 		free_split(split_line);
 		tmp = line;
 		line = next_line;
-		if(tmp)
-			free(tmp);
+		free(tmp);
 		data_points->y++;
 		mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
 	}
@@ -232,6 +234,7 @@ void	draw_image(t_data_img *img, char *filename)
 	t_data_points		data_points;
 	t_segment_points	seg_points;
 
+	data_points.d_px = 0;
 	zoom_map(&data_points, img);
 	data_points.offset_x = (img->width / 2);
 	data_points.offset_y = ((img->height - (img->total_line * data_points.d_px))
@@ -241,7 +244,6 @@ void	draw_image(t_data_img *img, char *filename)
 	img->img = mlx_new_image(img->mlx, img->width, img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
-	data_points.y = 0;
 	create_segments(&data_points, &seg_points, fd, img);
 	close(fd);
 }
