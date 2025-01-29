@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2025/01/19 20:33:23 by yannis           ###   ########.fr        #
+#    Updated: 2025/01/29 12:27:22 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,12 @@ SRCS = 	fdf.c \
 		libft/ft_split.c \
 		libft/ft_strchr.c \
 		libft/ft_substr.c \
+		libft/ft_putchar_fd.c \
+		libft/ft_putendl_fd.c \
 		
 OBJS = $(SRCS:.c=.o)
 MLX = minilibx/libmlx.a
+HEADER = fdf.h
 RM = rm -f
 
 all: $(NAME)
@@ -32,7 +35,7 @@ all: $(NAME)
 $(NAME): $(OBJS) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) minilibx/libmlx.a -L/usr/lib -lX11 -lXext -lm
 
-%.o : %.C
+%.o : %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
