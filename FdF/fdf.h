@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/26 17:49:26 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/29 17:49:47 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ typedef struct s_segment_points
 
 long int	str_to_hexa(char *str);
 int			ft_abs(int nb);
+void		free_split(char **spl);
 
 #endif
