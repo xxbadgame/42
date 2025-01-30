@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/30 13:35:15 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:38:37 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ int	main(int argc, char **argv)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
 	size_parsing(img.filename, &img);
-	//draw_image(&img, img.filename);
+	draw_image(&img, img.filename);
 	mlx_hook(img.mlx_win, 17, 0, close_window, &img);
 	mlx_hook(img.mlx_win, 2, 1L << 0, close_window_escape, &img);
 	mlx_loop(img.mlx);
