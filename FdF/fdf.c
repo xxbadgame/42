@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/29 19:22:49 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/30 13:35:15 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,53 +87,25 @@ void	iso_next_projection(int x, int y, int z, t_data_points *data_points)
 	data_points->iso_y_next = 0.52 * (y + x) - z;
 }
 
-int	size_parsing(char *filename, t_data_img *img)
-{
-	int		fd;
-	char	*line;
-	char	**split_line;
-	char 	*tmp;
-
-	img->total_column = 0;
-	img->total_line = 0;
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (perror("Error opening file"), -1);
-	line = get_next_line(fd);
-	if (!line)
-		return (close(fd), -1);
-	while (line != NULL)
-	{
-		if (img->total_column == 0)
-		{
-			split_line = ft_split(line, ' ');
-			if (!split_line)
-				return (free(line), close(fd), -1);
-			while (split_line[img->total_column])
-				img->total_column++;
-			free_split(split_line);
-		}
-		img->total_line++;
-		tmp = line;
-		line = get_next_line(fd);
-		if (!line)
-			return (free(tmp), free(line), close(fd), -1);
-		free(tmp);
-	}
-	free(line);
-	return (close(fd), 0);
-}
-
 int	calc_z(char *line_element, long int *color)
 {
 	int	index_comma;
+	char *sub1;
+	char *sub2;
+	int result;
 
 	if (ft_strchr(line_element, ',') != NULL)
 	{
 		index_comma = ft_strchr(line_element, ',') - line_element;
-		*color = str_to_hexa(ft_substr(line_element, index_comma + 1,
-					ft_strlen(line_element)));
-		return (ft_atoi(ft_substr(line_element, 0, index_comma)));
+		sub1 = ft_substr(line_element, index_comma + 1, ft_strlen(line_element));
+		if (!sub1)
+			return (-1);
+		*color = str_to_hexa(sub1);
+		free(sub1);
+		sub2 = ft_substr(line_element, 0, index_comma);
+		result = ft_atoi(sub2);
+		free(sub2);
+		return (result);
 	}
 	else
 	{
@@ -287,7 +259,7 @@ int	main(int argc, char **argv)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
 	size_parsing(img.filename, &img);
-	draw_image(&img, img.filename);
+	//draw_image(&img, img.filename);
 	mlx_hook(img.mlx_win, 17, 0, close_window, &img);
 	mlx_hook(img.mlx_win, 2, 1L << 0, close_window_escape, &img);
 	mlx_loop(img.mlx);

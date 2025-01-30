@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/29 17:49:47 by yannis           ###   ########.fr       */
+/*   Updated: 2025/01/30 12:04:48 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ typedef struct s_segment_points
 long int	str_to_hexa(char *str);
 int			ft_abs(int nb);
 void		free_split(char **spl);
+int			size_parsing(char *filename, t_data_img *img);
 
 #endif
