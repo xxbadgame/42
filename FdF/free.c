@@ -6,18 +6,18 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:47:56 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/29 19:23:02 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/04 06:51:41 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void free_split(char **spl)
+void	free_split(char **spl)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (spl[i])
-        free(spl[i++]);
-    free(spl);
+	i = 0;
+	while (spl[i])
+		free(spl[i++]);
+	free(spl);
 }

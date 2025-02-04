@@ -3,190 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/01/30 13:38:37 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:47:56 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
+int	create_segments(t_data_points *data_points, t_segment_points *seg_points,
+		int fd, t_data_img *img)
 {
-	char	*dst;
+	t_lines	lines;
 
-	if (x >= 0 && x < 1000 && y >= 0 && y < 1000)
-	{
-		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel
-					/ 8));
-		*(unsigned int *)dst = color;
-	}
-}
-
-void	decision_loop_one(t_segment_points *seg_points, t_data_img *img,
-		int color)
-{
-	while (seg_points->x1 != seg_points->x2)
-	{
-		my_mlx_pixel_put(img, seg_points->x1, seg_points->y1, color);
-		if (seg_points->decision >= 0)
-		{
-			seg_points->y1 += seg_points->sign_y;
-			seg_points->decision -= 2 * seg_points->delta_x;
-		}
-		seg_points->decision += 2 * seg_points->delta_y;
-		seg_points->x1 += seg_points->sign_x;
-	}
-}
-
-void	decision_loop_two(t_segment_points *seg_points, t_data_img *img,
-		int color)
-{
-	while (seg_points->y1 != seg_points->y2)
-	{
-		my_mlx_pixel_put(img, seg_points->x1, seg_points->y1, color);
-		if (seg_points->decision >= 0)
-		{
-			seg_points->x1 += seg_points->sign_x;
-			seg_points->decision -= 2 * seg_points->delta_y;
-		}
-		seg_points->decision += 2 * seg_points->delta_x;
-		seg_points->y1 += seg_points->sign_y;
-	}
-}
-
-void	segment_plot(t_segment_points *seg_points, t_data_img *img, int color)
-{
-	seg_points->delta_x = ft_abs(seg_points->x2 - seg_points->x1);
-	seg_points->delta_y = ft_abs(seg_points->y2 - seg_points->y1);
-	if (seg_points->x2 > seg_points->x1)
-		seg_points->sign_x = 1;
-	else
-		seg_points->sign_x = -1;
-	if (seg_points->y2 > seg_points->y1)
-		seg_points->sign_y = 1;
-	else
-		seg_points->sign_y = -1;
-	seg_points->decision = 2 * seg_points->delta_y - seg_points->delta_x;
-	if (seg_points->delta_x > seg_points->delta_y)
-		decision_loop_one(seg_points, img, color);
-	else
-		decision_loop_two(seg_points, img, color);
-}
-
-void	iso_projection(int x, int y, int z, t_data_points *data_points)
-{
-	data_points->iso_x = 0.866 * (x - y);
-	data_points->iso_y = 0.52 * (y + x) - z;
-}
-
-void	iso_next_projection(int x, int y, int z, t_data_points *data_points)
-{
-	data_points->iso_x_next = 0.866 * (x - y);
-	data_points->iso_y_next = 0.52 * (y + x) - z;
-}
-
-int	calc_z(char *line_element, long int *color)
-{
-	int	index_comma;
-	char *sub1;
-	char *sub2;
-	int result;
-
-	if (ft_strchr(line_element, ',') != NULL)
-	{
-		index_comma = ft_strchr(line_element, ',') - line_element;
-		sub1 = ft_substr(line_element, index_comma + 1, ft_strlen(line_element));
-		if (!sub1)
-			return (-1);
-		*color = str_to_hexa(sub1);
-		free(sub1);
-		sub2 = ft_substr(line_element, 0, index_comma);
-		result = ft_atoi(sub2);
-		free(sub2);
-		return (result);
-	}
-	else
-	{
-		*color = 0xFFFFFF;
-		return (ft_atoi(line_element));
-	}
-}
-
-void	offset_points(t_segment_points *seg_points, t_data_points *data_points)
-{
-	seg_points->x1 = data_points->iso_x + data_points->offset_x;
-	seg_points->y1 = data_points->iso_y + data_points->offset_y;
-	seg_points->x2 = data_points->iso_x_next + data_points->offset_x;
-	seg_points->y2 = data_points->iso_y_next + data_points->offset_y;
-}
-
-void	find_end_points(t_data_points *data_points, t_data_img *img,
-		t_segment_points *seg_points, char **split_line)
-{
-	iso_next_projection((data_points->x + 1) * data_points->d_px, data_points->y
-		* data_points->d_px, atoi(split_line[data_points->x + 1]), data_points);
-	offset_points(seg_points, data_points);
-	segment_plot(seg_points, img, seg_points->color);
-}
-
-int	find_next_end_points(t_data_points *data_points, t_data_img *img,
-		t_segment_points *seg_points, char *next_line)
-{
-	char	**next_split;
-
-	next_split = ft_split(next_line, ' ');
-	if (!next_split)
-		return (-1);
-	iso_next_projection(data_points->x * data_points->d_px, (data_points->y + 1)
-		* data_points->d_px, atoi(next_split[data_points->x]), data_points);
-	free_split(next_split);
-	offset_points(seg_points, data_points);
-	segment_plot(seg_points, img, seg_points->color);
-	return (0);
-}
-
-int	create_segments(t_data_points *data_points,
-		t_segment_points *seg_points, int fd, t_data_img *img)
-{
-	char	*line = NULL;
-	char	*next_line = NULL;
-	char	**split_line;
-	char	*tmp;
-
-	line = get_next_line(fd);
+	lines.line = get_next_line(fd);
 	data_points->y = 0;
-	while (line != NULL)
+	while (lines.line != NULL)
 	{
 		data_points->x = 0;
-		split_line = ft_split(line, ' ');
-		if (!split_line)
-			return (free(line), -1);
-		next_line = get_next_line(fd);
-		while (split_line[data_points->x] != NULL)
+		split_line_and_next(&lines, fd);
+		while (lines.split_line[data_points->x] != NULL)
 		{
-			iso_projection(data_points->x * data_points->d_px, data_points->y
-				* data_points->d_px, calc_z(split_line[data_points->x],
-					&seg_points->color), data_points);
-			if (split_line[data_points->x + 1] != NULL)
-				find_end_points(data_points, img, seg_points, split_line);
-			if (next_line != NULL)
-				find_next_end_points(data_points, img, seg_points, next_line);
+			mini_segments(data_points, seg_points, img, &lines);
 			data_points->x++;
 		}
-		free_split(split_line);
-		tmp = line;
-		line = next_line;
-		free(tmp);
+		change_lines(&lines);
 		data_points->y++;
 		mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
 	}
-	free(line);
+	free(lines.line);
 	return (0);
 }
 
-void zoom_map(t_data_points	*data_points, t_data_img *img)
+void	zoom_map(t_data_points *data_points, t_data_img *img)
 {
 	if (img->total_column >= 400 || img->total_line >= 400)
 		data_points->d_px = 1;
@@ -220,31 +70,9 @@ void	draw_image(t_data_img *img, char *filename)
 	close(fd);
 }
 
-int	close_window(t_data_img *img)
-{
-
-	if (img->img)
-		mlx_destroy_image(img->mlx, img->img);
-	if (img->mlx_win)
-		mlx_destroy_window(img->mlx, img->mlx_win);
-	if (img->mlx)
-	{
-		mlx_destroy_display(img->mlx);
-		free(img->mlx);
-	}
-	exit(0);
-}
-
-int	close_window_escape(int keycode, t_data_img *img)
-{
-	if (keycode == 65307)
-		close_window(img);
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
-	t_data_img	img; 
+	t_data_img	img;
 
 	if (argc != 2)
 		return (ft_putendl_fd("Usage : ./fdf_linux <filename>", 1), -1);
@@ -254,7 +82,8 @@ int	main(int argc, char **argv)
 	img.mlx = mlx_init();
 	if (!img.mlx)
 		return (perror("Error: Failed to initialize MiniLibX.\n"), -1);
-	img.mlx_win = mlx_new_window(img.mlx, img.width, img.height, "FdF ynzue-es");
+	img.mlx_win = mlx_new_window(img.mlx, img.width, img.height,
+			"FdF ynzue-es");
 	img.img = mlx_new_image(img.mlx, img.width, img.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);

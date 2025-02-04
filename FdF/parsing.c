@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:02:10 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/01/30 13:37:48 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:51:22 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "fdf.h"
+#include "fdf.h"
 
 int	count_columns(char *filename, t_data_img *img)
 {
@@ -33,22 +33,22 @@ int	count_columns(char *filename, t_data_img *img)
 	return (close(fd), 0);
 }
 
-int count_lines(char *filename, t_data_img *img)
+int	count_lines(char *filename, t_data_img *img)
 {
-	int 	fd;
-	int 	bytesRead;
-	char 	buffer[1];
-	
+	int		fd;
+	int		bytes_read;
+	char	buffer[1];
+
 	img->total_line = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (perror("Error opening file"), -1);
-	bytesRead = read(fd, buffer, 1);
-	while (bytesRead == 1)
+	bytes_read = read(fd, buffer, 1);
+	while (bytes_read == 1)
 	{
 		while (buffer[0] != '\n')
-			bytesRead = read(fd, buffer, sizeof(buffer));
-		bytesRead = read(fd, buffer, sizeof(buffer));
+			bytes_read = read(fd, buffer, sizeof(buffer));
+		bytes_read = read(fd, buffer, sizeof(buffer));
 		img->total_line++;
 	}
 	return (close(fd), 0);

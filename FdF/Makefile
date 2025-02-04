@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2025/01/30 12:04:38 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/02/04 13:49:42 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,9 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = 	fdf.c \
 		fdf_utils.c \
 		parsing.c \
+		points.c \
+		segment.c \
+		create_lines.c \
 		free.c \
 		get_next_line/get_next_line.c \
 		get_next_line/get_next_line_utils.c \
