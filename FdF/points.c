@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   points.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 06:26:21 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/05 14:09:34 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:35:04 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	calc_z(char *line_element, long int *color)
 		free(sub1);
 		sub2 = ft_substr(line_element, 0, index_comma);
 		if (!sub2)
-			return (free(sub1), -1);
+			return (-1);
 		result = ft_atoi(sub2);
 		return (free(sub2), result);
 	}
