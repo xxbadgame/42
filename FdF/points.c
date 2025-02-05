@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   points.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 06:26:21 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/04 06:50:24 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/05 14:09:34 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < 1000 && y >= 0 && y < 1000)
+	if (x >= 0 && x < img->width && y >= 0 && y < img->height)
 	{
 		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel
 					/ 8));
@@ -53,9 +53,10 @@ int	calc_z(char *line_element, long int *color)
 		*color = str_to_hexa(sub1);
 		free(sub1);
 		sub2 = ft_substr(line_element, 0, index_comma);
+		if (!sub2)
+			return (free(sub1), -1);
 		result = ft_atoi(sub2);
-		free(sub2);
-		return (result);
+		return (free(sub2), result);
 	}
 	else
 	{

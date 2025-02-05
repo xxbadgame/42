@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/04 13:47:42 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/05 14:35:27 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void			mini_segments(t_data_points *data_points,
 					t_segment_points *seg_points, t_data_img *img,
 					t_lines *lines);
 void			change_lines(t_lines *lines);
-int				split_line_and_next(t_lines *lines, int fd);
+int				split_line_and_next(t_lines *lines, int fd, t_data_img *img,
+					int y);
 
 #endif

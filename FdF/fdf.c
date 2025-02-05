@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/04 13:47:56 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:58:59 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ int	create_segments(t_data_points *data_points, t_segment_points *seg_points,
 	t_lines	lines;
 
 	lines.line = get_next_line(fd);
+	if (!lines.line)
+		return (-1);
 	data_points->y = 0;
 	while (lines.line != NULL)
 	{
 		data_points->x = 0;
-		split_line_and_next(&lines, fd);
+		if (split_line_and_next(&lines, fd, img, data_points->y) == -1)
+			return (-1);
 		while (lines.split_line[data_points->x] != NULL)
 		{
 			mini_segments(data_points, seg_points, img, &lines);
@@ -41,16 +44,18 @@ void	zoom_map(t_data_points *data_points, t_data_img *img)
 	if (img->total_column >= 400 || img->total_line >= 400)
 		data_points->d_px = 1;
 	else if (img->total_column >= 200 || img->total_line >= 200)
-		data_points->d_px = 3;
+		data_points->d_px = 2;
 	else if (img->total_column >= 100 || img->total_line >= 100)
-		data_points->d_px = 5;
+		data_points->d_px = 4;
 	else if (img->total_column >= 50 || img->total_line >= 50)
-		data_points->d_px = 10;
+		data_points->d_px = 6;
+	else if (img->total_column >= 25 || img->total_line >= 25)
+		data_points->d_px = 15;
 	else
 		data_points->d_px = 20;
 }
 
-void	draw_image(t_data_img *img, char *filename)
+int	draw_image(t_data_img *img, char *filename)
 {
 	int					fd;
 	t_data_points		data_points;
@@ -58,16 +63,45 @@ void	draw_image(t_data_img *img, char *filename)
 
 	data_points.d_px = 0;
 	zoom_map(&data_points, img);
-	data_points.offset_x = (img->width / 2);
+	data_points.offset_x = (img->width / 2.2);
 	data_points.offset_y = ((img->height - (img->total_line * data_points.d_px))
 			/ 2);
 	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (perror("Error opening file"), -1);
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, img->width, img->height);
+	if (!img->img)
+		return (-1);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
-	create_segments(&data_points, &seg_points, fd, img);
-	close(fd);
+	if (!img->addr)
+		return (-1);
+	if (create_segments(&data_points, &seg_points, fd, img) == -1)
+		return (-1);
+	return (close(fd), 0);
+}
+
+int	init_fdf(t_data_img *img)
+{
+	img->mlx = mlx_init();
+	if (!img->mlx)
+		return (perror("Error: Failed MiniLibX.\n"), -1);
+	img->mlx_win = mlx_new_window(img->mlx, img->width, img->height, "FdF");
+	if (!img->mlx_win)
+		return (close_window(img), perror("Error: Failed window.\n"), -1);
+	img->img = mlx_new_image(img->mlx, img->width, img->height);
+	if (!img->img)
+		return (close_window(img), perror("Error: Failed image.\n"), -1);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
+	if (!img->addr)
+		return (close_window(img), perror("Error: Failed adress.\n"), -1);
+	if (size_parsing(img->filename, img) == -1)
+		return (-1);
+	if (draw_image(img, img->filename) == -1)
+		return (-1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -79,16 +113,8 @@ int	main(int argc, char **argv)
 	img.filename = argv[1];
 	img.width = 1000;
 	img.height = 1000;
-	img.mlx = mlx_init();
-	if (!img.mlx)
-		return (perror("Error: Failed to initialize MiniLibX.\n"), -1);
-	img.mlx_win = mlx_new_window(img.mlx, img.width, img.height,
-			"FdF ynzue-es");
-	img.img = mlx_new_image(img.mlx, img.width, img.height);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			&img.endian);
-	size_parsing(img.filename, &img);
-	draw_image(&img, img.filename);
+	if (init_fdf(&img) == -1)
+		return (-1);
 	mlx_hook(img.mlx_win, 17, 0, close_window, &img);
 	mlx_hook(img.mlx_win, 2, 1L << 0, close_window_escape, &img);
 	mlx_loop(img.mlx);

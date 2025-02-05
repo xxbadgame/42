@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_lines.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:46:14 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/04 13:50:59 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/05 14:31:49 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@ void	change_lines(t_lines *lines)
 	free(tmp);
 }
 
-int	split_line_and_next(t_lines *lines, int fd)
+int	split_line_and_next(t_lines *lines, int fd, t_data_img *img, int y)
 {
 	lines->split_line = ft_split(lines->line, ' ');
 	if (!lines->split_line)
 		return (free(lines->line), -1);
 	lines->next_line = get_next_line(fd);
+	if (!lines->next_line && y >= img->total_line)
+		return (free(lines->line), -1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2025/02/04 13:49:42 by yannis           ###   ########.fr        #
+#    Updated: 2025/02/05 11:44:54 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRCS = 	fdf.c \
 OBJS = $(SRCS:.c=.o)
 MLX = minilibx/libmlx.a
 HEADER = fdf.h
+GNL_HEADER = get_next_line/get_next_line.h
+LIBFT_HEADER = libft/libft.h
 RM = rm -f
 
 all: $(NAME)
@@ -40,7 +42,7 @@ all: $(NAME)
 $(NAME): $(OBJS) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) minilibx/libmlx.a -L/usr/lib -lX11 -lXext -lm
 
-%.o : %.c $(HEADER)
+%.o : %.c $(HEADER) $(GNL_HEADER) $(LIBFT_HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
