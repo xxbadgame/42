@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:02:10 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/06 12:50:23 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:28:18 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,14 @@ int	count_lines(char *filename, t_data_img *img)
 		return (-1);
 	while (bytes_read == 1)
 	{
-		while (buffer[0] != '\n')
-		{
-			bytes_read = read(fd, buffer, sizeof(buffer));
-			if (bytes_read == -1)
-				return (-1);
-		}
+		if (buffer[0] == '\n')
+			img->total_line++;
 		bytes_read = read(fd, buffer, sizeof(buffer));
 		if (bytes_read == -1)
-			return (-1);
-		img->total_line++;
+			return (close(fd), -1);
 	}
+	if (buffer[0] != '\n')
+		img->total_line++;
 	return (close(fd), 0);
 }
 

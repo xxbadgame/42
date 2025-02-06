@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/06 12:35:10 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:31:23 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	zoom_map(t_data_points *data_points, t_data_img *img)
 	if (img->total_column >= 400 || img->total_line >= 400)
 		data_points->d_px = 1;
 	else if (img->total_column >= 200 || img->total_line >= 200)
-		data_points->d_px = 2;
+		data_points->d_px = 3;
 	else if (img->total_column >= 100 || img->total_line >= 100)
 		data_points->d_px = 4;
 	else if (img->total_column >= 50 || img->total_line >= 50)
