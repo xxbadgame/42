@@ -6,13 +6,14 @@
 #    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2025/02/05 11:44:54 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/02/06 11:26:28 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+MLXFLAGS = -L/usr/lib -lX11 -lXext -lm
 SRCS = 	fdf.c \
 		fdf_utils.c \
 		parsing.c \
@@ -40,7 +41,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS) $(MLX)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) minilibx/libmlx.a -L/usr/lib -lX11 -lXext -lm
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) minilibx/libmlx.a $(MLXFLAGS) -I$(HEADER) -I$(GNL_HEADER) -I$(LIBFT_HEADER)
 
 %.o : %.c $(HEADER) $(GNL_HEADER) $(LIBFT_HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
