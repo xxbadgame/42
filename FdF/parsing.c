@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:02:10 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/05 17:02:45 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:41:19 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ int	count_lines(char *filename, t_data_img *img)
 
 int	size_parsing(char *filename, t_data_img *img)
 {
+	ft_putendl_fd("🕓 -> wait for parsing...", 1);
 	if (count_lines(filename, img) == -1)
 		return (-1);
 	if (count_columns(filename, img) == -1)
 		return (-1);
+	ft_putendl_fd("✅ -> parsing complete", 1);
 	return (0);
 }

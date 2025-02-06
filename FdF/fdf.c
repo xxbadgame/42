@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/06 12:25:20 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:35:10 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ int	init_fdf(t_data_img *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		return (perror("Error: Failed adress.\n"), -1);
-	if (size_parsing(img->filename, img) == -1)
-		return (-1);
 	if (draw_image(img, img->filename) == -1)
 		return (-1);
 	return (0);
@@ -113,6 +111,8 @@ int	main(int argc, char **argv)
 	img.filename = argv[1];
 	img.width = 1000;
 	img.height = 1000;
+	if (size_parsing(img.filename, &img) == -1)
+		return (-1);
 	if (init_fdf(&img) == -1)
 		return (close_window(&img), -1);
 	mlx_hook(img.mlx_win, 17, 0, close_window, &img);
