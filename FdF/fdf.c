@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/05 16:58:59 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:20:09 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	draw_image(t_data_img *img, char *filename)
 			/ 2);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror("Error opening file"), -1);
+		return (perror("Error opening file images"), -1);
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, img->width, img->height);
 	if (!img->img)
@@ -89,14 +89,14 @@ int	init_fdf(t_data_img *img)
 		return (perror("Error: Failed MiniLibX.\n"), -1);
 	img->mlx_win = mlx_new_window(img->mlx, img->width, img->height, "FdF");
 	if (!img->mlx_win)
-		return (close_window(img), perror("Error: Failed window.\n"), -1);
+		return (perror("Error: Failed window.\n"), -1);
 	img->img = mlx_new_image(img->mlx, img->width, img->height);
 	if (!img->img)
-		return (close_window(img), perror("Error: Failed image.\n"), -1);
+		return (perror("Error: Failed image.\n"), -1);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	if (!img->addr)
-		return (close_window(img), perror("Error: Failed adress.\n"), -1);
+		return (perror("Error: Failed adress.\n"), -1);
 	if (size_parsing(img->filename, img) == -1)
 		return (-1);
 	if (draw_image(img, img->filename) == -1)
@@ -114,7 +114,7 @@ int	main(int argc, char **argv)
 	img.width = 1000;
 	img.height = 1000;
 	if (init_fdf(&img) == -1)
-		return (-1);
+		return (close_window(&img), -1);
 	mlx_hook(img.mlx_win, 17, 0, close_window, &img);
 	mlx_hook(img.mlx_win, 2, 1L << 0, close_window_escape, &img);
 	mlx_loop(img.mlx);
