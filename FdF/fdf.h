@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/05 14:35:27 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:07:19 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "get_next_line/get_next_line.h"
 # include "libft/libft.h"
-# include "minilibx/mlx.h"
+# include "mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
