@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/06 12:20:09 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:25:20 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	draw_image(t_data_img *img, char *filename)
 			/ 2);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror("Error opening file images"), -1);
+		return (perror("Error opening file"), -1);
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, img->width, img->height);
 	if (!img->img)

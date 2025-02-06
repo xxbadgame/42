@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:02:10 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/06 12:18:32 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:02:45 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	count_columns(char *filename, t_data_img *img)
 	img->total_column = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror("Error opening file parsing"), -1);
+		return (perror("Error opening file"), -1);
 	line = get_next_line(fd);
 	if (!line)
 		return (-1);
@@ -44,7 +44,7 @@ int	count_lines(char *filename, t_data_img *img)
 	img->total_line = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror("Error opening file parsing"), -1);
+		return (perror("Error opening file"), -1);
 	bytes_read = read(fd, buffer, 1);
 	if (bytes_read == -1)
 		return (-1);
