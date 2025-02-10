@@ -3,12 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/10 14:51:25 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:00:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <pthread.h>
+
+typedef struct s_dinner_table
+{
+    int nb_p;
+    int ttd;
+    int tte;
+    int tts;
+    int nb_eat_by_phil;
+} t_dinner_table ;
