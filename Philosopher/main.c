@@ -6,28 +6,25 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/10 22:06:31 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/11 11:50:42 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philosopher.h"
 
 // param : nb_phil : 3, ttd : 800, tte : 200, tts : 200, (eat_by_phil)
-
-int mails = 0;
 pthread_mutex_t mutex;
 
-void* routine() {
-    int i;
+void* routine(void *arg) {
+    pthread_mutex_lock(&mutex);
+    struct timeval start;
+    int index = *(int *)arg;
+    usleep(500000);
+    gettimeofday(&start, NULL);
+    printf("time : %ld, philospher : %d\n", start.tv_sec * 1000 + start.tv_usec / 1000, index);
+    pthread_mutex_unlock(&mutex);
 
-    i = 0;
-    while (i < 2000)
-    {
-        pthread_mutex_lock(&mutex);
-        mails++;
-        pthread_mutex_unlock(&mutex);
-        i++;
-    }
+    return NULL;
 }
 
 int create_philosophers(t_dinner_table *dt, pthread_t *th)
@@ -35,9 +32,11 @@ int create_philosophers(t_dinner_table *dt, pthread_t *th)
     int i;
 
     i = 0;
-    while (i < dt->nb_p)
+    while (i <= dt->nb_p)
     {
-        if (pthread_create(th + i, NULL, &routine, NULL) != 0)
+        int *a = malloc(sizeof(int));
+        *a = i + 1;
+        if (pthread_create(&th[i], NULL, &routine, a) != 0)
             return (perror("Failed to create thread"), -1);
         i++;
     }
@@ -72,7 +71,6 @@ int main(int arc, char **argv)
     create_philosophers(&dt, th);
     destroy_philosophers(&dt, th);
     pthread_mutex_destroy(&mutex);
-    printf("Number of mails: %d\n", mails);
     free(th);
     return 0;
 }
