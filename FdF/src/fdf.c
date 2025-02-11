@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/06 13:31:23 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:05:57 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 int	create_segments(t_data_points *data_points, t_segment_points *seg_points,
 		int fd, t_data_img *img)
@@ -28,7 +28,8 @@ int	create_segments(t_data_points *data_points, t_segment_points *seg_points,
 			return (-1);
 		while (lines.split_line[data_points->x] != NULL)
 		{
-			mini_segments(data_points, seg_points, img, &lines);
+			if (mini_segments(data_points, seg_points, img, &lines) == -1)
+				return(-1);
 			data_points->x++;
 		}
 		change_lines(&lines);
@@ -72,11 +73,11 @@ int	draw_image(t_data_img *img, char *filename)
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, img->width, img->height);
 	if (!img->img)
-		return (-1);
+		return (close(fd), -1);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	if (!img->addr)
-		return (-1);
+		return (close(fd), -1);
 	if (create_segments(&data_points, &seg_points, fd, img) == -1)
 		return (-1);
 	return (close(fd), 0);
@@ -107,7 +108,9 @@ int	main(int argc, char **argv)
 	t_data_img	img;
 
 	if (argc != 2)
-		return (ft_putendl_fd("Usage : ./fdf_linux <filename>", 1), -1);
+		return (ft_putendl_fd("Usage : ./fdf_linux filename.fdf", 2), -1);
+	if (check_ext(argv[1]) == 0)
+		return (ft_putendl_fd("Usage : ./fdf_linux filename.fdf", 2), -1);
 	img.filename = argv[1];
 	img.width = 1000;
 	img.height = 1000;

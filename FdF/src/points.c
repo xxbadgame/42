@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   points.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 06:26:21 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/06 13:29:51 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:03:30 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 void	my_mlx_pixel_put(t_data_img *img, int x, int y, int color)
 {

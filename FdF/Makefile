@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2025/02/06 12:00:55 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/02/11 10:02:51 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,13 @@ NAME = fdf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 MLXFLAGS = -L/usr/lib -lX11 -lXext -lm
-SRCS = 	fdf.c \
-		fdf_utils.c \
-		parsing.c \
-		points.c \
-		segment.c \
-		create_lines.c \
-		free.c \
+SRCS = 	src/fdf.c \
+		src/fdf_utils.c \
+		src/fdf_utils2.c \
+		src/parsing.c \
+		src/points.c \
+		src/segment.c \
+		src/create_lines.c \
 		get_next_line/get_next_line.c \
 		get_next_line/get_next_line_utils.c \
 		libft/ft_strlen.c \
@@ -43,7 +43,7 @@ all: $(NAME)
 $(NAME): $(OBJS) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLX) $(MLXFLAGS) -I$(HEADER) -I$(GNL_HEADER) -I$(LIBFT_HEADER)
 
-%.o : %.c $(HEADER) $(GNL_HEADER) $(LIBFT_HEADER)
+%.o : %.c $(HEADER) $(GNL_HEADER) $(LIBFT_HEADER) Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

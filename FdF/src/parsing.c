@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:02:10 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/06 13:28:18 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:03:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 int	count_columns(char *filename, t_data_img *img)
 {
@@ -24,7 +24,7 @@ int	count_columns(char *filename, t_data_img *img)
 		return (perror("Error opening file"), -1);
 	line = get_next_line(fd);
 	if (!line)
-		return (-1);
+		return (close(fd), -1);
 	split_line = ft_split(line, ' ');
 	if (!split_line)
 		return (free(line), close(fd), -1);
@@ -47,7 +47,7 @@ int	count_lines(char *filename, t_data_img *img)
 		return (perror("Error opening file"), -1);
 	bytes_read = read(fd, buffer, 1);
 	if (bytes_read == -1)
-		return (-1);
+		return (close(fd), -1);
 	while (bytes_read == 1)
 	{
 		if (buffer[0] == '\n')

@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 10:38:26 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/04 06:49:08 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/11 10:03:17 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 long int	str_to_hexa(char *str)
 {
@@ -38,6 +38,16 @@ long int	str_to_hexa(char *str)
 int	ft_abs(int nb)
 {
 	return ((nb > 0) * nb + (nb < 0) * -nb);
+}
+
+int	len_split(char **spl)
+{
+	int	i;
+
+	i = 0;
+	while (spl[i])
+		i++;
+	return (i);
 }
 
 int	close_window(t_data_img *img)

@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 06:36:32 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/04 06:50:15 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/11 10:03:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 void	decision_loop_one(t_segment_points *seg_points, t_data_img *img,
 		int color)
@@ -67,7 +67,8 @@ void	find_end_points(t_data_points *data_points, t_data_img *img,
 		t_segment_points *seg_points, char **split_line)
 {
 	iso_next_projection((data_points->x + 1) * data_points->d_px, data_points->y
-		* data_points->d_px, atoi(split_line[data_points->x + 1]), data_points);
+		* data_points->d_px, ft_atoi(split_line[data_points->x + 1]),
+		data_points);
 	offset_points(seg_points, data_points);
 	segment_plot(seg_points, img, seg_points->color);
 }
@@ -80,8 +81,10 @@ int	find_next_end_points(t_data_points *data_points, t_data_img *img,
 	next_split = ft_split(next_line, ' ');
 	if (!next_split)
 		return (-1);
+	if (len_split(next_split) != img->total_column)
+		return (free_split(next_split), -1);
 	iso_next_projection(data_points->x * data_points->d_px, (data_points->y + 1)
-		* data_points->d_px, atoi(next_split[data_points->x]), data_points);
+		* data_points->d_px, ft_atoi(next_split[data_points->x]), data_points);
 	free_split(next_split);
 	offset_points(seg_points, data_points);
 	segment_plot(seg_points, img, seg_points->color);

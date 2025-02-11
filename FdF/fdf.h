@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:07:31 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/06 13:17:58 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:07:12 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,13 @@ void			find_end_points(t_data_points *data_points, t_data_img *img,
 int				find_next_end_points(t_data_points *data_points,
 					t_data_img *img, t_segment_points *seg_points,
 					char *next_line);
-void			mini_segments(t_data_points *data_points,
+int				mini_segments(t_data_points *data_points,
 					t_segment_points *seg_points, t_data_img *img,
 					t_lines *lines);
 void			change_lines(t_lines *lines);
 int				split_line_and_next(t_lines *lines, int fd, t_data_img *img,
 					int y);
+int 			len_split(char **spl);
+int 			check_ext(char *str);
 
 #endif
