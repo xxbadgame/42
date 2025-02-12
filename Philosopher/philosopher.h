@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/11 10:32:50 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/12 12:39:05 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,18 @@
 
 typedef struct s_dinner_table
 {
-    int nb_p;
-    int ttd;
-    int tte;
-    int tts;
+    int nb_phil;
+    int time_to_die;
+    int time_to_eat;
+    int time_to_sleep;
     int nb_eat_by_phil;
+    pthread_mutex_t *forks;    
 } t_dinner_table ;
+
+typedef struct s_philosopher {
+    int index_phil;
+    t_dinner_table *dt;
+} t_philosopher;
+
+int init_forks(t_dinner_table *dt);
+int destroy_forks(t_dinner_table *dt);
