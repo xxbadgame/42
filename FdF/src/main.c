@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:21:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/11 10:05:57 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:04:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	create_segments(t_data_points *data_points, t_segment_points *seg_points,
 		while (lines.split_line[data_points->x] != NULL)
 		{
 			if (mini_segments(data_points, seg_points, img, &lines) == -1)
-				return(-1);
+				return (-1);
 			data_points->x++;
 		}
 		change_lines(&lines);

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:46:14 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/11 10:06:36 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:04:16 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	mini_segments(t_data_points *data_points, t_segment_points *seg_points,
 	int	z;
 
 	z = calc_z(lines->split_line[data_points->x], &seg_points->color);
-	if(z == -1)
+	if (z == -1)
 		return (-1);
 	iso_projection(data_points->x * data_points->d_px, data_points->y
 		* data_points->d_px, z, data_points);

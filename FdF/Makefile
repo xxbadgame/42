@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 00:28:51 by yannis            #+#    #+#              #
-#    Updated: 2025/02/11 10:02:51 by yannis           ###   ########.fr        #
+#    Updated: 2025/02/17 11:03:22 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fdf
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 MLXFLAGS = -L/usr/lib -lX11 -lXext -lm
-SRCS = 	src/fdf.c \
+SRCS = 	src/main.c \
 		src/fdf_utils.c \
 		src/fdf_utils2.c \
 		src/parsing.c \
@@ -43,7 +43,7 @@ all: $(NAME)
 $(NAME): $(OBJS) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLX) $(MLXFLAGS) -I$(HEADER) -I$(GNL_HEADER) -I$(LIBFT_HEADER)
 
-%.o : %.c $(HEADER) $(GNL_HEADER) $(LIBFT_HEADER) Makefile
+%.o : %.c $(HEADER) $(GNL_HEADER) $(LIBFT_HEADER) $(MLX) Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
