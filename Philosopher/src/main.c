@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/04 11:25:26 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:32:07 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int main()
     //destroy_forks(&dt);
     destroy_philosophers(&dt);
     //destroy_monitor(&dt);
-
-    
 
     return 0;
 }

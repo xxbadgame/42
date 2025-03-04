@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/19 11:09:57 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:46:21 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_dinner_table
 
 typedef struct s_philosopher {
     int index_phil;
+    int last_time_eat;
     t_dinner_table *dt;
 } t_philosopher;
 
@@ -47,5 +48,6 @@ int     destroy_philosophers(t_dinner_table *dt);
 void*   monitor_routine();
 int     create_monitor(t_dinner_table *dt);
 int     destroy_monitor(t_dinner_table *dt);
+int     dead_phil(t_dinner_table *dt, t_philosopher *phil);
 
 

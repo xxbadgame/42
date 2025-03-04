@@ -6,7 +6,7 @@
 #    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/02/19 11:10:31 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/03/04 12:48:23 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = 	src/forks.c \
 		src/main.c \
 		src/monitor.c \
+		src/monitor_utils.c \
 		src/philosophe.c \
 		
 OBJS = $(SRCS:.c=.o)

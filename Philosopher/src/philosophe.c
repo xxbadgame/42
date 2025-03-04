@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/04 11:22:28 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:45:40 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void* philo_routine(void *arg)
     t_philosopher *philo = (t_philosopher *)arg;
     t_dinner_table *dt = philo->dt;
     
-    while (1)
+    while (dead_phil(dt, philo))
     {
         pthread_mutex_lock(&dt->forks[philo->index_phil]);
         pthread_mutex_lock(&dt->forks[(philo->index_phil + 1) % dt->nb_philo]);
