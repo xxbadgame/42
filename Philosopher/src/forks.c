@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:27:04 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/17 12:49:46 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/04 11:27:26 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int create_forks(t_dinner_table *dt)
     if (!dt->forks)
         return (-1);
     while (i < dt->nb_philo)
-        pthread_mutex_init(&dt->forks[i++], NULL);
+    {
+        if(pthread_mutex_init(&dt->forks[i], NULL) != 0)
+            return (perror("Failed to create fork"), -1);
+        i++;
+    }
     return (0);
 }
 
@@ -32,8 +36,10 @@ int destroy_forks(t_dinner_table *dt)
     i = 0;
     while (i < dt->nb_philo)
     {
-        pthread_mutex_destroy(&dt->forks[i]);
-        free(&dt->forks[i++]);
+        printf("destroy fork\n");
+        if(pthread_mutex_destroy(&dt->forks[i]) != 0)
+            return (perror("Failed to destroy fork"), -1);
+        i++;
     }
     free(dt->forks);
     return (0);

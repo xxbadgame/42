@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/02/17 12:50:41 by yannis           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:09:57 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_dinner_table
     int philo_dead;
     pthread_mutex_t *forks;
     pthread_t *th_philo;
-    pthread_t *th_monitor    
+    pthread_t *th_monitor;  
 } t_dinner_table ;
 
 typedef struct s_philosopher {

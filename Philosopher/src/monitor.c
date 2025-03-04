@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/02/17 12:48:33 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/04 11:29:49 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philosopher.h"
+# include "../philosopher.h"
 
 void* monitor_routine()
 {
@@ -21,6 +21,7 @@ void* monitor_routine()
     }
     return NULL;
 }
+
 
 int create_monitor(t_dinner_table *dt)
 {   
