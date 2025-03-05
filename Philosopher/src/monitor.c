@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/04 11:29:49 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:40:37 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void* monitor_routine()
 {
     while (1)
     {
-        printf("monitor check \n");
+        printf("est ce qu il y a des morts ? qui a faim ? \n");
         usleep(100000);
     }
     return NULL;

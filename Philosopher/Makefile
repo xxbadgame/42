@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/03/04 12:48:23 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/03/05 17:20:01 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = 	src/forks.c \
 		src/main.c \
-		src/monitor.c \
-		src/monitor_utils.c \
 		src/philosophe.c \
+		src/monitor_utils.c \
+		src/utils.c\
 		
 OBJS = $(SRCS:.c=.o)
 HEADER = philosopher.h

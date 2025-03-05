@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/04 12:46:21 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:26:47 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,39 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+// philo character
+typedef struct s_philosopher 
+{
+    pthread_t thread;
+    int index_philo;
+    
+    size_t time_to_die;
+    size_t time_to_eat;
+    size_t time_to_sleep;
+    
+    size_t last_time_eat;
+    int dead;
+    int eat;
+    
+    pthread_mutex_t *r_fork;
+    pthread_mutex_t *l_fork;
+    
+}   t_philosopher;
+
+// global data
 typedef struct s_dinner_table
 {
     int nb_philo;
-    int time_to_die;
-    int time_to_eat;
-    int time_to_sleep;
-    int nb_eat_by_phil;
-    int philo_dead;
-    pthread_mutex_t *forks;
-    pthread_t *th_philo;
-    pthread_t *th_monitor;  
-} t_dinner_table ;
+    int time_now;
+    int nb_round;
+    
+    
+    t_philosopher   *all_philo;
+    pthread_mutex_t *all_forks;
+    pthread_t       *th_monitor;
+    
+}   t_dinner_table;
 
-typedef struct s_philosopher {
-    int index_phil;
-    int last_time_eat;
-    t_dinner_table *dt;
-} t_philosopher;
 
 // forks
 int     create_forks(t_dinner_table *dt);
@@ -48,6 +63,9 @@ int     destroy_philosophers(t_dinner_table *dt);
 void*   monitor_routine();
 int     create_monitor(t_dinner_table *dt);
 int     destroy_monitor(t_dinner_table *dt);
-int     dead_phil(t_dinner_table *dt, t_philosopher *phil);
+int     actual_philo_dead(t_philosopher *philo);
+
+// time
+size_t time_now_ms();
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:27:04 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/04 11:27:26 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:52:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ int create_forks(t_dinner_table *dt)
     int i;
 
     i = 0;
-    dt->forks = malloc(dt->nb_philo * sizeof(pthread_mutex_t));
-    if (!dt->forks)
-        return (-1);
     while (i < dt->nb_philo)
     {
-        if(pthread_mutex_init(&dt->forks[i], NULL) != 0)
+        if(pthread_mutex_init(&dt->all_forks[i], NULL) != 0)
             return (perror("Failed to create fork"), -1);
         i++;
     }
@@ -37,10 +34,10 @@ int destroy_forks(t_dinner_table *dt)
     while (i < dt->nb_philo)
     {
         printf("destroy fork\n");
-        if(pthread_mutex_destroy(&dt->forks[i]) != 0)
+        if(pthread_mutex_destroy(&dt->all_forks[i]) != 0)
             return (perror("Failed to destroy fork"), -1);
         i++;
     }
-    free(dt->forks);
+    free(dt->all_forks);
     return (0);
 }
