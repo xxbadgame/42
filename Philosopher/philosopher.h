@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/05 17:26:47 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/06 12:11:45 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include "libft/libft.h"
 
 // philo character
 typedef struct s_philosopher 
@@ -40,8 +41,12 @@ typedef struct s_dinner_table
 {
     int nb_philo;
     int time_now;
-    int nb_round;
+    int nb_round_validate;
     
+    size_t time_to_die;
+    size_t time_to_eat;
+    size_t time_to_sleep;
+    size_t nb_each_philosopher_must_eat;
     
     t_philosopher   *all_philo;
     pthread_mutex_t *all_forks;

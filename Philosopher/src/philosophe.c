@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/05 17:47:08 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/06 12:23:47 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int create_philosophers(t_dinner_table *dt)
         if(!philo)
             return (-1);
         philo->index_philo = i;
-        philo->time_to_die = 310;
-        philo->time_to_eat = 200;
-        philo->time_to_sleep = 100;
+        philo->time_to_die = dt->time_to_die;
+        philo->time_to_eat = dt->time_to_eat;
+        philo->time_to_sleep = dt->time_to_sleep;
         philo->last_time_eat = time_now_ms();
         philo->l_fork = &dt->all_forks[i];
         philo->r_fork = &dt->all_forks[(i + 1) % dt->nb_philo];
