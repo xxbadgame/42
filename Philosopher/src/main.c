@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/06 12:22:23 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/07 06:46:21 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ int check_basic_args(int argc, char **argv, t_dinner_table *dt)
 {
     if (argc == 4 || argc ==5)
     {
-        if (argv[1] == 1)
+        if (ft_atoi(argv[1]) == 1)
         {
             printf("philospher is dead");
             return(-1);
         }
+        // ajouter dans atoi anti négatif
         dt->nb_philo = ft_atoi(argv[1]);
         dt->time_to_die = ft_atoi(argv[2]);
         dt->time_to_eat = ft_atoi(argv[3]);
         dt->time_to_sleep = ft_atoi(argv[4]);
-        if (argv == 5)
+        if (argc == 5)
             dt->nb_each_philosopher_must_eat = ft_atoi(argv[5]);
+        else
+            dt->nb_each_philosopher_must_eat = -1;
         return(1);
     }
     return(-1);
@@ -45,12 +48,11 @@ int main(int argc, char **argv)
     
     create_forks(&dt);
     create_philosophers(&dt);
-    //create_monitor(&dt);
+    create_monitor(&dt);
 
-    
     destroy_philosophers(&dt);
     destroy_forks(&dt);
-    //destroy_monitor(&dt);
+    destroy_monitor(&dt);
 
     return 0;
 }

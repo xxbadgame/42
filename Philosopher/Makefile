@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/03/05 17:20:01 by yannis           ###   ########.fr        #
+#    Updated: 2025/03/07 06:42:21 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,10 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = 	src/forks.c \
 		src/main.c \
 		src/philosophe.c \
+		src/monitor.c \
 		src/monitor_utils.c \
-		src/utils.c\
+		src/utils.c \
+		libft/ft_atoi.c \
 		
 OBJS = $(SRCS:.c=.o)
 HEADER = philosopher.h

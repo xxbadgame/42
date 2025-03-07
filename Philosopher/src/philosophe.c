@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/06 12:23:47 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/07 06:54:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ int create_philosophers(t_dinner_table *dt)
         philo->r_fork = &dt->all_forks[(i + 1) % dt->nb_philo];
         
         if (pthread_create(&dt->all_philo[i].thread, NULL, &philo_routine, (void *)philo) != 0)
-            return (perror("Failed to create philosophe"), -1);
-            
+        {
+            perror("Failed to create philospher");
+            free(dt->th_monitor);
+            return (-1);
+        }
         i++;
     }
     return (0);

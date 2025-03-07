@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/06 12:11:45 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/07 06:41:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,11 @@ typedef struct s_dinner_table
 {
     int nb_philo;
     int time_now;
-    int nb_round_validate;
-    
+
     size_t time_to_die;
     size_t time_to_eat;
     size_t time_to_sleep;
-    size_t nb_each_philosopher_must_eat;
+    int nb_each_philosopher_must_eat;
     
     t_philosopher   *all_philo;
     pthread_mutex_t *all_forks;
@@ -70,7 +69,7 @@ int     create_monitor(t_dinner_table *dt);
 int     destroy_monitor(t_dinner_table *dt);
 int     actual_philo_dead(t_philosopher *philo);
 
-// time
+// utils
 size_t time_now_ms();
-
+void mutex_print(char *str, pthread_mutex_t *mutex);
 

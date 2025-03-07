@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:29:51 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/05 17:54:37 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/07 06:34:09 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int actual_philo_dead(t_philosopher *philo)
 	now = time.tv_sec * 1000 + time.tv_usec / 1000;
     if(philo->last_time_eat - now > philo->time_to_die && philo->eat == 0)
 	{
+		// return -1 sur un seul thread
 		philo->dead = 1;
 		printf("philo is dead\n");
 		return (1);
@@ -29,8 +30,7 @@ int actual_philo_dead(t_philosopher *philo)
 	return (0);
 }
 
-// monitor check all
-/*
+// vérifier tous les threads car quand 1 meurt tout s'arrete en même temps
 int check_all_philo_alive(t_dinner_table *dt)
 {
 	int i;
@@ -39,22 +39,27 @@ int check_all_philo_alive(t_dinner_table *dt)
 	while (i < dt->nb_philo)
 	{
 		if (dt->all_philo[i].dead == 1)
-			return(-1);
+			return(0);
+		i++;
 	}
 	printf("tous les philosphe sont en vie.");
+	return(1);
 }
 
-// ici
-int everyone_eat(t_dinner_table *dt, t_philosopher *philo)
+// vérifier tous les threads
+int everyone_eat(t_dinner_table *dt)
 {
 	int i;
-	int most_h;
 
 	i = 0;
-	most_h = i;
-	while (dt->th_philo[i])
+	if (dt->nb_each_philosopher_must_eat != -1)
 	{
-		if (dt->th_philo[i]->eat)
-	}	
+		while (i < dt->nb_philo)
+		{
+			if(dt->all_philo[i].eat != 1)
+				return (0);
+			i++;
+		}
+	}
+	return(1);
 }
-*/
