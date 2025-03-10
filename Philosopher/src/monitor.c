@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/07 06:59:04 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/10 12:21:53 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,24 @@ void* monitor_routine(void *arg)
     int i;
 
     i = 0;
-    while (i < dt->nb_each_philosopher_must_eat)
+    if (dt->nb_each_philosopher_must_eat != -1)
     {
-        if (everyone_eat(dt) && check_all_philo_alive(dt))
-            printf("fin du tour");
-        i++;
-    }
+        while (i < dt->nb_each_philosopher_must_eat)
+        {
+            if (everyone_eat(dt) && check_all_philo_alive(dt))
+                printf("fin du tour");
+            i++;
+        }
+    } 
+    else
+    {
+        while (1)
+        {
+            if (everyone_eat(dt) && check_all_philo_alive(dt))
+                printf("fin du tour");
+            i++;
+        }
+    } 
     printf("fin du programme");
     return NULL;
 }
