@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/07 06:54:29 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/17 16:48:11 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ void* philo_routine(void *arg)
 {
     t_philosopher *philo = (t_philosopher *)arg;
     
-    while (actual_philo_dead(philo) == 0)
+    //while (actual_philo_dead(philo) == 0)
+    while (1)
     {
         pthread_mutex_lock(philo->l_fork);
         pthread_mutex_lock(philo->r_fork);
-        
-        printf("%ld %d is eating\n", time_now_ms() , philo->index_philo + 1);
+    
+        //mutex_print("is eating\n", philo);
+        printf("%ld %d is eating\n",time_now_ms(),  philo->index_philo + 1);
         usleep(philo->time_to_eat * 1000);
         philo->last_time_eat = time_now_ms();
         philo->eat = 1;

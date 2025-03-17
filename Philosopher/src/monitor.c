@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/10 12:21:53 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:28:19 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 void* monitor_routine(void *arg)
 {
-    t_dinner_table *dt = (t_dinner_table *)arg;
-    int i;
+    (void)arg;
+    //t_dinner_table *dt = (t_dinner_table *)arg;
+    //int i;
 
-    i = 0;
+    //i = 0;
+    while (1)
+    {
+        printf("check monitor\n");
+        usleep(100000);
+    }
+    
+    /*
     if (dt->nb_each_philosopher_must_eat != -1)
     {
         while (i < dt->nb_each_philosopher_must_eat)
@@ -35,11 +43,10 @@ void* monitor_routine(void *arg)
                 printf("fin du tour");
             i++;
         }
-    } 
-    printf("fin du programme");
+    }
+    */
     return NULL;
 }
-
 
 int create_monitor(t_dinner_table *dt)
 {   

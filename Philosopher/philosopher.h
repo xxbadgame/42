@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/07 06:41:34 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/17 16:45:06 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ typedef struct s_philosopher
     
     pthread_mutex_t *r_fork;
     pthread_mutex_t *l_fork;
-    
+
+    pthread_mutex_t *printex;
+
 }   t_philosopher;
 
 // global data
@@ -68,8 +70,11 @@ void*   monitor_routine();
 int     create_monitor(t_dinner_table *dt);
 int     destroy_monitor(t_dinner_table *dt);
 int     actual_philo_dead(t_philosopher *philo);
+int     check_all_philo_alive(t_dinner_table *dt);
+int     everyone_eat(t_dinner_table *dt);
+
 
 // utils
 size_t time_now_ms();
-void mutex_print(char *str, pthread_mutex_t *mutex);
+void mutex_print(char *str, t_philosopher *philo);
 

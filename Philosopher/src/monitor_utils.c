@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:29:51 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/07 06:34:09 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:22:38 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int actual_philo_dead(t_philosopher *philo)
 	now = time.tv_sec * 1000 + time.tv_usec / 1000;
     if(philo->last_time_eat - now > philo->time_to_die && philo->eat == 0)
 	{
-		// return -1 sur un seul thread
 		philo->dead = 1;
 		printf("philo is dead\n");
 		return (1);
