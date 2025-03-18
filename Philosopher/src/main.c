@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/18 13:04:13 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:25:26 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int main(int argc, char **argv)
     
     create_forks(&dt);
     create_philosophers(&dt);
-    //create_monitor(&dt);
+    create_monitor(&dt);
 
     destroy_philosophers(&dt);
     destroy_forks(&dt);
-    //destroy_monitor(&dt);
+    destroy_monitor(&dt);
 
     return 0;
 }

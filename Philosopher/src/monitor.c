@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:03:26 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/18 14:30:40 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void* monitor_routine(void *arg)
     dt = (t_dinner_table *)arg;
     while (1)
     {
-        if(check_all_philo_alive(dt) == 0 || everyone_full_eat(dt) == 1)
-            return(NULL);
+        if(everyone_full_eat(dt) == 1)
+        {
+            //printf("\n\n\n bravo tout le monde a manger ! \n\n\n");
+            break;
+        }
     }
     return NULL;
 }
@@ -31,7 +34,7 @@ int create_monitor(t_dinner_table *dt)
     if (!dt->th_monitor)
         return (-1);
     
-    if (pthread_create(&dt->th_monitor[0], NULL, &monitor_routine, dt) != 0)
+    if (pthread_create(&dt->th_monitor[0], NULL, &monitor_routine, &dt) != 0)
     {
         perror("Failed to create thread");
         free(dt->th_monitor);

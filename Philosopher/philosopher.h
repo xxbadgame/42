@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/18 13:11:18 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:42:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_philosopher
     
     size_t last_time_eat;
     int *dead;
+    int *everyone_eat;
     int nb_meals;
     int eat;
     
@@ -44,6 +45,7 @@ typedef struct s_dinner_table
     int nb_philo;
     int time_now;
     int dead_program;
+    int full_eat_program;
 
     size_t time_to_die;
     size_t time_to_eat;

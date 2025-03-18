@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:13:25 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/18 14:04:10 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void* philo_routine(void *arg)
     t_philosopher *philo;
     
     philo = (t_philosopher *)arg;
-    while (*philo->dead != 1)
+    if (philo->index_philo % 2 != 0)
+        usleep(1);
+    while (*philo->dead != 1 || *philo->everyone_eat == 1)
     {
         pthread_mutex_lock(philo->l_fork);
         mutex_print("has taken a fork", philo);
@@ -44,7 +46,7 @@ void* philo_routine(void *arg)
 
 int init_data(t_philosopher *philo, t_dinner_table *dt, int i)
 {
-    philo->index_philo = i + 1;
+    philo->index_philo = i;
     philo->time_to_die = dt->time_to_die;
     philo->time_to_eat = dt->time_to_eat;
     philo->time_to_sleep = dt->time_to_sleep;
@@ -66,6 +68,7 @@ int create_philosophers(t_dinner_table *dt)
     
     i = 0;
     dt->dead_program = 0;
+    dt->full_eat_program = 0;
     while (i < dt->nb_philo)
     {
         t_philosopher *philo = malloc(sizeof(t_philosopher)); 
