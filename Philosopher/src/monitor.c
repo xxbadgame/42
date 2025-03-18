@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/17 16:28:19 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:03:26 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,14 @@
 
 void* monitor_routine(void *arg)
 {
-    (void)arg;
-    //t_dinner_table *dt = (t_dinner_table *)arg;
-    //int i;
-
-    //i = 0;
+    t_dinner_table *dt;
+    
+    dt = (t_dinner_table *)arg;
     while (1)
     {
-        printf("check monitor\n");
-        usleep(100000);
+        if(check_all_philo_alive(dt) == 0 || everyone_full_eat(dt) == 1)
+            return(NULL);
     }
-    
-    /*
-    if (dt->nb_each_philosopher_must_eat != -1)
-    {
-        while (i < dt->nb_each_philosopher_must_eat)
-        {
-            if (everyone_eat(dt) && check_all_philo_alive(dt))
-                printf("fin du tour");
-            i++;
-        }
-    } 
-    else
-    {
-        while (1)
-        {
-            if (everyone_eat(dt) && check_all_philo_alive(dt))
-                printf("fin du tour");
-            i++;
-        }
-    }
-    */
     return NULL;
 }
 
