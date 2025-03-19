@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/18 13:42:34 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:16:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_philosopher
     
     pthread_mutex_t *r_fork;
     pthread_mutex_t *l_fork;
+    
     pthread_mutex_t *printex;
+    pthread_mutex_t *eatex;
 
 }   t_philosopher;
 
@@ -54,10 +56,12 @@ typedef struct s_dinner_table
     
     t_philosopher   *all_philo;
     pthread_mutex_t *all_forks;
-    pthread_t       *th_monitor;
+    pthread_t       th_monitor;
+
+    pthread_mutex_t printex;
+    pthread_mutex_t eatex;
     
 }   t_dinner_table;
-
 
 // forks
 int     create_forks(t_dinner_table *dt);

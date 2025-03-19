@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/18 14:04:10 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:05:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void* philo_routine(void *arg)
     philo = (t_philosopher *)arg;
     if (philo->index_philo % 2 != 0)
         usleep(1);
-    while (*philo->dead != 1 || *philo->everyone_eat == 1)
+    while (*philo->dead != 1 && *philo->everyone_eat != 1)
     {
         pthread_mutex_lock(philo->l_fork);
         mutex_print("has taken a fork", philo);
@@ -29,8 +29,12 @@ void* philo_routine(void *arg)
         mutex_print("is eating", philo);
         philo->eat = 1;
         usleep(philo->time_to_eat * 1000);
+        
+        pthread_mutex_lock(philo->eatex);
         philo->last_time_eat = time_now_ms();
         philo->nb_meals++;
+        pthread_mutex_unlock(philo->eatex);
+    
         philo->eat = 0;
 
         pthread_mutex_unlock(philo->l_fork);
@@ -52,13 +56,13 @@ int init_data(t_philosopher *philo, t_dinner_table *dt, int i)
     philo->time_to_sleep = dt->time_to_sleep;
     philo->last_time_eat = time_now_ms();
     philo->dead = &dt->dead_program;
+    philo->everyone_eat = &dt->full_eat_program;
     philo->nb_meals = 0;
     philo->eat = 0;
+    philo->printex = &dt->printex;
+    philo->eatex = &dt->eatex;
     philo->l_fork = &dt->all_forks[i];
     philo->r_fork = &dt->all_forks[(i + 1) % dt->nb_philo];
-    philo->printex = malloc(sizeof(pthread_mutex_t));
-    if(pthread_mutex_init(&philo->printex[0], NULL) != 0)
-            return (perror("Failed to create fork"), -1);
     return (0);
 }
 
@@ -67,22 +71,11 @@ int create_philosophers(t_dinner_table *dt)
     int i;
     
     i = 0;
-    dt->dead_program = 0;
-    dt->full_eat_program = 0;
     while (i < dt->nb_philo)
     {
-        t_philosopher *philo = malloc(sizeof(t_philosopher)); 
-        if(!philo)
-            return (-1);
-        
-        init_data(philo, dt, i);
-        
-        if (pthread_create(&dt->all_philo[i].thread, NULL, &philo_routine, (void *)philo) != 0)
-        {
-            perror("Failed to create philospher");
-            free(dt->th_monitor);
-            return (-1);
-        }
+        init_data(&dt->all_philo[i], dt, i);
+        if (pthread_create(&dt->all_philo[i].thread, NULL, &philo_routine, (void *)&dt->all_philo[i]) != 0)
+            return (perror("Failed to create philospher"), -1);
         i++;
     }
     return (0);

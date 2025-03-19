@@ -6,12 +6,22 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/18 13:25:26 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:18:36 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../philosopher.h"
 
+int init_dinner_table(t_dinner_table *dt)
+{
+    dt->dead_program = 0;
+    dt->full_eat_program = 0;
+    if(pthread_mutex_init(&dt->printex, NULL) != 0)
+        return (perror("Failed to create fork"), -1);
+    if(pthread_mutex_init(&dt->eatex, NULL) != 0)
+        return (perror("Failed to create fork"), -1);
+    return (0);
+}
 
 int check_basic_args(int argc, char **argv, t_dinner_table *dt)
 {
@@ -40,6 +50,7 @@ int main(int argc, char **argv)
     dt.all_philo = malloc(dt.nb_philo * sizeof(t_philosopher));
     dt.all_forks = malloc(dt.nb_philo * sizeof(pthread_mutex_t));
     
+    init_dinner_table(&dt);
     create_forks(&dt);
     create_philosophers(&dt);
     create_monitor(&dt);

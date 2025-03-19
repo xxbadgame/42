@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:29:51 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/18 14:30:36 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:20:16 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,13 @@ int everyone_full_eat(t_dinner_table *dt)
 	eat_max = 0;
 	if (dt->nb_each_philosopher_must_eat != -1)
 	{
-		//write(1, "TEST 1 \n", 5);
 		while (i < dt->nb_philo)
 		{
-			//write(1, "TEST\n", 5);
 			if(dt->all_philo[i].nb_meals >= dt->nb_each_philosopher_must_eat)
 				eat_max++;
 			i++;
 		}
-		//special_print(eat_max);
-		if (eat_max == dt->nb_each_philosopher_must_eat)
+		if (eat_max >= dt->nb_each_philosopher_must_eat)
 		{
 			dt->full_eat_program = 1;
 			return(1);
