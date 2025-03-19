@@ -6,53 +6,49 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:29:51 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/19 12:20:16 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 17:41:49 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../philosopher.h"
+#include "../philosopher.h"
 
-// basic thread check
-int actual_philo_dead(t_philosopher *philo)
+int	actual_philo_dead(t_philosopher *philo)
 {
-	size_t now;
-	
+	size_t	now;
+
 	now = time_now_ms();
-    if(philo->last_time_eat - now > philo->time_to_die && philo->eat == 0)
+	pthread_mutex_lock(philo->eatex);
+	if (philo->last_time_eat - now > philo->time_to_die && philo->eat == 0)
 	{
+		pthread_mutex_lock(philo->deadex);
 		*philo->dead = 1;
+		pthread_mutex_unlock(philo->deadex);
 		mutex_print("died", philo);
+		pthread_detach(philo->thread);
 		return (1);
 	}
+	pthread_mutex_unlock(philo->eatex);
 	return (0);
 }
 
-// vérifier tous les threads car quand 1 meurt tout s'arrete en même temps
-int check_all_philo_alive(t_dinner_table *dt)
+int	check_all_philo_alive(t_dinner_table *dt)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < dt->nb_philo)
 	{
 		if (actual_philo_dead(&dt->all_philo[i]))
-			return(0);
+			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
-void special_print(int eat_max)
+int	everyone_full_eat(t_dinner_table *dt)
 {
-	printf("eat max : %d\n", eat_max);
-	usleep(100000);
-}
-
-// vérifier tous les threads
-int everyone_full_eat(t_dinner_table *dt)
-{
-	int i;
-	int eat_max;
+	int	i;
+	int	eat_max;
 
 	i = 0;
 	eat_max = 0;
@@ -60,15 +56,17 @@ int everyone_full_eat(t_dinner_table *dt)
 	{
 		while (i < dt->nb_philo)
 		{
-			if(dt->all_philo[i].nb_meals >= dt->nb_each_philosopher_must_eat)
+			pthread_mutex_lock(&dt->eatex);
+			if (dt->all_philo[i].nb_meals >= dt->nb_each_philosopher_must_eat)
 				eat_max++;
+			pthread_mutex_unlock(&dt->eatex);
 			i++;
 		}
 		if (eat_max >= dt->nb_each_philosopher_must_eat)
 		{
 			dt->full_eat_program = 1;
-			return(1);
+			return (1);
 		}
 	}
-	return(0);
+	return (0);
 }

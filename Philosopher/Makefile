@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/03/19 16:27:33 by yannis           ###   ########.fr        #
+#    Updated: 2025/03/19 17:47:00 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS = 	src/forks.c \
 		src/main.c \
 		src/philosophe.c \
 		src/monitor.c \
+		src/routine.c \
 		src/monitor_utils.c \
 		src/utils.c \
 		libft/ft_atoi.c \
