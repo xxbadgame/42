@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/19 12:16:51 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 16:12:11 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int     create_philosophers(t_dinner_table *dt);
 int     destroy_philosophers(t_dinner_table *dt);
 
 // monitor
-void*   monitor_routine();
+void*   monitor_routine(void *arg);
 int     create_monitor(t_dinner_table *dt);
 int     destroy_monitor(t_dinner_table *dt);
 int     actual_philo_dead(t_philosopher *philo);

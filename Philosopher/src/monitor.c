@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/19 12:17:21 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/19 16:31:56 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@ void* monitor_routine(void *arg)
     {
         
         if(everyone_full_eat(dt) == 1)
-        {
-            //printf("\n\n\n bravo tout le monde a manger ! \n\n\n");
             break;
-        }
-        
     }
     return NULL;
 }
