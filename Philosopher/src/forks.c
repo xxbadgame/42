@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:27:04 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/19 17:11:01 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/20 12:34:36 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	destroy_forks(t_dinner_table *dt)
 	i = 0;
 	while (i < dt->nb_philo)
 	{
-		printf("destroy fork\n");
 		if (pthread_mutex_destroy(&dt->all_forks[i]) != 0)
 			return (perror("Failed to destroy fork"), -1);
 		i++;

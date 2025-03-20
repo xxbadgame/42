@@ -6,29 +6,30 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:29:46 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/19 18:03:42 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/20 12:29:13 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
 
-/*
+
 static int safe_end_checker(t_philosopher *philo)
 {
     pthread_mutex_lock(philo->deadex);
     if (*philo->dead != 1 && *philo->everyone_eat != 1)
-        return (0);
+        return (pthread_mutex_unlock(philo->deadex), 1);
     pthread_mutex_unlock(philo->deadex);
-    return (1);
+    return (0);
 }
-*/
 
 void	*philo_routine(void *arg)
 {
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
-	while (*philo->dead != 1 && *philo->everyone_eat != 1)
+	if (philo->index_philo % 2 != 0)
+		usleep(1);
+	while (safe_end_checker(philo))
 	{
         r_eat(philo);
         r_sleep(philo);

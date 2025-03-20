@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:30:45 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/19 17:44:59 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/20 12:34:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*monitor_routine(void *arg)
 	dt = (t_dinner_table *)arg;
 	while (1)
 	{
-		if (everyone_full_eat(dt) == 1 || check_all_philo_alive(dt) == 0)
+		if (everyone_full_eat(dt) == 1)// || check_all_philo_alive(dt) == 0)
 			break ;
 	}
 	return (NULL);

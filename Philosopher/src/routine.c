@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:21:22 by yannis            #+#    #+#             */
-/*   Updated: 2025/03/19 17:47:50 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/20 12:22:20 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	r_eat(t_philosopher *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	mutex_print("has taken a fork", philo);
 	pthread_mutex_lock(philo->r_fork);
+	mutex_print("has taken a fork", philo);
+	pthread_mutex_lock(philo->l_fork);
 	mutex_print("has taken a fork", philo);
 	mutex_print("is eating", philo);
 	philo->eat = 1;
