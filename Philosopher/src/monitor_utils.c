@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:29:51 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/20 14:42:35 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/23 11:23:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ int	actual_philo_dead(t_philosopher *philo)
 	pthread_mutex_lock(philo->eatex);
 	if (now - philo->last_time_eat > philo->time_to_die && philo->eat == 0)
 	{
-		pthread_mutex_lock(philo->deadex);
-		*philo->dead = 1;
-		pthread_mutex_unlock(philo->deadex);
 		mutex_print("died", philo);
 		pthread_detach(philo->thread);
 		return (pthread_mutex_unlock(philo->eatex), 1);
@@ -39,7 +36,12 @@ int	check_all_philo_alive(t_dinner_table *dt)
 	while (i < dt->nb_philo)
 	{
 		if (actual_philo_dead(&dt->all_philo[i]))
+		{
+			pthread_mutex_lock(dt->all_philo[i].deadex);
+			dt->dead_program = 1;
+			pthread_mutex_unlock(dt->all_philo[i].deadex);
 			return (0);
+		}
 		i++;
 	}
 	return (1);
