@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:29:51 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/03/23 11:23:52 by yannis           ###   ########.fr       */
+/*   Updated: 2025/03/23 11:32:12 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	everyone_full_eat(t_dinner_table *dt)
 			pthread_mutex_unlock(&dt->eatex);
 			i++;
 		}
-		if (eat_max >= dt->nb_each_philosopher_must_eat)
+		if (eat_max >= dt->nb_philo)
 		{
 			dt->full_eat_program = 1;
 			return (1);
