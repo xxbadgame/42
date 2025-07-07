@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 11:37:37 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/05 09:17:05 by yannis           ###   ########.fr       */
+/*   Created: 2024/11/08 09:40:06 by ynzue-es          #+#    #+#             */
+/*   Updated: 2024/11/14 15:52:26 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
+void	ft_putendl_fd(char *s, int fd)
+{
+	int	i;
 
-int		ft_atoi(const char *str);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putchar_fd(char c, int fd);
-
-#endif
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
+	ft_putchar_fd('\n', fd);
+}

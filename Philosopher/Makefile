@@ -6,21 +6,20 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/03/19 17:47:00 by yannis           ###   ########.fr        #
+#    Updated: 2025/07/07 09:22:33 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = 	src/forks.c \
-		src/main.c \
-		src/philosophe.c \
+SRCS = 	src/main.c \
+		src/philo.c \
+		src/philo_utils.c \
 		src/monitor.c \
-		src/routine.c \
-		src/monitor_utils.c \
-		src/utils.c \
 		libft/ft_atoi.c \
+		libft/ft_putendl_fd.c \
+		libft/ft_putchar_fd.c \
 
 OBJSDIR = src/obj
 OBJS = $(SRCS:%.c=$(OBJSDIR)/%.o)
