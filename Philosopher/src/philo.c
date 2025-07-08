@@ -51,6 +51,7 @@ void *philo_routine(void *arg)
         // enregistrer l'heure du début du dernier repas
         pthread_mutex_lock(&philo->meal_mutex);
         philo->last_meal_time = time_now_ms();
+        philo->eat_count++;
         pthread_mutex_unlock(&philo->meal_mutex);
 
         // manger
@@ -97,6 +98,7 @@ int init_philo(t_philo_settings *philo_set, t_global_mutex *mutex ,t_philo *phil
         philos[i].right_fork = &philo_set->forks[(i + 1) % philo_set->number_of_philo];
         pthread_mutex_init(&philos[i].meal_mutex, NULL);
         philos[i].last_meal_time = time_now_ms();
+        philos[i].eat_count = 0;
         if (pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]) != 0)
         {
             safe_print("Failed to create thread for philo", philos[i].id, mutex);

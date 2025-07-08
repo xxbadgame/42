@@ -49,6 +49,7 @@ typedef struct philo
 	pthread_mutex_t *right_fork;
 	size_t last_meal_time;
 	pthread_mutex_t meal_mutex;
+	int eat_count;
 }	t_philo;
 
 /*

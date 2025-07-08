@@ -35,6 +35,10 @@ int	main(int argc, char **argv)
 	philo_set.time_to_die = ft_atoi(argv[2]);
 	philo_set.time_to_eat = ft_atoi(argv[3]);
 	philo_set.time_to_sleep = ft_atoi(argv[4]);
+	if (argv[5])
+		philo_set.nb_time_philo_must_eat = ft_atoi(argv[5]);
+	else
+		philo_set.nb_time_philo_must_eat = -1;
 	philo_set.is_dead = 0;
 	
 	philos = malloc(sizeof(t_philo) * philo_set.number_of_philo);
