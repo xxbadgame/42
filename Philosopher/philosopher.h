@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/07 09:30:41 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/09 07:41:20 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int						init_forks(t_philo_settings *philo_set);
  * utils
  */
 size_t					time_now_ms(void);
+void	destroy_all(t_philo_settings *philo_set, t_global_mutex *mutex, t_philo *philos);
 
 void					*monitor_routine(void *arg);
 

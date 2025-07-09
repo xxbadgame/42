@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 08:59:22 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/08 13:35:30 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/09 08:10:16 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	*monitor_routine(void *arg)
 			i++;
 		}
 		is_done(philo_set, done, philos);
-		usleep(100);
+		usleep(1000);
 	}
 	return (NULL);
 }

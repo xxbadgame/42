@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/08 13:18:29 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/09 07:50:09 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	init_philo_settings(t_philo_settings *philo_set, char **argv)
 	philo_set->forks = malloc(sizeof(pthread_mutex_t)
 			* philo_set->number_of_philo);
 	if (!philo_set->forks)
-		return (1);
+		return (-1);
 	return (0);
 }
 
@@ -47,8 +47,9 @@ int	main(int argc, char **argv)
 	pthread_t			monitor_thread;
 
 	if (check_error_args(argc) == -1)
-		return (-1);
-	init_philo_settings(&philo_set, argv);
+		return (1);
+	if (init_philo_settings(&philo_set, argv) == -1)
+		return (1);
 	philos = malloc(sizeof(t_philo) * philo_set.number_of_philo);
 	if (!philos)
 		return (1);
@@ -58,9 +59,6 @@ int	main(int argc, char **argv)
 	init_philo(&philo_set, &mutex, philos);
 	pthread_create(&monitor_thread, NULL, monitor_routine, philos);
 	pthread_join(monitor_thread, NULL);
-	pthread_mutex_destroy(&mutex.print_mutex);
-	pthread_mutex_destroy(&mutex.death_mutex);
-	free(philo_set.forks);
-	free(philos);
+	destroy_all(&philo_set, &mutex, philos);
 	return (0);
 }
