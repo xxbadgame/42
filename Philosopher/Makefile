@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/07/07 09:22:33 by yannis           ###   ########.fr        #
+#    Updated: 2025/07/15 13:39:29 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS = 	src/main.c \
 		libft/ft_atoi.c \
 		libft/ft_putendl_fd.c \
 		libft/ft_putchar_fd.c \
+		libft/ft_isdigit.c \
 
 OBJSDIR = src/obj
 OBJS = $(SRCS:%.c=$(OBJSDIR)/%.o)

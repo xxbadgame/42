@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/09 07:41:20 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/15 14:21:09 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct philo_settings
 	int					nb_time_philo_must_eat;
 	pthread_mutex_t		*forks;
 	int					is_dead;
+	size_t				time_start;
 }						t_philo_settings;
 
 // le mot mutex peut etre remplacé par cadenas
@@ -55,7 +56,7 @@ typedef struct philo
  * global mutex
  */
 int						safe_print(char *message, int number,
-							t_global_mutex *mutex);
+							t_global_mutex *mutex, size_t time);
 
 /*
  * init
@@ -68,7 +69,9 @@ int						init_forks(t_philo_settings *philo_set);
  * utils
  */
 size_t					time_now_ms(void);
-void	destroy_all(t_philo_settings *philo_set, t_global_mutex *mutex, t_philo *philos);
+size_t					time_sim(t_philo_settings *philo_set);
+void					destroy_all(t_philo_settings *philo_set,
+							t_global_mutex *mutex, t_philo *philos);
 
 void					*monitor_routine(void *arg);
 
