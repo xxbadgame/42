@@ -1,0 +1,1 @@
+valgrind --tool=helgrind --history-level=approx ./philo 1 200 200 20
