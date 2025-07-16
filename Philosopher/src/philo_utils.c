@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 09:26:09 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/16 15:19:23 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:51:07 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ void	destroy_all(t_philo_settings *philo_set, t_global_mutex *mutex,
 	while (i < philo_set->number_of_philo)
 	{
 		pthread_mutex_destroy(&philo_set->forks[i]);
-		i++;
-	}
-	i = 0;
-	while (i < philo_set->number_of_philo)
-	{
 		pthread_mutex_destroy(&philos[i].meal_mutex);
 		pthread_join(philos[i].thread, NULL);
 		i++;

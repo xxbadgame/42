@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/16 15:19:15 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:57:38 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	check_error_args(int argc, char **argv)
 		return (ft_putendl_fd("too many args", 2), -1);
 	if (argc < 5)
 		return (ft_putendl_fd("add 4 args minimum please", 2), -1);
+	if (argv[1] == 0)
+		return (ft_putendl_fd("1 philo minimum", 2), -1);
 	while (argv[i])
 	{
 		if (ft_isdigit(argv[i]) == 0)

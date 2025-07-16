@@ -6,11 +6,19 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:19:06 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/16 13:52:09 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:01:16 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
+
+checker_lock(t_philo *philo)
+{
+	if (philo->locked_right == 1)
+		pthread_mutex_unlock(philo->right_fork);
+	else if (philo->locked_left == 1)
+		pthread_mutex_unlock(philo->left_fork);
+}
 
 void	lock_mutex(pthread_mutex_t *fork, t_philo *philo, int s)
 {
@@ -21,10 +29,7 @@ void	lock_mutex(pthread_mutex_t *fork, t_philo *philo, int s)
 		philo->locked_right = 1;
 	if (is_dead(philo) == 1)
 	{
-		if (philo->locked_right == 1)
-			pthread_mutex_unlock(philo->right_fork);
-		else if (philo->locked_left == 1)
-			pthread_mutex_unlock(philo->left_fork);
+		checker_lock(philo);
 	}
 }
 
