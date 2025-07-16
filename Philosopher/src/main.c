@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/15 15:55:19 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:54:49 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,13 @@ int	main(int argc, char **argv)
 	pthread_mutex_init(&mutex.print_mutex, NULL);
 	pthread_mutex_init(&mutex.death_mutex, NULL);
 	init_forks(&philo_set);
-	if (init_philo(&philo_set, &mutex, philos) == -1)
+	if (init_philo_threads(&philo_set, &mutex, philos) == -1)
 		return (1);
 	if (pthread_create(&monitor_thread, NULL, monitor_routine, philos) != 0)
 	{
 		ft_putendl_fd("Failed to create thread monitor", 2);
-		destroy_all(&philo_set, &mutex, philos);
-		return (-1);
+		return (destroy_all(&philo_set, &mutex, philos), -1);
 	}
 	pthread_join(monitor_thread, NULL);
-	destroy_all(&philo_set, &mutex, philos);
-	return (0);
+	return (destroy_all(&philo_set, &mutex, philos), 0);
 }

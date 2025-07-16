@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/15 14:21:09 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:46:17 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ typedef struct philo
 	pthread_t			thread;
 	t_global_mutex		*mutex;
 	pthread_mutex_t		*left_fork;
+	int					locked_left;
 	pthread_mutex_t		*right_fork;
+	int					locked_right;
 	size_t				last_meal_time;
 	pthread_mutex_t		meal_mutex;
 	int					eat_count;
@@ -55,13 +57,14 @@ typedef struct philo
 /*
  * global mutex
  */
-int						safe_print(char *message, int number,
-							t_global_mutex *mutex, size_t time);
+int	safe_print(char *message, int number, t_global_mutex *mutex, t_philo *philo);
 
 /*
  * init
  */
 int						init_philo(t_philo_settings *philo_set,
+							t_global_mutex *mutex, t_philo *philos, int i);
+int						init_philo_threads(t_philo_settings *philo_set,
 							t_global_mutex *mutex, t_philo *philos);
 int						init_forks(t_philo_settings *philo_set);
 
@@ -72,7 +75,25 @@ size_t					time_now_ms(void);
 size_t					time_sim(t_philo_settings *philo_set);
 void					destroy_all(t_philo_settings *philo_set,
 							t_global_mutex *mutex, t_philo *philos);
+int						is_dead(t_philo *philo);
 
+/*
+ * monitor
+ */
 void					*monitor_routine(void *arg);
+
+/*
+ * lock mutex
+ */
+void					lock_mutex(pthread_mutex_t *fork, t_philo *philo,
+							int s);
+void					unlock_mutex(pthread_mutex_t *fork, t_philo *philo,
+							int s);
+
+/*
+ * lock mutex
+ */
+int						take_forks(t_philo *philo);
+int						drop_forks(t_philo *philo);
 
 #endif

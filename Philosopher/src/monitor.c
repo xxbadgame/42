@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 08:59:22 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/15 15:54:53 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:47:36 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int	check_dead_or_done(t_philo *philos, int i, t_philo_settings *philo_set,
 		pthread_mutex_lock(&philos[i].mutex->death_mutex);
 		if (!philo_set->is_dead)
 		{
+			safe_print("died", philos[i].id, philos[i].mutex, &philos[i]);
 			philo_set->is_dead = 1;
-			safe_print("died", philos[i].id, philos[i].mutex,
-				time_sim(philo_set));
 		}
 		pthread_mutex_unlock(&philos[i].mutex->death_mutex);
 		return (1);
@@ -71,7 +70,7 @@ void	*monitor_routine(void *arg)
 			i++;
 		}
 		is_done(philo_set, done, philos);
-		usleep(10);
+		usleep(100);
 	}
 	return (NULL);
 }
