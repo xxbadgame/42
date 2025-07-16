@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:52:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/16 14:53:29 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:33:37 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,6 @@ int	take_forks(t_philo *philo)
 	{
 		if (take_forks_odd(philo) == -1)
 			return (-1);
-	}
-	return (0);
-}
-
-int	drop_forks(t_philo *philo)
-{
-	if (philo->id % 2 == 0)
-	{
-		unlock_mutex(philo->right_fork, philo, 1);
-		unlock_mutex(philo->left_fork, philo, 0);
-	}
-	else
-	{
-		unlock_mutex(philo->left_fork, philo, 0);
-		unlock_mutex(philo->right_fork, philo, 1);
 	}
 	return (0);
 }

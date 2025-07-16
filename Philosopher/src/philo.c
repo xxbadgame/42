@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/16 15:59:37 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:55:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	meal_event(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex);
 	if (safe_print("is eating", philo->id, philo->mutex, philo) == -1)
-		return (-1);
+		return (pthread_mutex_unlock(&philo->meal_mutex), -1);
 	usleep(philo->philo_settings->time_to_eat * 1000);
 	philo->eat_count++;
 	philo->last_meal_time = time_now_ms();
@@ -45,14 +45,14 @@ void	*philo_routine(void *arg)
 	while (is_dead(philo) == 0)
 	{
 		if (safe_print("is thinking", philo->id, philo->mutex, philo) == -1)
-			return (NULL);
+			return (checker_lock(philo), NULL);
 		if (take_forks(philo) == -1)
-			return (NULL);
+			return (checker_lock(philo), NULL);
 		if (meal_event(philo) == -1)
-			return (NULL);
-		drop_forks(philo);
+			return (checker_lock(philo), NULL);
+		checker_lock(philo);
 		if (safe_print("is sleeping", philo->id, philo->mutex, philo) == -1)
-			return (NULL);
+			return (checker_lock(philo), NULL);
 		usleep(philo->philo_settings->time_to_sleep * 1000);
 	}
 	return (NULL);
