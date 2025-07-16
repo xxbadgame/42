@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/16 09:54:49 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:19:15 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int	check_error_args(int argc, char **argv)
 		if (ft_isdigit(argv[i]) == 0)
 			return (ft_putendl_fd("not number arg", 2), -1);
 		if (ft_atoi(argv[i]) < 0)
-			return (ft_putendl_fd("not positive value", 2), -1);
+			return (ft_putendl_fd("not positive value or too loog number", 2),
+				-1);
 		i++;
 	}
 	return (0);

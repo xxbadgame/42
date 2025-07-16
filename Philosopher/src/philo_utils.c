@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 09:26:09 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/16 14:45:09 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:19:23 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ size_t	time_sim(t_philo_settings *philo_set)
 
 int	safe_print(char *message, int number, t_global_mutex *mutex, t_philo *philo)
 {
-	size_t time;
-	
+	size_t	time;
+
 	time = time_sim(philo->philo_settings);
 	if (philo->philo_settings->is_dead)
 		return (-1);

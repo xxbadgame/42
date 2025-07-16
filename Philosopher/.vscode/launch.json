@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/ynzue-es/Documents/42/Philosopher",
-      "program": "/home/ynzue-es/Documents/42/Philosopher/build/Debug/outDebug",
+      "cwd": "/home/ynzue-es/Documents/42/Philosopher/src",
+      "program": "/home/ynzue-es/Documents/42/Philosopher/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

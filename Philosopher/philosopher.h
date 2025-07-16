@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/16 14:46:17 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:18:59 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ typedef struct philo
 /*
  * global mutex
  */
-int	safe_print(char *message, int number, t_global_mutex *mutex, t_philo *philo);
+int						safe_print(char *message, int number,
+							t_global_mutex *mutex, t_philo *philo);
 
 /*
  * init

@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/16 14:54:11 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:19:30 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	init_philo_threads(t_philo_settings *philo_set, t_global_mutex *mutex,
 		if (pthread_create(&philos[i].thread, NULL, philo_routine,
 				&philos[i]) != 0)
 		{
-			safe_print("Failed to create thread", philos[i].id, mutex, &philos[i]);
+			safe_print("Failed to create thread", philos[i].id, mutex,
+				&philos[i]);
 			return (-1);
 		}
 		i++;
