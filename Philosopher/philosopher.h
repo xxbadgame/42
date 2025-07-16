@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/16 15:18:59 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:24:31 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct philo_settings
 	size_t				time_start;
 }						t_philo_settings;
 
-// le mot mutex peut etre remplacé par cadenas
 typedef struct global_mutex
 {
 	pthread_mutex_t		print_mutex;
