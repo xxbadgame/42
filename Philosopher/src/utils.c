@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 12:19:06 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/17 08:56:33 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:33:08 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,18 @@ void	unlock_mutex(pthread_mutex_t *fork, t_philo *philo, int s)
 		philo->locked_left = 0;
 	else if (s == 1)
 		philo->locked_right = 0;
+}
+
+int	wait_check_dead(t_philo *philo, size_t wait_time)
+{
+	size_t	time;
+
+	time = time_now_ms();
+	while (time_now_ms() - time < wait_time)
+	{
+		if (is_dead(philo) == 1)
+			return (-1);
+		usleep(10);
+	}
+	return (0);
 }

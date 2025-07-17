@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/17 21:30:08 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/17 21:32:35 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,6 @@ int	is_dead(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->mutex->death_mutex);
-	return (0);
-}
-
-int wait_check_dead(t_philo *philo, size_t wait_time)
-{
-	size_t time;
-
-	time = time_now_ms();
-	while (time_now_ms() - time < wait_time)
-	{
-		if (is_dead(philo) == 1)
-			return (-1);
-		usleep(10);
-	}
 	return (0);
 }
 
