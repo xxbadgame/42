@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 08:59:22 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/16 20:17:13 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/17 08:54:08 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_dead_or_done(t_philo *philos, int i, t_philo_settings *philo_set,
 			pthread_mutex_unlock(&philos[i].mutex->death_mutex);
 			safe_print("died", philos[i].id, philos[i].mutex, &philos[i]);
 		}
-		return (1);
+		return (pthread_mutex_unlock(&philos[i].mutex->death_mutex), 1);
 	}
 	return (0);
 }
