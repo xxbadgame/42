@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 09:26:09 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/17 11:30:06 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:17:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,9 @@ int	safe_print(char *message, int number, t_global_mutex *mutex, t_philo *philo)
 {
 	pthread_mutex_lock(&mutex->death_mutex);
 	if (philo->philo_settings->is_dead && ft_strcmp(message, "died") != 0)
-	{
-		pthread_mutex_unlock(&mutex->death_mutex);
-		return (-1);
-	}
-	pthread_mutex_lock(&mutex->print_mutex);
+		return (pthread_mutex_unlock(&mutex->death_mutex), -1);
 	pthread_mutex_unlock(&mutex->death_mutex);
+	pthread_mutex_lock(&mutex->print_mutex);
 	printf("%ld %d %s\n", (time_now_ms() - philo->philo_settings->time_start), number, message);
 	pthread_mutex_unlock(&mutex->print_mutex);
 	return (0);

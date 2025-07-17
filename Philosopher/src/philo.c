@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/17 11:49:22 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:30:08 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int wait_check_dead(t_philo *philo, size_t wait_time)
 	while (time_now_ms() - time < wait_time)
 	{
 		if (is_dead(philo) == 1)
-			return (1);
+			return (-1);
 		usleep(10);
 	}
 	return (0);
@@ -40,13 +40,13 @@ int wait_check_dead(t_philo *philo, size_t wait_time)
 
 int	meal_event(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->meal_mutex);
 	if (safe_print("is eating", philo->id, philo->mutex, philo) == -1)
-		return (pthread_mutex_unlock(&philo->meal_mutex), -1);
+		return (-1);
+	if (wait_check_dead(philo, philo->philo_settings->time_to_eat) == -1)
+		return (-1);
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->eat_count++;
 	philo->last_meal_time = time_now_ms();
-	if (wait_check_dead(philo, philo->philo_settings->time_to_eat) == -1)
-		return (pthread_mutex_unlock(&philo->meal_mutex), -1);
 	pthread_mutex_unlock(&philo->meal_mutex);
 	return (0);
 }
@@ -58,8 +58,6 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (is_dead(philo) == 0)
 	{
-		if (safe_print("is thinking", philo->id, philo->mutex, philo) == -1)
-			return (checker_lock(philo), NULL);
 		if (take_forks(philo) == -1)
 			return (checker_lock(philo), NULL);
 		if (meal_event(philo) == -1)
@@ -69,6 +67,8 @@ void	*philo_routine(void *arg)
 			return (checker_lock(philo), NULL);
 		if (wait_check_dead(philo, philo->philo_settings->time_to_sleep) == -1)
 			return (NULL);
+		if (safe_print("is thinking", philo->id, philo->mutex, philo) == -1)
+			return (checker_lock(philo), NULL);
 	}
 	return (NULL);
 }
