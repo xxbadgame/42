@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/16 20:55:34 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/17 11:49:22 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,29 @@ int	is_dead(t_philo *philo)
 	return (0);
 }
 
+int wait_check_dead(t_philo *philo, size_t wait_time)
+{
+	size_t time;
+
+	time = time_now_ms();
+	while (time_now_ms() - time < wait_time)
+	{
+		if (is_dead(philo) == 1)
+			return (1);
+		usleep(10);
+	}
+	return (0);
+}
+
 int	meal_event(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex);
 	if (safe_print("is eating", philo->id, philo->mutex, philo) == -1)
 		return (pthread_mutex_unlock(&philo->meal_mutex), -1);
-	usleep(philo->philo_settings->time_to_eat * 1000);
 	philo->eat_count++;
 	philo->last_meal_time = time_now_ms();
+	if (wait_check_dead(philo, philo->philo_settings->time_to_eat) == -1)
+		return (pthread_mutex_unlock(&philo->meal_mutex), -1);
 	pthread_mutex_unlock(&philo->meal_mutex);
 	return (0);
 }
@@ -41,7 +56,6 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	usleep(philo->id * 500);
 	while (is_dead(philo) == 0)
 	{
 		if (safe_print("is thinking", philo->id, philo->mutex, philo) == -1)
@@ -53,7 +67,8 @@ void	*philo_routine(void *arg)
 		checker_lock(philo);
 		if (safe_print("is sleeping", philo->id, philo->mutex, philo) == -1)
 			return (checker_lock(philo), NULL);
-		usleep(philo->philo_settings->time_to_sleep * 1000);
+		if (wait_check_dead(philo, philo->philo_settings->time_to_sleep) == -1)
+			return (NULL);
 	}
 	return (NULL);
 }

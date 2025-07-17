@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 08:59:22 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/17 09:09:24 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:51:01 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_dead_or_done(t_philo *philos, int i, t_philo_settings *philo_set,
 	pthread_mutex_lock(&philos[i].meal_mutex);
 	time_since_meal = time_now_ms() - philos[i].last_meal_time;
 	if (philo_set->nb_time_philo_must_eat > 0
-		&& philos[i].eat_count >= philo_set->nb_time_philo_must_eat)
+		&& philos[i].eat_count > philo_set->nb_time_philo_must_eat)
 		(*done)++;
 	pthread_mutex_unlock(&philos[i].meal_mutex);
 	if (time_since_meal > philo_set->time_to_die)
@@ -72,7 +72,7 @@ void	*monitor_routine(void *arg)
 			i++;
 		}
 		is_done(philo_set, done, philos);
-		usleep(100);
+		usleep(10);
 	}
 	return (NULL);
 }
