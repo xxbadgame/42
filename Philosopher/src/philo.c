@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/17 21:32:35 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/18 09:50:53 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(1000);
 	while (is_dead(philo) == 0)
 	{
 		if (take_forks(philo) == -1)
