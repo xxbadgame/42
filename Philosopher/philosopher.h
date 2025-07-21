@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/17 21:33:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/21 10:45:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef struct philo_settings
+typedef struct s_philo_settings
 {
 	int					number_of_philo;
 	size_t				time_to_die;
@@ -32,13 +32,13 @@ typedef struct philo_settings
 	size_t				time_start;
 }						t_philo_settings;
 
-typedef struct global_mutex
+typedef struct s_global_mutex
 {
 	pthread_mutex_t		print_mutex;
 	pthread_mutex_t		death_mutex;
 }						t_global_mutex;
 
-typedef struct philo
+typedef struct s_philo
 {
 	t_philo_settings	*philo_settings;
 	int					id;
