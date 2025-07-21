@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/21 10:45:18 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/21 19:00:27 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,5 @@ void					unlock_mutex(pthread_mutex_t *fork, t_philo *philo,
  * lock mutex
  */
 int						take_forks(t_philo *philo);
-int						drop_forks(t_philo *philo);
 
 #endif

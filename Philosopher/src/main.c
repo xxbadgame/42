@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/17 10:42:27 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/21 18:51:41 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ static int	check_error_args(int argc, char **argv)
 		if (ft_isdigit(argv[i]) == 0)
 			return (ft_putendl_fd("not number arg", 2), -1);
 		if (ft_atoi(argv[i]) < 0)
-			return (ft_putendl_fd("not positive value or too loog number", 2),
-				-1);
+			return (ft_putendl_fd("not positive value or loog number", 2), -1);
+		if (ft_atoi(argv[1]) > 200)
+			return (ft_putendl_fd("not test with more than 200 philo", 2), -1);
+		if (i > 1 && i < 5 && ft_atoi(argv[i]) < 60)
+			return (ft_putendl_fd("not test with less than 60ms", 2), -1);
 		i++;
 	}
 	return (0);
