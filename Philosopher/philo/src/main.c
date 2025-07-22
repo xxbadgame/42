@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:44:56 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/21 18:51:41 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/22 15:53:44 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv)
 		return (1);
 	philos = malloc(sizeof(t_philo) * philo_set.number_of_philo);
 	if (!philos)
-		return (1);
+		return (free(philo_set.forks), 1);
 	pthread_mutex_init(&mutex.print_mutex, NULL);
 	pthread_mutex_init(&mutex.death_mutex, NULL);
 	init_forks(&philo_set);
