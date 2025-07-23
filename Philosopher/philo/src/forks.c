@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:52:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/22 15:48:44 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/23 11:15:21 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,12 @@ int	take_forks_odd(t_philo *philo)
 
 int	take_forks(t_philo *philo)
 {
-	if (philo->id == philo->philo_settings->number_of_philo - 1)
-	{
-		if (take_forks_odd(philo) == -1)
-			return (-1);
-	}
-	else if (philo->id % 2 == 0)
+	if (philo->id % 2 == 0 && philo->left_fork < philo->right_fork)
 	{
 		if (take_forks_even(philo) == -1)
 			return (-1);
 	}
-	else
+	else if (philo->id % 2 != 0 && philo->left_fork > philo->right_fork)
 	{
 		if (take_forks_odd(philo) == -1)
 			return (-1);
