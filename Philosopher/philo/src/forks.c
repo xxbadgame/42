@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:52:11 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/23 11:15:21 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/07/23 11:40:03 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ int	take_forks(t_philo *philo)
 	{
 		if (take_forks_odd(philo) == -1)
 			return (-1);
+	}
+	else if (philo->philo_settings->number_of_philo % 2 == 0)
+	{
+		if (philo->left_fork < philo->right_fork)
+		{
+			if (take_forks_even(philo) == -1)
+				return (-1);
+		}
+		else if (philo->left_fork > philo->right_fork)
+		{
+			if (take_forks_odd(philo) == -1)
+				return (-1);
+		}
 	}
 	return (0);
 }
