@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:50:33 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/21 19:00:27 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 18:02:42 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ typedef struct s_philo
 	pthread_t			thread;
 	t_global_mutex		*mutex;
 	pthread_mutex_t		*left_fork;
-	int					locked_left;
 	pthread_mutex_t		*right_fork;
-	int					locked_right;
 	size_t				last_meal_time;
 	pthread_mutex_t		meal_mutex;
 	int					eat_count;
@@ -75,7 +73,8 @@ size_t					time_now_ms(void);
 void					destroy_all(t_philo_settings *philo_set,
 							t_global_mutex *mutex, t_philo *philos);
 int						is_dead(t_philo *philo);
-void					checker_lock(t_philo *philo);
+// void					checker_lock(t_philo *philo);
+int	drop_forks(t_philo *philo);
 int						wait_check_dead(t_philo *philo, size_t wait_time);
 
 /*

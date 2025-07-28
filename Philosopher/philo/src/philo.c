@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 08:57:36 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/18 09:50:53 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 17:48:55 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ void	*philo_routine(void *arg)
 	while (is_dead(philo) == 0)
 	{
 		if (take_forks(philo) == -1)
-			return (checker_lock(philo), NULL);
+			return (drop_forks(philo) ,NULL);
 		if (meal_event(philo) == -1)
-			return (checker_lock(philo), NULL);
-		checker_lock(philo);
+			return (drop_forks(philo) ,NULL);
+		drop_forks(philo);
 		if (safe_print("is sleeping", philo->id, philo->mutex, philo) == -1)
-			return (checker_lock(philo), NULL);
+			return (drop_forks(philo) ,NULL);
 		if (wait_check_dead(philo, philo->philo_settings->time_to_sleep) == -1)
-			return (NULL);
+			return (drop_forks(philo) ,NULL);
 		if (safe_print("is thinking", philo->id, philo->mutex, philo) == -1)
-			return (checker_lock(philo), NULL);
+			return (drop_forks(philo) ,NULL);
 	}
 	return (NULL);
 }

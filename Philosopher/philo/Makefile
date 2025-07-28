@@ -6,13 +6,13 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/12 12:30:12 by yannis            #+#    #+#              #
-#    Updated: 2025/07/16 20:20:51 by yannis           ###   ########.fr        #
+#    Updated: 2025/07/28 17:50:31 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
 SRCS = 	src/main.c \
 		src/philo.c \
 		src/philo_utils.c \
