@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 21:03:47 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/28 21:42:16 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:46:15 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	init_mutex(t_data *data)
 {
@@ -30,7 +30,7 @@ int	init_mutex(t_data *data)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
 		{
-			destroy_mutex_i(data, i);
+			destroy_mutex_and_free(data, i);
 			return (1);
 		}
 		i++;
@@ -63,7 +63,6 @@ int	init_philo(t_data *data)
 void	set_philo_info(t_data *data, int i)
 {
 	data->philos[i].id = i + 1;
-	data->philos[i].alive = 1;
 	data->philos[i].last_meal_time = 0;
 	data->philos[i].eat_count = 0;
 	data->philos[i].data = data;

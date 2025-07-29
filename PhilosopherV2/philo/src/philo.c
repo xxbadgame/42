@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 21:28:27 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/28 22:03:43 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:41:39 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	*philo_routine(void *arg)
 {

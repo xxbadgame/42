@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/28 20:48:10 by yannis            #+#    #+#              #
-#    Updated: 2025/07/28 20:49:37 by yannis           ###   ########.fr        #
+#    Updated: 2025/07/28 22:43:50 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 SRCS = 	src/main.c \
 		src/philo.c \
-		src/philo_utils.c \
-		src/monitor.c \
+		src/destroy.c \
+		src/init.c \
 		src/utils.c \
-		src/forks.c \
+		src/routine.c \
 		libft/ft_atoi.c \
 		libft/ft_putendl_fd.c \
 		libft/ft_putchar_fd.c \
@@ -27,7 +27,7 @@ SRCS = 	src/main.c \
 
 OBJSDIR = src/obj
 OBJS = $(SRCS:%.c=$(OBJSDIR)/%.o)
-HEADER = philosopher.h
+HEADER = philo.h
 RM = rm -f
 
 all: $(NAME)

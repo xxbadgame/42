@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 21:25:39 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/28 21:27:20 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:41:28 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	destroy_philo(t_data *data)
 {

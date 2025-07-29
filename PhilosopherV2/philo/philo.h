@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:47:55 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/28 22:11:11 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:45:50 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-typedef struct s_data
+typedef struct s_data t_data;
+typedef struct s_philo t_philo;
+
+struct s_data
 {
 	int				nb_philo;
 	t_philo			*philos;
@@ -33,16 +36,16 @@ typedef struct s_data
 	int				*flag_forks;
 	size_t			time_start;
 
-}					t_data;
+};
 
-typedef struct s_philo
+struct s_philo
 {
 	int				id;
 	pthread_t		thread;
 	size_t			last_meal_time;
 	int				eat_count;
 	t_data			*data;
-}					t_philo;
+};
 
 int					init_philo(t_data *data);
 int					init_philo_threads(t_data *data);
@@ -55,3 +58,7 @@ void				destroy_mutex_and_free(t_data *data, int i);
 size_t				time_now_ms(void);
 void				safe_print(t_philo *philo, char *message);
 int					wait_check_dead(t_philo *philo, size_t wait_time);
+
+int	is_thinking(t_philo *philo);
+int	is_sleeping(t_philo *philo);
+int	is_eating(t_philo *philo);

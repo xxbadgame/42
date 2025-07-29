@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 21:54:29 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/28 21:57:48 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:41:24 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 // int	check_dead_or_done(t_philo *philos, int i, t_philo_settings *philo_set,
 // 		int *done)

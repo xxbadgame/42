@@ -6,11 +6,11 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:45:07 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/28 21:16:31 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:50:05 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	init_data(t_data *data, char **argv)
 {
@@ -66,4 +66,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_philo_threads(&data))
 		return (1);
+	destroy_philo(&data);
+	destroy_mutex_and_free(&data, data.nb_philo - 1);
 }
