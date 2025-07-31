@@ -24,7 +24,7 @@ void	safe_print(t_philo *philo, char *msg)
 	}
 	time_to_print = ft_time_from_start(philo->data->time_start);
 	pthread_mutex_lock(&philo->data->print);
-	printf("%ld %d %s\n", time_to_print, philo->philo, msg);
+	printf("%ld %d %s\n", time_to_print, philo->id, msg);
 	pthread_mutex_unlock(&philo->data->print);
 	pthread_mutex_unlock(&philo->data->alive);
 }

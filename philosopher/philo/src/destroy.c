@@ -31,10 +31,10 @@ void	destroy_mutex_and_free(t_data *data, int i)
 	pthread_mutex_destroy(&data->alive);
 	while (i >= 0)
 	{
-		pthread_mutex_destroy(&data->m_fork[i]);
+		pthread_mutex_destroy(&data->forks[i]);
 		i--;
 	}
 	free(data->philos);
-	free(data->fork);
-	free(data->m_fork);
+	free(data->flag_fork);
+	free(data->forks);
 }

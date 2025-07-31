@@ -16,7 +16,7 @@ void	*philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->launch);
 	pthread_mutex_unlock(&philo->data->launch);
-	if (philo->philo % 2 != 0)
+	if (philo->id % 2 != 0)
 		usleep(1000);
 	while (!is_dead(philo))
 	{
@@ -33,7 +33,7 @@ void	*philo_routine(t_philo *philo)
 
 void	set_philo_info(t_data *data, int i)
 {
-	data->philos[i].philo = i + 1;
+	data->philos[i].id = i + 1;
 	data->philos[i].last_meal = 0;
 	data->philos[i].nbr_meal = 0;
 	data->philos[i].data = data;

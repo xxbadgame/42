@@ -28,7 +28,7 @@ int	init_mutex(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		if (pthread_mutex_init(&data->m_fork[i], NULL))
+		if (pthread_mutex_init(&data->forks[i], NULL))
 		{
 			destroy_mutex_and_free(data, i);
 			return (1);
@@ -62,15 +62,15 @@ int	init_philo(t_data *data)
 	data->philos = (t_philo *)malloc(sizeof(t_philo) * data->nb_philo);
 	if (!data->philos)
 		return (1);
-	data->fork = malloc(sizeof(int) * data->nb_philo);
-	if (!data->fork)
+	data->flag_fork = malloc(sizeof(int) * data->nb_philo);
+	if (!data->flag_fork)
 		return (free(data->philos), 1);
 	while (i < data->nb_philo)
-		data->fork[i++] = 0;
-	data->m_fork = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
-	if (!data->m_fork)
-		return (free(data->philos), free(data->fork), 1);
+		data->flag_fork[i++] = 0;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
+	if (!data->forks)
+		return (free(data->philos), free(data->flag_fork), 1);
 	if (init_mutex(data))
-		return (free(data->philos), free(data->fork), free(data->m_fork), 1);
+		return (free(data->philos), free(data->flag_fork), free(data->forks), 1);
 	return (0);
 }

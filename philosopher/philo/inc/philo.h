@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:50 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/29 13:44:40 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/31 20:56:12 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_philo	t_philo;
 struct					s_data
 {
 	t_philo				*philos;
-	pthread_mutex_t		*m_fork;
-	int					*fork;
+	pthread_mutex_t		*forks;
+	int					*flag_fork;
 	pthread_mutex_t		alive;
 	int					status;
 	pthread_mutex_t		launch;
@@ -43,7 +43,7 @@ struct					s_data
 
 struct					s_philo
 {
-	int					philo;
+	int					id;
 	pthread_t			thread;
 	int					nbr_meal;
 	size_t				last_meal;
@@ -54,7 +54,7 @@ int						is_eating(t_philo *philo);
 int						no_race_conditions(t_philo *philo);
 int						check_for_meal(t_philo *philo);
 int						take_forks(t_philo *philo);
-int						all_eaten_enough(t_philo *philo);
+int						all_eat(t_philo *philo);
 int						check_status(t_philo *philo);
 int						is_dead(t_philo *philo);
 void					destroy_philos(t_data *data);

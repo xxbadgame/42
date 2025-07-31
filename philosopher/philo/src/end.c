@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	all_eaten_enough(t_philo *philo)
+int	all_eat(t_philo *philo)
 {
 	philo->nbr_meal++;
 	pthread_mutex_lock(&philo->data->alive);
@@ -50,7 +50,7 @@ int	is_dead(t_philo *philo)
 		pthread_mutex_lock(&philo->data->alive);
 		philo->data->status = 1;
 		pthread_mutex_lock(&philo->data->print);
-		printf("%ld %d died\n", time_to_print, philo->philo);
+		printf("%ld %d died\n", time_to_print, philo->id);
 		pthread_mutex_unlock(&philo->data->print);
 		pthread_mutex_unlock(&philo->data->alive);
 		return (1);
