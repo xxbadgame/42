@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/29 14:06:43 by yannis           ###   ########.fr       */
+/*   Updated: 2025/08/03 17:06:50 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	init_philo(t_data *data)
 	if (!data->forks)
 		return (free(data->philos), free(data->flag_fork), 1);
 	if (init_mutex(data))
-		return (free(data->philos), free(data->flag_fork), free(data->forks), 1);
+		return (free(data->philos), free(data->flag_fork), free(data->forks),
+			1);
 	return (0);
 }
