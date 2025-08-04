@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/29 13:45:42 by yannis           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:10 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	is_dead(t_philo *philo)
 	size_t	time_to_print;
 
 	time_to_print = ft_time_from_start(philo->data->time_start);
-	if (!check_status(philo) && ft_time_from_start(philo->data->time_start) \
-	- philo->last_meal > philo->data->time_to_die)
+	if (!check_status(philo) && ft_time_from_start(philo->data->time_start)
+		- philo->last_meal > philo->data->time_to_die)
 	{
 		pthread_mutex_lock(&philo->data->alive);
 		philo->data->status = 1;

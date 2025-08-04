@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:34 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/29 13:44:10 by yannis           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:26 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	start_philos(t_data *data)
 	while (i < data->nb_philo)
 	{
 		set_philo_info(data, i);
-		if (pthread_create(&data->philos[i].thread, NULL, \
-					(void *)philo_routine, &data->philos[i]))
+		if (pthread_create(&data->philos[i].thread, NULL, (void *)philo_routine,
+				&data->philos[i]))
 			return (1);
 		i++;
 	}
