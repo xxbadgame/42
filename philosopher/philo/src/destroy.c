@@ -12,15 +12,12 @@
 
 #include "philo.h"
 
-void	destroy_philos(t_data *data)
+void	destroy_philos(t_data *data, int i)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philo)
+	while (i >= 0)
 	{
 		pthread_join(data->philos[i].thread, NULL);
-		i++;
+		i--;
 	}
 }
 

@@ -57,7 +57,7 @@ int						take_forks(t_philo *philo);
 int						all_eat(t_philo *philo);
 int						check_status(t_philo *philo);
 int						is_dead(t_philo *philo);
-void					destroy_philos(t_data *data);
+void					destroy_philos(t_data *data, int i);
 int						init_struct(t_data *data, int argc, char **argv);
 void					destroy_mutex_and_free(t_data *data, int i);
 int						init_mutex(t_data *data);

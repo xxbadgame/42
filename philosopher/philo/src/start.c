@@ -50,10 +50,19 @@ int	start_philos(t_data *data)
 		set_philo_info(data, i);
 		if (pthread_create(&data->philos[i].thread, NULL, (void *)philo_routine,
 				&data->philos[i]))
-			return (1);
+		{
+			pthread_mutex_lock(&data->alive);
+			data->status = 1;
+			pthread_mutex_unlock(&data->alive);
+			pthread_mutex_unlock(&data->launch);
+			destroy_philos(data, i);
+			destroy_mutex_and_free(data, i);
+			return(1);
+		}
 		i++;
 	}
 	data->time_start = ft_get_time_ms();
 	pthread_mutex_unlock(&data->launch);
 	return (0);
 }
+

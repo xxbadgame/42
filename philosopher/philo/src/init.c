@@ -54,6 +54,17 @@ int	init_struct(t_data *data, int argc, char **argv)
 	return (0);
 }
 
+int	clean_return(t_data *data, int level)
+{
+	if (level >= 1 && data->philos)
+		free(data->philos);
+	if (level >= 2 && data->flag_fork)
+		free(data->flag_fork);
+	if (level >= 3 && data->forks)
+		free(data->forks);
+	return (1);
+}
+
 int	init_philo(t_data *data)
 {
 	int	i;
@@ -64,14 +75,14 @@ int	init_philo(t_data *data)
 		return (1);
 	data->flag_fork = malloc(sizeof(int) * data->nb_philo);
 	if (!data->flag_fork)
-		return (free(data->philos), 1);
+		return (clean_return(data, 1));
 	while (i < data->nb_philo)
 		data->flag_fork[i++] = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks)
-		return (free(data->philos), free(data->flag_fork), 1);
+		return (clean_return(data, 2));
 	if (init_mutex(data))
-		return (free(data->philos), free(data->flag_fork), free(data->forks),
-			1);
+		return (clean_return(data, 3));
 	return (0);
 }
+

@@ -24,17 +24,24 @@ SRCS = src/main.c \
 		libft/ft_putendl_fd.c \
 		libft/ft_putchar_fd.c \
 		libft/ft_isdigit.c \
-		
 
 HEADER = inc/philo.h
 
+OBJDIR = obj
+
 OBJS = $(SRCS:.c=.o)
+OBJS := $(addprefix $(OBJDIR)/, $(notdir $(OBJS)))
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -pthread -I./inc
 RM = rm -rf
 
-%.o : %.c $(HEADER)
+$(OBJDIR)/%.o : src/%.c $(HEADER)
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o : libft/%.c $(HEADER)
+	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all : 
@@ -44,7 +51,7 @@ $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $(NAME)
 
 clean :
-	$(RM) $(OBJS)
+	$(RM) $(OBJDIR)
 
 fclean :
 	make clean

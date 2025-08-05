@@ -43,6 +43,8 @@ int	is_dead(t_philo *philo)
 {
 	size_t	time_to_print;
 
+	if (check_status(philo))
+		return (1);
 	time_to_print = ft_time_from_start(philo->data->time_start);
 	if (!check_status(philo) && ft_time_from_start(philo->data->time_start)
 		- philo->last_meal > philo->data->time_to_die)

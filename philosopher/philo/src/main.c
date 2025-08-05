@@ -41,15 +41,13 @@ int	check_error_args(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_data	data;
-	int		status;
 
 	if (check_error_args(argc, argv) || init_struct(&data, argc, argv)
 		|| init_philo(&data))
 		return (1);
-	status = 0;
 	if (start_philos(&data))
-		status = 1;
-	destroy_philos(&data);
+		return(1);
+	destroy_philos(&data, data.nb_philo - 1);
 	destroy_mutex_and_free(&data, data.nb_philo - 1);
-	return (status);
+	return (0);
 }
