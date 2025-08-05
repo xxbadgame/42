@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:13 by yannis            #+#    #+#             */
-/*   Updated: 2025/08/03 17:06:45 by yannis           ###   ########.fr       */
+/*   Updated: 2025/08/05 18:55:42 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (check_error_args(argc, argv) || init_struct(&data, argc, argv)
+	if (check_error_args(argc, argv) 
+		|| init_struct(&data, argc, argv)
 		|| init_philo(&data))
 		return (1);
 	if (start_philos(&data))
