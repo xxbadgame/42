@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:34 by yannis            #+#    #+#             */
-/*   Updated: 2025/08/04 10:36:26 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:13:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	start_philos(t_data *data)
 			pthread_mutex_unlock(&data->launch);
 			destroy_philos(data, i);
 			destroy_mutex_and_free(data, i);
-			return(1);
+			return (1);
 		}
 		i++;
 	}
@@ -65,4 +65,3 @@ int	start_philos(t_data *data)
 	pthread_mutex_unlock(&data->launch);
 	return (0);
 }
-

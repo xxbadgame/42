@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:25:23 by yannis            #+#    #+#             */
-/*   Updated: 2025/08/03 17:06:50 by yannis           ###   ########.fr       */
+/*   Updated: 2025/08/07 18:11:13 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,3 @@ int	init_philo(t_data *data)
 		return (clean_return(data, 3));
 	return (0);
 }
-
